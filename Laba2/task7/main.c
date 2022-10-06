@@ -4,6 +4,8 @@
 
 bool convex(int count, ...)
 {
+    if (count < 6 || count % 2 != 0)
+        return false;
     va_list iter;
     va_start(iter, count);
 
