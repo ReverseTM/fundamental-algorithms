@@ -3,6 +3,14 @@
 #include <string.h>
 #include <ctype.h>
 
+int len(char *string)
+{
+    int count = 0;
+    for (int i = 0; string[i] != '\0'; i++)
+        count++;
+    return count;
+}
+
 //Конкатенация строк
 char *concatenation(char *str1, char *str2, char *result)
 {
@@ -40,7 +48,7 @@ int main(int argc, char *argv[])
         && (argv[2][0] == '-')
         && (argv[2][1] == 'l' || argv[2][1] == 'r' || argv[2][1] == 'u' || argv[2][1] == 'n' || argv[2][1] == 'c'))
     {
-        int length = strlen(argv[1]);
+        int length = len(argv[1]);
         char state = argv[2][1];
         char *string = argv[1];
 
@@ -59,7 +67,7 @@ int main(int argc, char *argv[])
 
         switch(state) {
             case 'l':
-                printf("String length: %ld\n", strlen(string));
+                printf("String length: %d\n", length);
                 break;
             case 'r':
                 reverse(string, length);
