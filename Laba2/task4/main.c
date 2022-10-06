@@ -2,6 +2,8 @@
 #include <math.h>
 #include <stdarg.h>
 
+#define EPS 0.0000001
+
 //Возведение в степень
 double pow_(double number, int index)
 {
@@ -30,13 +32,19 @@ double avg_geom(int count, ...)
     }
 
     va_end(iter);
-
+    
+    if (count % 2 == 0 && res < 0.0)
+        return EPS;
     return pow(res, 1.0 / count);
 }
 
 int main(int argc, char *argv[])
 {
-    printf("Average geometric: %f\n", avg_geom(5, (double)13.4, (double)5.2, (double)23.4, (double)4.1, (double)3.8));
+    double res = avg_geom(5, (double)13.4, (double)5.2, (double)23.4, (double)4.1, (double)3.8);
+    if (res == EPS)
+        printf("Error!\n");
+    else
+        printf("Average geometric: %f\n", res);
     printf("Exponentiation: %f\n", pow_(2, -4));
     return 0;
 }
