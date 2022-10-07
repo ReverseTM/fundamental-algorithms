@@ -14,7 +14,7 @@ int len(char *string)
 //Конкатенация строк
 char *concatenation(char *str1, char *str2, char *result)
 {
-    int len_str1 = strlen(str1), len_str2 = strlen(str2), len_result = strlen(result);
+    int len_str1 = strlen(str1), len_str2 = strlen(str2), len_result = len_str1 + len_str2;
     result[len_result] = '\0';
 
     for (int i = 0; i < len_str1; i++) {
@@ -51,19 +51,6 @@ int main(int argc, char *argv[])
         int length = len(argv[1]);
         char state = argv[2][1];
         char *string = argv[1];
-
-        /*char *string = (char*)malloc(sizeof(char) * length + 1);
-
-        if (string == NULL) {
-            printf("Out of memory!\n");
-            return 0;
-        }
-
-        string[length] = '\0';
-
-        for (int i = 0; i < length; i++) {
-            string[i] = argv[1][i];
-        }*/
 
         switch(state) {
             case 'l':

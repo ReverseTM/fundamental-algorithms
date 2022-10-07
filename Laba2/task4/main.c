@@ -34,14 +34,14 @@ double avg_geom(int count, ...)
     va_end(iter);
     
     if (count % 2 == 0 && res < 0.0)
-        return EPS;
+        return NAN;
     return pow(res, 1.0 / count);
 }
 
 int main(int argc, char *argv[])
 {
-    double res = avg_geom(5, (double)13.4, (double)5.2, (double)23.4, (double)4.1, (double)3.8);
-    if (res == EPS)
+    double res = avg_geom(5, (double)-13.4, (double)-5.2, (double)-23.4, (double)-4.1, (double)-3.8);
+    if (isnan(res))
         printf("Error!\n");
     else
         printf("Average geometric: %f\n", res);

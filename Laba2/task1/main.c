@@ -34,7 +34,10 @@ int main(int argc, char* argv[])
         return 0;
     }
 
-    int A[size_A], B[size_B], C[size_A];
+    int* A = (int*)malloc(sizeof(int) * size_A);
+    int* B = (int*)malloc(sizeof(int) * size_B);
+    int* C = (int*)malloc(sizeof(int) * size_A);
+
 
     matrix_filling(A, size_A);
     matrix_filling(B, size_B);

@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    int array[length];
+    int *array = (int*)malloc(sizeof(int) * length);
 
     srand(time(NULL));
 
@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
                         max = i;
                 }
                 
-                swap(&array[min], &array[max]);
+                swap((array + min), (array + max));
 
                 printf("New array: [ ");
                 for (int i = 0; i < length; i++) {
@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
                     for (int j = 0; j < count; j++) {
                         if (array[i] == new_array[j]) {
                             flag = 0;
-                            continue;
+                            break;
                         }
                     }
                     if (flag) {

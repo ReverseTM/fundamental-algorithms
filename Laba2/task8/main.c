@@ -15,6 +15,10 @@ double dichotomy(double(*f)(double x), double a, double b, double eps)
 
     do {
         x = (a + b) / 2.0;
+
+        if (x <= eps)
+            return x;
+
         if (f(a) * f(x) < 0)
             b = x;
         else if (f(x) * f(b) < 0)

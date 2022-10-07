@@ -41,17 +41,15 @@ bool convex(int count, ...)
     return true;
 }
 
-double polynomial(int count, ...)
+double polynomial(double x, int index, ...)
 {
     va_list iter;
-    va_start(iter, count);
-    double x = va_arg(iter, double);
-    int index = va_arg(iter, int);
+    va_start(iter, index);
+
     double res = 0;
 
     for (int i = 0; i <= index; i++)
         res = res * x + va_arg(iter, double);
-
 
     va_end(iter);
 
@@ -65,6 +63,6 @@ int main(int argc, char *argv[])
     else
         printf("The polygon is not convex!\n");
 
-    printf("%f\n", polynomial(5, 5.3, 5, 5.0, 4.0, 3.0, 2.0, 1.0, 1.1));
+    printf("%f\n", polynomial(3.0, 2, 2.0, 5.0, 3.0));
     return 0;
 }
