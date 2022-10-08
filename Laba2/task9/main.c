@@ -48,7 +48,7 @@ char *stacking(char *num1, char *num2, int base)
     int len_num2 = strlen(num2);
     int len_sum = max(len_num1, len_num2) + 1;
     char *sum = (char*)malloc(len_sum * sizeof(char) + 1);
-
+    //printf("a %s, b %s\n", num1, num2);
     for (int i = 0; i < len_sum; i++)
         sum[i] = '0';
     sum[len_sum] = '\0';
@@ -69,23 +69,24 @@ char *stacking(char *num1, char *num2, int base)
         add = tmp / base;
         sum[i] = to_char(tmp % base);
         len_num1--;
-        len_num2--;
+        len_num2--;;
     }
-
-    int count = 0, i = 0, j = 0;
-
-    while (sum[i] == '0') {
-        count++;
-        i++;
+    //printf("sum %s\n",sum);
+    char *tmp_sum = NULL;
+    char *ptr = sum;
+    for (int i = 0; i < len_sum - 1 && sum[i] == '0'; i++)
+        ptr++;
+    //printf("ptr %s\n", ptr);
+    strcpy(sum, ptr);
+    //printf("sum_copy %s\n", sum);
+    if (!(tmp_sum = (char*)realloc(sum, sizeof(char) * strlen(ptr) + 1))) {
+        free(tmp_sum);
+        return "error";
     }
-    char *result = (char*)malloc(sizeof(char) * (len_sum - count) + 1);
+    sum = tmp_sum;
+    //printf("sum_new %s\n", sum);
 
-    for (int k = count; k < len_sum; k++)
-        result[j++] = sum[k];
-    result[len_sum - count] = '\0';
-    free (sum);
-
-    return result;
+    return sum;
 }
 
 //Сложение элементов
@@ -104,6 +105,9 @@ char *sum(int count, int base, ...)
         else
             result = stacking(result, number, base);
     }
+    
+    if (!strcmp(result, "error"))
+        return "error";
 
     va_end(iter);
 
@@ -112,9 +116,16 @@ char *sum(int count, int base, ...)
 
 int main(int argc, char *argv[])
 {   
-    int base = 16;
-    char *result = sum(2, base, "5AF3B", "118E4");
-    printf("%s\n", result);
-    free(result);
+    int base = 2;
+    char *result = sum(2, base, "1101", "1110");
+    if (!strcmp(result, ""))
+        printf("No valid numbers were sent!\n");
+    else if (!strcmp(result, "error"))
+        printf("Execution error!\n");
+    else {
+        printf("Sum = %s\n", result);
+        free(result);
+    }
+
     return 0;
 }
