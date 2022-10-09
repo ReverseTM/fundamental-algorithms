@@ -34,10 +34,13 @@ char *valid(char *string)
     if (strlen(string) > 1)
         while (*string == '0' || !isalnum(*string))
             string++;
+
     int length = strlen(string);
+
     for (int i = 0; i < length; i++)
         if (!isalnum(string[i]) || (isalpha(string[i]) && !isupper(string[i])))
             return "invalid";
+            
     return string;
 }
 
@@ -74,8 +77,10 @@ char *stacking(char *num1, char *num2, int base)
     //printf("sum %s\n",sum);
     char *tmp_sum = NULL;
     char *ptr = sum;
+
     for (int i = 0; i < len_sum - 1 && sum[i] == '0'; i++)
         ptr++;
+
     int len_ptr = strlen(ptr);
     //printf("ptr %s\n", ptr);
     //strcpy(sum, ptr); неработает
@@ -89,7 +94,6 @@ char *stacking(char *num1, char *num2, int base)
     }
     sum = tmp_sum;
     //printf("sum_new %s\n", sum);
-
     return sum;
 }
 
@@ -100,7 +104,6 @@ char *sum(int count, int base, ...)
     va_start(iter,base);
 
     char *result = "";
-
     char *number = NULL;
 
     for (int i = 0; i < count; i++) {
@@ -110,10 +113,10 @@ char *sum(int count, int base, ...)
             result = stacking(result, number, base);
     }
     
+    va_end(iter);
+
     if (!strcmp(result, "error"))
         return "error";
-
-    va_end(iter);
 
     return result;
 }
@@ -122,6 +125,7 @@ int main(int argc, char *argv[])
 {   
     int base = 16;
     char *result = sum(3, base, "5AF3B", "F42-2", "00118E4", "123f4E");
+
     if (!strcmp(result, ""))
         printf("No valid numbers were sent!\n");
     else if (!strcmp(result, "error"))
