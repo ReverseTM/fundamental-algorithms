@@ -76,11 +76,15 @@ char *stacking(char *num1, char *num2, int base)
     char *ptr = sum;
     for (int i = 0; i < len_sum - 1 && sum[i] == '0'; i++)
         ptr++;
+    int len_ptr = strlen(ptr);
     //printf("ptr %s\n", ptr);
-    strcpy(sum, ptr);
+    //strcpy(sum, ptr); неработает
+    for (int i = 0; i < len_ptr; i++)
+        sum[i] = ptr[i];
+    sum[len_ptr] = '\0';
     //printf("sum_copy %s\n", sum);
     if (!(tmp_sum = (char*)realloc(sum, sizeof(char) * strlen(ptr) + 1))) {
-        free(tmp_sum);
+        free(sum);
         return "error";
     }
     sum = tmp_sum;
@@ -116,8 +120,8 @@ char *sum(int count, int base, ...)
 
 int main(int argc, char *argv[])
 {   
-    int base = 2;
-    char *result = sum(2, base, "1101", "1110");
+    int base = 16;
+    char *result = sum(3, base, "5AF3B", "F42-2", "00118E4", "123f4E");
     if (!strcmp(result, ""))
         printf("No valid numbers were sent!\n");
     else if (!strcmp(result, "error"))
