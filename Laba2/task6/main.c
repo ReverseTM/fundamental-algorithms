@@ -2,11 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
+#include <ctype.h>
 
 typedef struct list
 {
     char *file;
     int *index;
+    int count;
     struct list *next;
 } list;
 
@@ -30,6 +32,8 @@ list *create_node(char *file_name, int *data, int count)
     for (int i = 0; i < count; i++)
         node->index[i] = data[i];
     
+    node->count = count;
+
     node->next = NULL;
 
     return node;
@@ -55,6 +59,8 @@ list *add_node(list *node, char *file_name, int *data, int count)
     for (int i = 0; i < count; i++)
         tmp->index[i] = data[i];
     
+    tmp->count = count;
+
     tmp->next = NULL;
 
     list *p = node;
@@ -67,10 +73,15 @@ list *add_node(list *node, char *file_name, int *data, int count)
 
 void print(list* node, char *substring)
 {
+    int len_substring = strlen(substring);
+
     while (node) {
         printf("In file %s the substring '%s' was found from indices: ", node->file, substring);
-        for (int i = 0; i < sizeof(node->index) / sizeof(node->index[0]); i++)
-            printf("%d ", node->index[i]);
+        for (int i = 0; i < node->count; i++) {
+            printf("from %d to %d", node->index[i], node->index[i] + len_substring - 1);
+            if (i != node->count - 1)
+                printf(", ");
+        }
         printf("\n");
             
         node = node->next;
@@ -100,8 +111,7 @@ list *find_substring(list *finds, char* substring, char *file_name)
     FILE *fin;
 
     if (!(fin = fopen(file_name, "r"))) {
-        free_list(finds);
-        return NULL;
+        return finds;
     }
 
     char symbol;
@@ -115,8 +125,7 @@ list *find_substring(list *finds, char* substring, char *file_name)
     int *tmp = NULL;
     list *tmp_list = NULL;
 
-    while ((symbol = fgetc(fin)) != EOF) {
-
+    while ((symbol = tolower(fgetc(fin))) != EOF) {
         if (symbol == substring[0] && !gipotiza) {
             tmp_index = index;
             sovpalo = 1;
@@ -125,7 +134,7 @@ list *find_substring(list *finds, char* substring, char *file_name)
 
         if (gipotiza) {
             for (int i = 1; i < strlen(substring); i++) {
-                if ((symbol = fgetc(fin)) != EOF) {
+                if ((symbol = tolower(fgetc(fin))) != EOF) {
                     if (symbol != substring[i]) {
                         index = tmp_index;
                         fseek(fin, index + 1, SEEK_SET);
@@ -143,8 +152,7 @@ list *find_substring(list *finds, char* substring, char *file_name)
                 count++;
                 if (!(tmp = (int*)realloc(data, sizeof(int) * count))) {
                     free(data);
-                    free_list(finds);
-                    return NULL;
+                    return finds;
                 }
                 data = tmp;
                 data[count - 1] = tmp_index;
@@ -204,9 +212,9 @@ list *file_crawling(int count, char* substring, ...)
 
 int main(int argc, char *argv[])
 {
-    char *substring = "abc";
+    char *substring = "day";
 
-    list *finds = file_crawling(3, substring, "file1.txt", "file3.txt", "file2.txt");
+    list *finds = file_crawling(3, substring, "file2.txt", "file3.txt", "file1.txt");
 
     if (!finds)
         printf("List does not exist!\n");

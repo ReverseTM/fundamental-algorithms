@@ -51,7 +51,7 @@ char *stacking(char *num1, char *num2, int base)
     int len_num2 = strlen(num2);
     int len_sum = max(len_num1, len_num2) + 1;
     char *sum = (char*)malloc(len_sum * sizeof(char) + 1);
-    //printf("a %s, b %s\n", num1, num2);
+
     for (int i = 0; i < len_sum; i++)
         sum[i] = '0';
     sum[len_sum] = '\0';
@@ -74,7 +74,7 @@ char *stacking(char *num1, char *num2, int base)
         len_num1--;
         len_num2--;;
     }
-    //printf("sum %s\n",sum);
+
     char *tmp_sum = NULL;
     char *ptr = sum;
 
@@ -82,18 +82,17 @@ char *stacking(char *num1, char *num2, int base)
         ptr++;
 
     int len_ptr = strlen(ptr);
-    //printf("ptr %s\n", ptr);
-    //strcpy(sum, ptr); неработает
+
     for (int i = 0; i < len_ptr; i++)
         sum[i] = ptr[i];
     sum[len_ptr] = '\0';
-    //printf("sum_copy %s\n", sum);
+
     if (!(tmp_sum = (char*)realloc(sum, sizeof(char) * strlen(ptr) + 1))) {
         free(sum);
         return "error";
     }
     sum = tmp_sum;
-    //printf("sum_new %s\n", sum);
+
     return sum;
 }
 
@@ -103,20 +102,28 @@ char *sum(int count, int base, ...)
     va_list iter;
     va_start(iter,base);
 
-    char *result = "";
+    char *result = (char*)malloc(sizeof(char) + 1);
+    result[0] = '0';
+    result[1] = '\0';
+    char *tmp = NULL;
     char *number = NULL;
 
     for (int i = 0; i < count; i++) {
         if (!strcmp(number = valid(va_arg(iter, char*)), "invalid"))
             continue;
         else
-            result = stacking(result, number, base);
+            tmp = stacking(result, number, base);
+            if (result)
+                free(result);
+            result = tmp;
+            
+            if (!strcmp(result, "error")) {
+                va_end(iter);
+                return "error";
+            }
     }
     
     va_end(iter);
-
-    if (!strcmp(result, "error"))
-        return "error";
 
     return result;
 }
@@ -124,7 +131,7 @@ char *sum(int count, int base, ...)
 int main(int argc, char *argv[])
 {   
     int base = 16;
-    char *result = sum(3, base, "5AF3B", "F42-2", "00118E4", "123f4E");
+    char *result = sum(4, base, "5AF3B", "F42-2", "00118E4", "123f4E");
 
     if (!strcmp(result, ""))
         printf("No valid numbers were sent!\n");
