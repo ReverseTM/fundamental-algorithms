@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <math.h>
+
 #define PI 3.14
+#define epsilon 0.000000000000000000001
 
 int isprime(int x)
 {
@@ -19,9 +21,31 @@ int factorial(int n)
     return (n < 2) ? 1 : n * factorial(n - 1);
 }
 
-double C(int m, int k)
+double C(double m, double k)
 {
     return factorial(m) / (factorial(k) * factorial(m - k));
+}
+
+double _mult(int t) {
+    double mult = 1.0;
+
+    for (int i = 2; i <= t; i++)
+        if (isprime(i))
+            mult *= (i - 1.0) / i;
+    return mult;
+}
+
+double limit_for_gamma(double eps)
+{
+    int t = 2;
+    double result = 0.0;
+    double result_new = 0.0;
+    do {
+        result = result_new;
+        result_new = log(t) * _mult(t);
+        t++;
+    } while (fabs(result_new - result) > eps);
+    return result_new;
 }
 
 double function_e(double x)
@@ -31,7 +55,7 @@ double function_e(double x)
 
 double function_pi(double x)
 {
-    return (cos(x) + 1);
+    return (sin(x));
 }
 
 double function_ln2(double x)
@@ -46,14 +70,13 @@ double function_sqrt2(double x)
 
 double function_gamma(double x)
 {
-    return (exp(-x));
+    return (exp(-x) - limit_for_gamma(0.0001));
 }
 
 double dichotomy(double (*f)(double x), double a, double b, double eps)
 {
     double x = 0.0;
-    while (fabs(b - a) > eps)
-    {
+    while (fabs(b - a) > eps) {
         x = (a + b) / 2.0;
         if (f(a) * f(x) < 0)
             b = x;
@@ -68,8 +91,7 @@ double exhibitor_limit(double eps)
     int n = 1;
     double result = 0.0;
     double result_new = 0.0;
-    do
-    {
+    do {
         result = result_new;
         result_new = pow(1.0 + 1.0 / n, n);
         n++;
@@ -82,8 +104,7 @@ double exhibitor_row(double eps)
     int n = 0;
     double element = 0.0;
     double sum = 0.0;
-    do
-    {
+    do {
         element = 1.0 / factorial(n);
         sum += element;
         n++;
@@ -96,8 +117,7 @@ double pi_limit(double eps)
     int n = 1;
     double result = 0.0;
     double result_new = 4.0;
-    do
-    {
+    do {
         result = result_new;
         result_new *= (4 * n * (n + 1)) / pow(2 * n + 1, 2);
         n++;
@@ -110,8 +130,7 @@ double pi_row(double eps)
     int n = 1;
     double element = 0.0;
     double sum = 0.0;
-    do
-    {
+    do {
         element = (pow(-1, n - 1)) / (2 * n - 1);
         sum += element;
         n++;
@@ -124,8 +143,7 @@ double ln2_limit(double eps)
     int n = 1;
     double result = 0.0;
     double result_new = 0.0;
-    do
-    {
+    do {
         result = result_new;
         result_new = n * (pow(2, 1.0 / n) - 1);
         n++;
@@ -138,8 +156,7 @@ double ln2_row(double eps)
     int n = 1;
     double element = 0.0;
     double sum = 0.0;
-    do
-    {
+    do {
         element = (pow(-1, n - 1)) / n;
         sum += element;
         n++;
@@ -152,8 +169,7 @@ double sqrt2_limit(double eps)
     int n = 1;
     double result = 0.0;
     double result_new = -0.5;
-    do
-    {
+    do {
         result = result_new;
         result_new = result - (pow(result, 2) / 2.0) + 1.0;
         n++;
@@ -167,8 +183,7 @@ double sqrt2_row(double eps)
     double element = 0.0;
     double mult = 0.0;
     double mult_new = 1.0;
-    do
-    {
+    do {
         mult = mult_new;
         element = pow(2, pow(2, -n));
         mult_new *= element;
@@ -179,17 +194,17 @@ double sqrt2_row(double eps)
 
 double gamma_limit(double eps)
 {
-    int m = 2;
-    double element = 0.0;
-    double sum = 0.0;
+    eps = 0.01;
+    double m = 2;
     double result = 0.0;
     double result_new = 0.0;
-    do
-    {
+    double element = 0.0;
+    double sum = 0.0;
+    do {
         result = result_new;
-        for (int k = 2; k <= m; k++)
-        {
-            element = C(m, k) * (pow(-1.0, k) / k) * log(factorial(k));
+        sum = 0.0;
+        for (int k = 1; k <= m; k++) {
+            element = (C(m, k) * (pow(-1.0, k) / k) * log(factorial(k)));
             sum += element;
         }
         result_new = sum;
@@ -199,46 +214,49 @@ double gamma_limit(double eps)
 }
 
 double gamma_row(double eps)
-{
-    int k = 2;
-    double element = 0.0;
-    double sum = 0.0;
+{   
+    eps = 0.0000000000001;
+    int k = 3;
+    double result = 0.0;
+    double result_new = 0.5;
+    double element= 0.0;
     do {
-        element = (1.0 / pow(floor(sqrt(k)), 2)) - (1.0 / k);
-        sum += element;
+        result = result_new;
+        element = ((1.0 / pow(floor(sqrt(k)), 2)) - (1.0 / k));
+        result_new += element;
+        if (element < epsilon)
+            result = 0.0;
         k++;
-    } while (fabs(element) > eps);
-    return (sum - pow(PI, 2) / 6.0);
+    } while (fabs(result_new - result) > eps);
+    return (result_new - pow(PI, 2) / 6.0);
 }
-
 
 int main(int argc, char *argv[])
 {
-    // int accuracy = 0;
-    // printf("Enter up to what sign you need accuracy\n");
-    // scanf("%d", &accuracy);
-    // double eps = pow(10, -accuracy);
-    double eps = pow(10, -6);
+    int accuracy = 0;
+    printf("Enter up to what sign you need accuracy\n");
+    scanf("%d", &accuracy);
+    double eps = pow(10, -accuracy);
 
-    printf("e with limit: %lf\n", exhibitor_limit(eps));
-    printf("e with row: %lf\n", exhibitor_row(eps));
-    printf("e with equation: %lf\n", dichotomy(function_e, 2.0, 3.0, eps));
+    printf("e with limit: %.8lf\n", exhibitor_limit(eps));
+    printf("e with row: %.8lf\n", exhibitor_row(eps));
+    printf("e with equation: %.8lf\n", dichotomy(function_e, 2.0, 3.0, eps));
     printf("-------------------------\n");
-    printf("pi with limit: %lf\n", pi_limit(eps));
-    printf("pi with row: %lf\n", pi_row(eps));
-    printf("pi with equation: %lf\n", dichotomy(function_pi, 3.0, 4.0, eps));
+    printf("pi with limit: %.8lf\n", pi_limit(eps));
+    printf("pi with row: %.8lf\n", pi_row(eps));
+    printf("pi with equation: %.8lf\n", dichotomy(function_pi, 3.0, 4.0, eps));
     printf("-------------------------\n");
-    printf("ln2 with limit: %lf\n", ln2_limit(eps));
-    printf("ln2 with row: %lf\n", ln2_row(eps));
-    printf("ln2 with equation: %lf\n", dichotomy(function_ln2, 0.0, 1.0, eps));
+    printf("ln2 with limit: %.8lf\n", ln2_limit(eps));
+    printf("ln2 with row: %.8lf\n", ln2_row(eps));
+    printf("ln2 with equation: %.8lf\n", dichotomy(function_ln2, 0.0, 1.0, eps));
     printf("-------------------------\n");
-    printf("sqrt(2) with limit: %lf\n", sqrt2_limit(eps));
-    printf("sqrt(2) with row: %lf\n", sqrt2_row(eps));
-    printf("sqrt(2) with equation: %lf\n", dichotomy(function_sqrt2, 1.0, 2.0, eps));
+    printf("sqrt(2) with limit: %.8lf\n", sqrt2_limit(eps));
+    printf("sqrt(2) with row: %.8lf\n", sqrt2_row(eps));
+    printf("sqrt(2) with equation: %.8lf\n", dichotomy(function_sqrt2, 1.0, 2.0, eps));
     printf("-------------------------\n");
-    //printf("gamma with limit: %lf\n", gamma_limit(eps));
-    //printf("gamma with row: %lf\n", gamma_row(eps));
-    //printf("gamma with equation: %lf\n", dichotomy(function_gamma, 0.0, 1.0, eps));
+    printf("gamma with limit: %.8lf\n", gamma_limit(eps));
+    printf("gamma with row: %.8lf\n", gamma_row(eps));
+    printf("gamma with equation: %.8lf\n", dichotomy(function_gamma, 0.0, 1.0, eps));
 
     return 0;
 }
