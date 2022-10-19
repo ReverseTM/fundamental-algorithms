@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <locale.h>
 
 int* matrix_filling(int* matrix, int size)
 {
@@ -21,9 +22,10 @@ void output_matrix(int* matrix, int size)
 
 int main(int argc, char* argv[])
 {
+    setlocale(LC_ALL, "Russian");
     int size_A = 0, size_B = 0;
 
-    printf("Enter size matrix A: \n");
+    printf("Введите размер матрицы А: \n");
     scanf("%d", &size_A);
     printf("Enter size matrix B: \n");
     scanf("%d", &size_B);
@@ -63,5 +65,8 @@ int main(int argc, char* argv[])
         output_matrix(B, size_B);
         output_matrix(C, size_A);
     }
+    free(A);
+    free(B);
+    free(C);
     return 0;
 }

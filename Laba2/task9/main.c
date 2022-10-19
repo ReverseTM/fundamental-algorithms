@@ -60,6 +60,7 @@ char *stacking(char *num1, char *num2, int base)
     int tmp = 0;
     int a = 0, b = 0;
     for (int i = len_sum - 1; i >= 0; i--) {
+        
         if (len_num1 - 1 >= 0)
             a = to_number(num1[len_num1 - 1]);
         else a = 0;
@@ -98,11 +99,14 @@ char *stacking(char *num1, char *num2, int base)
 
 //Сложение элементов
 char *sum(int count, int base, ...)
-{
+{   
+    if (count < 0)
+        return "error";
+
     va_list iter;
     va_start(iter,base);
 
-    char *result = (char*)malloc(sizeof(char) + 1);
+    char *result = (char*)malloc(sizeof(char) * 2);
     result[0] = '0';
     result[1] = '\0';
     char *tmp = NULL;
@@ -130,8 +134,8 @@ char *sum(int count, int base, ...)
 
 int main(int argc, char *argv[])
 {   
-    int base = 16;
-    char *result = sum(4, base, "5AF3B", "F42-2", "00118E4", "123f4E");
+    int base = 2;
+    char *result = sum(4, base, "000000000001", "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000011", "0", "0");
 
     if (!strcmp(result, ""))
         printf("No valid numbers were sent!\n");

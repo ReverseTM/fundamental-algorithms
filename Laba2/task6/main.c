@@ -192,7 +192,10 @@ list *file_crawling(int count, char* substring, ...)
 {   
     list *finds = NULL;
     list *tmp = NULL;
-    
+
+    if (count < 0)
+        return finds;
+
     va_list iter;
     va_start(iter, substring);
     
@@ -212,7 +215,7 @@ list *file_crawling(int count, char* substring, ...)
 
 int main(int argc, char *argv[])
 {
-    char *substring = "day";
+    char *substring = "da";
 
     list *finds = file_crawling(3, substring, "file2.txt", "file3.txt", "file1.txt");
 

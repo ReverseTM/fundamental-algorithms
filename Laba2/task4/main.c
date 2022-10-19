@@ -40,7 +40,7 @@ double avg_geom(int count, ...)
 
 int main(int argc, char *argv[])
 {
-    double res = avg_geom(5, (double)-13.4, (double)-5.2, (double)-23.4, (double)-4.1, (double)-3.8);
+    double res = avg_geom(5, (double)-13.4, (double)-5.2, (double)-23.4, (double)-4.1);
     if (isnan(res))
         printf("Error!\n");
     else
