@@ -1,5 +1,18 @@
 #include <stdio.h>
 #include <math.h>
+#define PI 3.14
+
+int isprime(int x)
+{
+    if (x > 1) {
+        for (int i = 2; i < x; i++)
+            if (x % i == 0)
+                return 0;
+        return 1;
+    }
+    else
+        return 0;
+}
 
 int factorial(int n)
 {
@@ -29,6 +42,11 @@ double function_ln2(double x)
 double function_sqrt2(double x)
 {
     return (pow(x, 2) - 2);
+}
+
+double function_gamma(double x)
+{
+    return (exp(-x));
 }
 
 double dichotomy(double (*f)(double x), double a, double b, double eps)
@@ -147,19 +165,21 @@ double sqrt2_row(double eps)
 {
     int n = 2;
     double element = 0.0;
-    double mult = 1.0;
+    double mult = 0.0;
+    double mult_new = 1.0;
     do
     {
+        mult = mult_new;
         element = pow(2, pow(2, -n));
-        mult *= element;
+        mult_new *= element;
         n++;
-    } while (fabs(element) > eps);
+    } while (fabs(mult_new - mult) > eps);
     return mult;
 }
 
 double gamma_limit(double eps)
 {
-    int m = 1;
+    int m = 2;
     double element = 0.0;
     double sum = 0.0;
     double result = 0.0;
@@ -167,7 +187,7 @@ double gamma_limit(double eps)
     do
     {
         result = result_new;
-        for (int k = 1; k <= m; k++)
+        for (int k = 2; k <= m; k++)
         {
             element = C(m, k) * (pow(-1.0, k) / k) * log(factorial(k));
             sum += element;
@@ -177,6 +197,20 @@ double gamma_limit(double eps)
     } while (fabs(result_new - result) > eps);
     return result;
 }
+
+double gamma_row(double eps)
+{
+    int k = 2;
+    double element = 0.0;
+    double sum = 0.0;
+    do {
+        element = (1.0 / pow(floor(sqrt(k)), 2)) - (1.0 / k);
+        sum += element;
+        k++;
+    } while (fabs(element) > eps);
+    return (sum - pow(PI, 2) / 6.0);
+}
+
 
 int main(int argc, char *argv[])
 {
@@ -199,10 +233,12 @@ int main(int argc, char *argv[])
     printf("ln2 with equation: %lf\n", dichotomy(function_ln2, 0.0, 1.0, eps));
     printf("-------------------------\n");
     printf("sqrt(2) with limit: %lf\n", sqrt2_limit(eps));
-    // printf("sqrt(2) with row: %lf\n", sqrt2_row(eps));
+    printf("sqrt(2) with row: %lf\n", sqrt2_row(eps));
     printf("sqrt(2) with equation: %lf\n", dichotomy(function_sqrt2, 1.0, 2.0, eps));
     printf("-------------------------\n");
-    printf("gamma with limit: %lf\n", gamma_limit(eps));
+    //printf("gamma with limit: %lf\n", gamma_limit(eps));
+    //printf("gamma with row: %lf\n", gamma_row(eps));
+    //printf("gamma with equation: %lf\n", dichotomy(function_gamma, 0.0, 1.0, eps));
 
     return 0;
 }
