@@ -26,13 +26,21 @@ char *isvalid(char* number)
         return "invalid";
 }
 
+int nod(int a, int b) 
+{
+    return b ? nod(b, a % b) : a;
+}
+
 void common_fraction(char *number, int *numerator, int *denominator)
 {
     for (int i = 2; number[i] != '\0'; i++) {
         *numerator = *numerator * 10 + (number[i] - '0');
         *denominator *= 10;
         }
-    //todo нод (сократить дробь)
+
+    int NOD = nod(*numerator, *denominator);
+    *numerator /= NOD;
+    *denominator /= NOD;
 }
 
 int in_array(int *array, int count, int number)
@@ -178,7 +186,7 @@ int main(int argc, char *argv[])
     int error = 0;
     int count_result = 0;
 
-    char **result = final_representation(2, &error, &count_result, base, "0.2", "0.2");
+    char **result = final_representation(5, &error, &count_result, base, "0.37", "0.0000001", "0.5", "0.75", "0.2");
 
     switch(error) {
         case 0:
