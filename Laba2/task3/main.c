@@ -217,18 +217,18 @@ double gamma_row(double eps)
 {   
     eps = 0.0000000000001;
     int k = 3;
-    double result = 0.0;
-    double result_new = 0.5;
+    double sum = 0.0;
+    double sum_new = 0.5;
     double element= 0.0;
     do {
-        result = result_new;
+        sum = sum_new;
         element = ((1.0 / pow(floor(sqrt(k)), 2)) - (1.0 / k));
-        result_new += element;
+        sum_new += element;
         if (element < epsilon)
-            result = 0.0;
+            sum = 0.0;
         k++;
-    } while (fabs(result_new - result) > eps);
-    return (result_new - pow(PI, 2) / 6.0);
+    } while (fabs(sum_new - sum) > eps);
+    return (sum_new - pow(PI, 2) / 6.0);
 }
 
 int main(int argc, char *argv[])
