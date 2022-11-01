@@ -1,6 +1,26 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int factorial(int n) {
+    if (n < 0)
+        return -1;
+    return (n < 2) ? 1 : n * factorial(n - 1);
+}
+
+double C(double n, double k)
+{
+    if (n < 0 || k < 0)
+        return -1;
+    double numerator = 1.0;
+    double denominator = factorial(n - k);
+    if (denominator == -1)
+        return -1;
+    for (int i = k + 1; i <= n; i++)
+        numerator *= i;
+    
+    return (numerator / denominator);
+}
+
 int count_of_units(int number)
 {
     int count = 0;
@@ -29,18 +49,20 @@ void function_1(int k, int l, int **result, int *length, int *error)
         *error = -1;
         return;
     }
-    int *tmp = NULL;
+    int size = C(k, l);
+    if (size == -1) {
+        *error = -1;
+        return;
+    }
+    (*result) = (int*)malloc(sizeof(int) * size);
+    if (!(*result)) {
+        *error = -2;
+        return;
+    }
+    int count = 0;
     for (int number = 0; number < (1 << k); number++) {
         if (count_of_units(number) == l) {
-            if (!(tmp = (int*)realloc(*result, sizeof(int) * ++(*length)))) {
-                *error = -2;
-                if (*result);
-                    free(*result);
-                *result = NULL;
-                return;
-            }
-            *result = tmp;
-            (*result)[(*length) - 1] = number;
+            (*result)[(*length)++] = number;
         }
     }
 }
