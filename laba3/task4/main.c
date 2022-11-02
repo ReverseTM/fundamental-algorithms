@@ -98,10 +98,10 @@ int get_text(char **string)
             else
                 *string = tmp;
         }
-
         (*string)[cur_pos++] = symbol;
     }
     (*string)[cur_pos] = '\0';
+
     return success;
 }
 
@@ -109,6 +109,7 @@ int text_in_file(char *filename, char *stop_word, int *count)
 {
     if (!filename || !stop_word)
         return runtime_error;
+
     int error = success;
     int index = 1;
     int length = 0;
@@ -125,14 +126,17 @@ int text_in_file(char *filename, char *stop_word, int *count)
 
     while (1) {
         printf("Enter your message: ");
+
         if ((error = get_text(&string)) == success) {
             if (valid(string)) {
                 trys = 3;
+
                 if (!strcmp(string, stop_word)) {
                     free(string);
                     string = NULL;
                     break;
                 }
+
                 length = strlen(string);
                 messages->id = index++;
                 messages->text = (char*)malloc(sizeof(char) * (length + 1));
@@ -159,8 +163,10 @@ int text_in_file(char *filename, char *stop_word, int *count)
         else 
             return error;
     }
+
     fclose(fin);
     free(messages);
+
     return success;
 }
 
@@ -171,10 +177,11 @@ int get_data_from_file(FILE *fin, char **data)
     char *tmp = NULL;
 
     (*data) = (char*)malloc(sizeof(char) * count);
-    if (!(*data)) {
+    if (!(*data)) 
         return no_memory;
-    }
+
     char symbol = fgetc(fin);
+
     while (symbol != '\n' && symbol != ',') {
         if (cur_pos >= count) {
             count *= 2;
@@ -192,16 +199,22 @@ int get_data_from_file(FILE *fin, char **data)
         symbol = fgetc(fin);
     }
     (*data)[cur_pos] = '\0';
+    
     return success;
 }
 
 int from_file_to_array(char *filename, int count_messages, message ***messages)
 {
+    if (!filename || count_messages < 0)
+        return runtime_error;
+
     int error = success;
     char *data = NULL;
+
     FILE *fin = fopen(filename, "r");
     if (!fin)
         return file_isnt_open;
+    
     *messages = (message**)malloc(sizeof(ptr_message) * count_messages);
     if (!(*messages))
         return no_memory;
