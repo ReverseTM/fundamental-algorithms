@@ -39,10 +39,15 @@ void print_error(int error)
     }
 }
 
-int valid (char *text) {
-    for (int i = 0; text[i] != '\0'; i++)
-        if (text[i] == ',' || text[i] == ';' || text[i] == '"')
-            return 0;
+int isvalid(char *text)
+{
+    int count_space = 0;
+    int length = strlen(text);
+    for (int i = 0; i < length; i++)
+        if (text[i] == ' ' || text[i] == '\t')
+            count_space++;
+    if (count_space == length)
+        return 0;
     return 1;
 }
 
@@ -128,7 +133,7 @@ int text_in_file(char *filename, char *stop_word, int *count)
         printf("Enter your message: ");
 
         if ((error = get_text(&string)) == success) {
-            if (valid(string)) {
+            if (isvalid(string)) {
                 trys = 3;
 
                 if (!strcmp(string, stop_word)) {
@@ -142,7 +147,7 @@ int text_in_file(char *filename, char *stop_word, int *count)
                 messages->text = (char*)malloc(sizeof(char) * (length + 1));
                 strcpy(messages->text, string);
                 messages->length = length;
-                fprintf(fin, "%d,%s,%d\n", messages->id, messages->text, messages->length);
+                fprintf(fin, "%d,\"%s\",%d\n", messages->id, messages->text, messages->length);
                 (*count)++;
             }
             else {
@@ -170,8 +175,10 @@ int text_in_file(char *filename, char *stop_word, int *count)
     return success;
 }
 
-int get_data_from_file(FILE *fin, char **data)
+int get_data_from_file(FILE *fin, char **data, int flag)
 {
+    if (flag != 1 && flag != 2)
+        return incorrect_arguments;
     int count = 2;
     int cur_pos = 0;
     char *tmp = NULL;
@@ -182,24 +189,46 @@ int get_data_from_file(FILE *fin, char **data)
 
     char symbol = fgetc(fin);
 
-    while (symbol != '\n' && symbol != ',') {
-        if (cur_pos >= count) {
-            count *= 2;
+    if (flag == 1) {
+        while (symbol != '\n' && symbol != ',') {
+            if (cur_pos >= count) {
+                count *= 2;
 
-            if (!(tmp = (char*)realloc((*data), sizeof(char) * count))) {
-                free((*data));
-                *data = NULL;
-                return no_memory;
+                if (!(tmp = (char*)realloc((*data), sizeof(char) * count))) {
+                    free((*data));
+                    *data = NULL;
+                    return no_memory;
+                }
+                else
+                    *data = tmp;
             }
-            else
-                *data = tmp;
+            (*data)[cur_pos++] = symbol;
+            symbol = fgetc(fin);
         }
+    }
+    else if (flag == 2) {
+        symbol = fgetc(fin);
+        while (symbol != '"') {
+            if (cur_pos >= count) {
+                count *= 2;
 
-        (*data)[cur_pos++] = symbol;
+                if (!(tmp = (char*)realloc((*data), sizeof(char) * count))) {
+                    free((*data));
+                    *data = NULL;
+                    return no_memory;
+                }
+                else
+                    *data = tmp;
+            }
+            (*data)[cur_pos++] = symbol;
+            symbol = fgetc(fin);
+        }
         symbol = fgetc(fin);
     }
     (*data)[cur_pos] = '\0';
-    
+    //1,"hello",5
+    //2,"fsfsfs",6
+
     return success;
 }
 
@@ -224,7 +253,7 @@ int from_file_to_array(char *filename, int count_messages, message ***messages)
         if (!((*messages)[i]))
             return no_memory;
 
-        if ((error = get_data_from_file(fin, &data)) == success) {
+        if ((error = get_data_from_file(fin, &data, 1)) == success) {
             (*messages)[i]->id = atoi(data);
             free(data);
             data = NULL;
@@ -232,7 +261,7 @@ int from_file_to_array(char *filename, int count_messages, message ***messages)
         else
             return error;
 
-        if ((error = get_data_from_file(fin, &data)) == success) {
+        if ((error = get_data_from_file(fin, &data, 2)) == success) {
             (*messages)[i]->text = (char*)malloc(sizeof(char) * (strlen(data) + 1));
             if (!((*messages)[i]->text))
                 return no_memory;
@@ -243,7 +272,7 @@ int from_file_to_array(char *filename, int count_messages, message ***messages)
         else
             return error;
 
-        if ((error = get_data_from_file(fin, &data)) == success) {
+        if ((error = get_data_from_file(fin, &data, 1)) == success) {
             (*messages)[i]->length = atoi(data);
             free(data);
             data = NULL;
@@ -264,14 +293,16 @@ void print_array(message **messages, int count_messages)
 
 void free_array(message **messages, int count_messages)
 {
-    for (int i = 0; i < count_messages; i++) {
-        if (messages[i]->text)
-            free(messages[i]->text);
-        if (messages[i])
-            free(messages[i]);
-    }
-    if (messages)
+    if (messages) {
+        for (int i = 0; i < count_messages; i++) {
+            if (messages[i]) {
+                if (messages[i]->text)
+                    free(messages[i]->text);
+                free(messages[i]);
+            }
+        }
         free(messages);
+    }
 }
 
 int main(int argc, char *argv[])
