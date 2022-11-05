@@ -1,17 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void swap(char *number, int count)
+int sum(int a, int b)
 {
-    char *start = number, *finish = number + count - 1;
-    while (start < finish)
-    {
-        char tmp = *start;
-        *start = *finish;
-        *finish = tmp;
-        start++;
-        finish--;
+    int carry	= 0;
+
+	while(b)
+	{
+		carry	= (a & b);
+		a	= a ^ b;
+		b	= (carry << 1);
     }
+    return a;
+}
+
+int sub(int a, int b)
+{
+    int borrow	= 0;
+
+	while(b)
+	{
+		borrow = ((~a) & b);
+		a = a ^ b;
+		b = (borrow << 1);
+	}
+    return a;
 }
 
 char *transform(int number, int r, int *error)
@@ -21,46 +34,50 @@ char *transform(int number, int r, int *error)
         *error = -1;
         return NULL;
     }
-    char *result = NULL;
-    int count = 0;
+
     int sign = 0;
     if (number < 0)
     {
-        number *= -1;
+        number = sum(~number, 1);
         sign = 1;
     }
-    char *tmp = NULL;
-    int remainder = 0;
 
-    while (number)
-    {
-        remainder = number & ((1 << r) - 1);
-        if (!(tmp = (char *)realloc(result, sizeof(char) * (++count + 1))))
-        {
+    int count = 0;
+    int tmp_number = number;
+    while (tmp_number) {
+        count = sum(count, 1);
+        tmp_number >>= r;
+    }
+
+    char *result = NULL;
+
+    if (sign) {
+        count = sum(count, 1);
+        result = (char*)malloc(sizeof(char) * sum(count, 1));
+        if (!result) {
             *error = -2;
-            free(result);
-            result = NULL;
-            return result;
+            return NULL;
         }
-        result = tmp;
-        result[count - 1] = remainder < 10 ? (remainder + '0') : (remainder + 'A' - 10);
+        result[count] = '\0';
+        result[0] = '-'; 
+    }
+    else {
+        result = (char*)malloc(sizeof(char) * sum(count, 1));
+        if (!result) {
+            *error = -2;
+            return NULL;
+        }
+        result[count] = '\0';
+    }
+    
+    int remainder = 0;
+    while (number) {
+        remainder = number & sub((1 << r), 1);
+        count = sub(count, 1);
+        result[count] = remainder < 10 ? (sum(remainder, '0')) : (sub(sum(remainder, 'A'), 10));
         number = number >> r;
     }
-    if (sign)
-    {
 
-        if (!(tmp = (char *)realloc(result, sizeof(char) * (++count + 1))))
-        {
-            *error = -2;
-            free(result);
-            result = NULL;
-            return result;
-        }
-        result = tmp;
-        result[count - 1] = '-';
-    }
-    result[count] = '\0';
-    swap(result, count);
     return result;
 }
 
@@ -70,15 +87,19 @@ int main()
     int number = 0;
     int r = 0;
     int error = 0;
-    result = transform(-10, 1, &error);
+
     printf("Enter number: ");
-    if (scanf("%d", &number) != 1)
-        printf("Incorrect input! Not integer.\n");
+    if (scanf("%d", &number) != 1) {
+        error = -1;
+        printf("Not integer. ");
+    }
     else
     {
         printf("Enter degree of 2: ");
-        if (scanf("%d", &r) != 1)
-            printf("Incorrect input! Not integer.\n");
+        if (scanf("%d", &r) != 1) {
+            error = -1;
+            printf("Not integer. ");
+        }
         else
             result = transform(number, r, &error);
     }
@@ -87,7 +108,8 @@ int main()
     case 0:
         printf("A %d in the %d number system has the following representation: ", number, 1 << r);
         printf("%s\n", result);
-        free(result);
+        if (result)
+            free(result);
         break;
     case -1:
         printf("Incorrect input!\n");
