@@ -1,0 +1,23 @@
+#include <stdio.h>
+
+int main()
+{
+    int number = 15;
+    int index = 2;
+    int bit_value = 0;
+    int mask;
+    mask = 1 << index;
+    
+    if (bit_value) {
+        number = number | mask;
+    }
+    else
+    {
+        number = number & ~mask;    
+    }
+    
+    printf("%d\n", number);
+    //1111 | 0100 = 1111
+    //1111 & ~(0100)1011 = 1011
+    return 0;
+}
