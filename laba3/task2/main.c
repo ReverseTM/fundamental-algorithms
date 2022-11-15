@@ -114,34 +114,6 @@ int main(int argc, char *argv[])
     scanf("%d", &l);
 
     function_1(k, l, &result_f1, &length_f1, &error);
-    function_2(k, l, &result_f2, &length_f2, &error);
-
-    switch (error)
-    {
-    case 0:
-        if (result_f1) {
-            printf("Found %d %d-bit integers, in the binary notation of which there are %d ones: ",length_f1, k, l);
-            for (int i = 0; i < length_f1; i++)
-                printf("%d ", result_f1[i]);
-            printf("\n");
-            free(result_f1);
-            result_f1 = NULL;
-        }
-        if (result_f2) {
-            printf("Found %d %d-bit integers, in the binary notation of which there are %d consecutive ones: ",length_f2, k, l);
-            for (int i = 0; i < length_f2; i++)
-                printf("%d ", result_f2[i]);
-            printf("\n");
-            free(result_f2);
-            result_f2 = NULL;
-        }
-        break;
-    case -1:
-        printf("Incorrect input!\n");
-        break;
-    case -2:
-        printf("Memory allocation error!\n");
-        break;
-    }
+    function_
     return 0;
 }

@@ -226,8 +226,6 @@ int get_data_from_file(FILE *fin, char **data, int flag)
         symbol = fgetc(fin);
     }
     (*data)[cur_pos] = '\0';
-    //1,"hello",5
-    //2,"fsfsfs",6
 
     return success;
 }
@@ -243,7 +241,7 @@ int from_file_to_array(char *filename, int count_messages, message ***messages)
     FILE *fin = fopen(filename, "r");
     if (!fin)
         return file_isnt_open;
-    
+    // закрыть везде файл
     *messages = (message**)malloc(sizeof(ptr_message) * count_messages);
     if (!(*messages))
         return no_memory;
@@ -288,7 +286,7 @@ int from_file_to_array(char *filename, int count_messages, message ***messages)
 void print_array(message **messages, int count_messages)
 {
     for (int i = 0; i < count_messages; i++) 
-        printf("id:%d text:%s length:%d\n", messages[i]->id, messages[i]->text, messages[i]->length);
+        printf("id: %d | text: %s | length:%d\n", messages[i]->id, messages[i]->text, messages[i]->length);
 }
 
 void free_array(message **messages, int count_messages)
