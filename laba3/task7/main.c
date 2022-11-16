@@ -308,23 +308,23 @@ int delete_person(list **root, char *surname, char *name, char *patronymic, char
 
 }
 
-void print_person(ptr_residents person)
+void print_person(ptr_residents person, FILE *output)
 {
     if (!person)
         return;
-    printf("%s %s %s %s ", person->surname, person->name, person->patronymic, person->dob);
+    fprintf(output, "%s %s %s %s ", person->surname, person->name, person->patronymic, person->dob);
     if (person->gender == male)
-        printf("male ");
+        fprintf(output, "male ");
     else
-        printf("female ");
-    printf("%.2f\n", person->aipm);
+        fprintf(output, "female ");
+    fprintf(output, "%.2f\n", person->aipm);
 }
 
-void print_list(ptr_list list)
+void print_list(ptr_list list, FILE *output)
 {
     while (list != NULL)
     {
-        print_person(list->person);
+        print_person(list->person, output);
         list = list->next;
     }
 }
@@ -784,32 +784,53 @@ int add_person(list **root, char *surname, char *name, char *patronymic, char *d
     }
 }
 
+int list_in_file(ptr_list root, char *filename)
+{
+    if (!root)
+        return empty_list;
+    
+    FILE *file;
+    if (!(file = fopen(filename, "w")))
+        return file_isnt_open;
+    
+    print_list(root, file);
+    fclose(file);
+    return success;
+}
+
 int main(int argc, char *argv[])
 {
     int error = success;
     ptr_list list = NULL;
     ptr_list find_node = NULL;
+    char *filename = "output.txt";
 
     if (argc == 2)
     {
         char *path = argv[1];
         if ((error = get_list(&list, path)) == success)
         {
-            /*
+            
             if ((error = search_node(list, &find_node, "Ivanov", "Ivan", "Ivanovich", "23.09.2004", male, 23000.45)) == success)
-                print_person(find_node->person);
+                print_person(find_node->person, stdout);
             else
                 print_error(error);
             
             if ((error = delete_person(&list, "Abramova", "Ivan", "Ivanovich", "23.09.2005", female, 2303535.45)) == success)
-                print_list(list);
+                printf("Person was deleted!\n");
             else 
                 print_error(error);
             
-            */
+            
             if ((error = add_person(&list, "Hasanov", "Daniil", "Rafailovich", "28.05.2003", "male", "25000.0")) == success)
-                print_list(list);
-            //infile
+                printf("Person was added!\n");
+            else
+                print_error(error);
+            
+            if ((error = list_in_file(list, filename)) == success)
+                printf("Information uploaded in file!\n");
+            else
+                print_error(error);
         }
         else
             print_error(error);
