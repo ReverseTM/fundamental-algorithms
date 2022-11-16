@@ -1,0 +1,4 @@
+Gbramova Ivan Ivanovich 23.09.2020 male 2303535.45
+Ivanov Ivan Ivanovich 23.09.2004 male 23000.45
+Bfsfsgs Ivan Ivanovich 23.09.2006 male 2303535.45
+Abramova Ivan Ivanovich 23.09.2005 female 2303535.45
