@@ -141,9 +141,24 @@ int checkMultiples(double num1, double num2)
 
 int checkTriangle(double num1, double num2, double num3)
 {   
-    if (num1 > EPS && num2 > EPS && num3 > EPS) 
-        if (num1 + num2 > num3 && num1 + num3 > num2 && num2 + num3 > num1)
+    double a = num1;
+    double b = num2;
+    double c = num3;
+    double tmp = 0.0;
+    if (num1 > EPS && num2 > EPS && num3 > EPS) { 
+        if (b > a) {
+            tmp = a;
+            a = b;
+            b = tmp;
+        }
+        if (c > a) {
+            tmp = a;
+            a = c;
+            c = tmp;
+        }
+        if (fabs((a * a) - (b * b + c * c)) < EPS)
             return 1;
+    }
     return 0;
 }
 

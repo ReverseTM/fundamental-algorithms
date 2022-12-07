@@ -56,8 +56,11 @@ int printPower(int number)
 {
     if (number > 0 && number <= 10) {
         for (int i = 1; i <= 10; i++) {
-            for (int j = 1; j <= number; j++)
-                printf("%d^%d=%d ",i, j, (int)pow(i, j));
+            int res = 1;
+            for (int j = 1; j <= number; j++) {
+                res *= i; 
+                printf("%d^%d=%d ",i, j, res);
+            }
             printf("\n");
         }
     }
@@ -76,7 +79,16 @@ int summator(int number)
 
 int factorial(int n)
 {
-    return (n < 2) ? 1 : n * factorial(n - 1);
+    if (n == 0)
+        return 0;
+    if (n > 0) {
+        int res = 1;
+        for (int i = 2; i <= n; i++)
+            res *= i;
+        return res;
+    }
+    else
+        return -1;
 }
 
 int is_digit(char *str)
@@ -150,7 +162,11 @@ int main(int argc, char*argv[])
                         printf("Sum numbers 1 to %d = %d\n", number, result);
                     break;
                 case 'f':
-                    printf("Factorial of %d = %d\n", number, factorial(number));
+                    int factor = factorial(number);
+                    if (factor == -1)
+                        printf("Number mustn't be negative!\n");
+                    else
+                        printf("Factorial of %d = %d\n", number, factorial(number));
                     break;
             }
         }
