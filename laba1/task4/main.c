@@ -144,7 +144,7 @@ void freeStringArray(char **array, int size)
     }
 }
 
-int transform(FILE *fout, char *string)
+int transform(FILE *fout, char *string, int size)
 {
     if (!fout || !string)
         return invalid_data;
@@ -155,7 +155,7 @@ int transform(FILE *fout, char *string)
     for (char *tmp = strToken(string, " "); tmp; tmp = strToken(NULL, " ")) {
         string_array[i] = (char*)malloc(sizeof(char) * (strLen(tmp) + 1));
         if (!string_array[i]) {
-            freeStringArray(string_array, 3);
+            freeStringArray(string_array, size);
             return no_memory;
         }
         strCopy(string_array[i++], tmp);
@@ -164,7 +164,7 @@ int transform(FILE *fout, char *string)
     fprintf(fout, "%s ", string_array[0]);
     fprintf(fout, "%s\n", string_array[1]);
 
-    freeStringArray(string_array, 3);
+    freeStringArray(string_array, size);
 
     return success;
 }
@@ -192,7 +192,6 @@ int generateFileName(char **filename)
                 (*filename)[i] = (rand() % 26) + 'a';
         }
     }
-    printf("%s\n", *filename);
     strCat((*filename), ".txt");
 
     return success;
@@ -201,6 +200,7 @@ int generateFileName(char **filename)
 int main(int argc, char *argv[])
 {
     int error = 0;
+    int size = 3;
     if (argc == 2 && !strCmp((argv[1] + strLen(argv[1]) - 4), ".txt")) {
         FILE *fin = fopen(argv[1], "r");
         if (!fin) {
@@ -230,7 +230,7 @@ int main(int argc, char *argv[])
                             string = NULL;
                             continue;
                         }
-                        if ((error = transform(fout, string)) == success) {
+                        if ((error = transform(fout, string, size)) == success) {
                             free(string);
                             string = NULL;
                         }

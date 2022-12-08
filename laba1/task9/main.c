@@ -197,7 +197,7 @@ int main(int argc, char *argv[])
     int flag = 0;
 
     if (scanf("%d", &base) == 1 && base >= 2 && base <= 32) {
-        getchar();
+        //getchar();
         while (1) {
             if ((error = get_string(stdin, &number)) == success) {
                 if (strCmp(number, "stop")) {
@@ -218,7 +218,11 @@ int main(int argc, char *argv[])
                             break;
                         }
                     }
-                    else printf("Incorrect number\n");
+                    else { 
+                        printf("Incorrect number\n");
+                        free(number);
+                        number = NULL;
+                    }
                 }
                 else {
                     free(number);
@@ -230,9 +234,6 @@ int main(int argc, char *argv[])
                 print_error(error);
                 break;
             }
-
-            free(number);
-            number = NULL;
         }
         if (flag) {
             if (error == success) {
