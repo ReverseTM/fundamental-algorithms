@@ -1,43 +1,84 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int factorial(int n) {
-    if (n < 0)
-        return -1;
-    return (n < 2) ? 1 : n * factorial(n - 1);
+void print_error(int error)
+{
+    switch (error) {
+        case -1:
+            printf("Incorrect input!\n");
+            break;
+        case -2:
+            printf("The count of units must be less than the number of bits in the number!\n");
+            break; 
+        case -3:
+            printf("Factorial is not defined!\n");
+            break;
+        case -4:
+            printf("Memory allocation error!\n");
+            break;
+        case -5:
+            printf("Something wrong!\n");
+    }
 }
 
-double C(double n, double k)
+void print_array(int *array, int size)
 {
-    if (n < 0 || k < 0)
-        return -1;
-    double numerator = 1.0;
-    double denominator = factorial(n - k);
-    if (denominator == -1)
-        return -1;
+    if (!array)
+        return;
+    printf("[ ");
+    for (int i = 0; i < size; i++) {
+        if (i == size - 1)
+            printf("%d ", array[i]);
+        else 
+            printf("%d, ", array[i]);
+    }
+    printf("]\n");
+}
+
+int factorial(int n)
+{
+    if (n == 0)
+        return 1;
+    if (n > 0) {
+        int result = 1;
+        for (int i = 2; i <= n; i++)
+            result *= i;
+        return result;
+    }
+    else
+        return -3;
+}
+
+int combination(int n, int k)
+{
+    if (n < 0 || k <= 0)
+        return -5;
+    if (k > n)
+        return -5;
+    int numerator = 1;
+    int denominator = factorial(n - k);
+    if (denominator == -3)
+        return -3;
     for (int i = k + 1; i <= n; i++)
         numerator *= i;
     
     return (numerator / denominator);
 }
 
-int count_of_units(int number)
+int count_of_units(int number , int l)
 {
     int count = 0;
     for (; number; number >>= 1)
         count += number & 1;
-    return count;
+    return count == l;
 }
 
 int count_of_consecutive_units(int number, int l)
 {
     int count = 0;
     for (; number; number >>= 1) {
-        if ((number & 1) == 1)
-            count++;
-        else
-            count = 0;
-        if (count == l)
+        count = number & 1 ? count + 1 : 0;
+        if (count == l && ((number >> 1) & 1) == 0)
             return 1;
     }
     return 0;
@@ -45,23 +86,34 @@ int count_of_consecutive_units(int number, int l)
 
 void function_1(int k, int l, int **result, int *length, int *error)
 {
-    if (k < 0 || l < 0 || l > k) {
-        *error = -1;
+    if (k <= 0 || l < 0 || l > k) {
+        *error = -5;
         return;
     }
-    int size = C(k, l);
-    if (size == -1) {
-        *error = -1;
+
+    if (l == k || l == 0) {
+        (*result) = (int*)malloc(sizeof(int) * ++(*length));
+        if (!(*result)) {
+            *error = -4;
+            return;
+        }
+        (l == k) ? ((*result)[(*length) - 1] = (1 << k) - 1) : ((*result)[(*length) - 1] = 0);
+        return;
+    }
+
+    int size = combination(k, l);
+    if (size < 0) {
+        *error = size;
         return;
     }
     (*result) = (int*)malloc(sizeof(int) * size);
     if (!(*result)) {
-        *error = -2;
+        *error = -4;
         return;
     }
-    int count = 0;
-    for (int number = 0; number < (1 << k); number++) {
-        if (count_of_units(number) == l) {
+    int border = 1 << k;
+    for (int number = 0; number < border; number++) {
+        if (count_of_units(number, l)) {
             (*result)[(*length)++] = number;
         }
     }
@@ -69,32 +121,40 @@ void function_1(int k, int l, int **result, int *length, int *error)
 
 void function_2(int k, int l, int **result, int *length, int *error)
 {
-    if (k < 0 || l < 0 || l > k) {
-        *error = -1;
+    if (k <= 0 || l < 0 || l > k) {
+        *error = -5;
         return;
     }
-    if (l == 0) {
-        *result = (int*)malloc(sizeof(int) * ++(*length));
+
+    int size = 1;
+
+    *result = (int*)malloc(sizeof(int) * size);
         if (!(*result)) {
-            *error = -2;
+            *error = -4;
             return;
         }
-        (*result)[(*length) - 1] = 0;
+
+    if (l == 0) {
+        (*result)[++(*length)] = 0;
         return;
     }
-    int *tmp = NULL;
-    for (int number = 0; number < (1 << k); number++) {
-        if (count_of_consecutive_units(number, l)) {
 
-            if (!(tmp = (int*)realloc(*result, sizeof(int) * ++(*length)))) {
-                *error = -2;
-                if (*result);
+    int *tmp = NULL;
+    int border = 1 << k;
+
+    for (int number = 0; number < border; number++) {
+        if (count_of_consecutive_units(number, l)) {
+            if (*length >= size) {
+                size *= 2; 
+                if (!(tmp = (int*)realloc(*result, sizeof(int) * size))) {
+                    *error = -4;
                     free(*result);
-                *result = NULL;
-                return;
+                    *result = NULL;
+                    return;
+                }
+                *result = tmp;
             }
-            *result = tmp;
-            (*result)[(*length) - 1] = number;
+            (*result)[(*length)++] = number;
         }
     }
 }
@@ -109,11 +169,34 @@ int main(int argc, char *argv[])
     int k = 0, l = 0;
 
     printf("Enter k bit: ");
-    scanf("%d", &k);
-    printf("Enter l: ");
-    scanf("%d", &l);
+    if (scanf("%d", &k) == 1 && k > 0) {
+        printf("Enter l: ");
+        if (scanf("%d", &l) == 1 && l >= 0) {
+            if (l <= k) {
+                function_1(k, l, &result_f1, &length_f1, &error);
+                function_2(k, l, &result_f2, &length_f2, &error);
+                if (error == 0) {
+                    printf("%d-bit numbers with exactly %d units in binary notation: ", k, l);
+                    print_array(result_f1, length_f1);
+                    printf("%d-bit numbers, in the binary notation of which there are exactly %d consecutive units: ", k, l);
+                    print_array(result_f2, length_f2);
+                }
+                else print_error(error);
+            }
+            else print_error(-2);
+        }
+        else print_error(-1);
+    }
+    else print_error(-1);
 
-    function_1(k, l, &result_f1, &length_f1, &error);
-    function_
+    if (result_f1) {
+        free(result_f1);
+        result_f1 = NULL;
+    }
+    if (result_f2) {
+        free(result_f2);
+        result_f2 = NULL;
+    }
+
     return 0;
 }
