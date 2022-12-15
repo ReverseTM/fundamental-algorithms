@@ -134,8 +134,8 @@ void function_2(int k, int l, int **result, int *length, int *error)
             return;
         }
 
-    if (l == 0) {
-        (*result)[++(*length)] = 0;
+    if (l == k || l == 0) {
+        (l == k) ? ((*result)[(*length)++] = (1 << k) - 1) : ((*result)[(*length)++] = 0);
         return;
     }
 
@@ -169,7 +169,7 @@ int main(int argc, char *argv[])
     int k = 0, l = 0;
 
     printf("Enter k bit: ");
-    if (scanf("%d", &k) == 1 && k > 0) {
+    if (scanf("%d", &k) == 1 && (k > 0 && k < 32)) {
         printf("Enter l: ");
         if (scanf("%d", &l) == 1 && l >= 0) {
             if (l <= k) {

@@ -49,11 +49,6 @@ void freeMatrix(double **matrix, int n)
 
 int generateMatrix(double ***matrix, int *n, int *m)
 {
-    //printf("row\n");
-    //scanf("%d", n);
-    //printf("col\n");
-    //scanf("%d", m);
-
     *n = 1 + rand() % 10;
     *m = 1 + rand() % 10;
 
