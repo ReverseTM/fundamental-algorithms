@@ -156,6 +156,41 @@ ptr_string getStringFromFile(FILE *file)
         return NULL;
 }
 
+/*
+char **strSplit(char* string, const char* delim, int *size)
+{
+    if (!string || !delim)
+        return NULL;
+    
+    for (int i = 0; string[i] != '\0'; i++) {
+        if (string[i] == *delim && (string[i + 1] && string[i + 1] != *delim))
+            (*size)++;
+    }
+
+    char **result = (char**)malloc(sizeof(char*) * ++(*size));
+    if (!result)
+        return NULL;
+    int cur_pos = 0;
+    for (char *str = strToken(string, delim); str && cur_pos < (*size); str = strToken(NULL, delim)) {
+        printf("%d\n", strlen(str));
+        result[cur_pos] = (char*)malloc(sizeof(char) * (strlen(str) + 1));
+        if (!result[cur_pos]) {
+            for (int i = 0; i < *size; i++) {
+                if (result[i]) {
+                    free(result[i]);
+                    result[i] = NULL;
+                }
+            }
+            free(result);
+            result = NULL;
+            return NULL;
+        }
+        strcpy(result[cur_pos++], str);
+    }
+    return result;
+}
+*/
+
 string_array strSplit(ptr_string string, const char* delim, int *size)
 {
     if (!string || !delim)

@@ -10,7 +10,7 @@ int main()
     fclose(file);
 
     int size = 0;
-    string_array array = strSplit(string, "", &size);
+    string_array array = strSplit(string, " ", &size);
     printf("[");
     for (int i = 0; i < size; i++) {
         if (i == size - 1)
