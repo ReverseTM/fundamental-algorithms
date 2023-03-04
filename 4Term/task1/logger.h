@@ -17,7 +17,7 @@ public:
         critical
     };
 
-    virtual logger const *log(const std::string&, severity) const = 0;
+    virtual logger const *log(const std::string &target, severity level) const = 0;
 
     virtual ~logger() {};
 };

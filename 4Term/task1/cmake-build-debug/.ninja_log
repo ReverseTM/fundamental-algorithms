@@ -1,0 +1,6 @@
+# ninja log v5
+0	297	1677965696903460441	CMakeFiles/task1.dir/main.cpp.o	dd4fbd597bafa1e4
+1	346	1677965696951460955	CMakeFiles/task1.dir/builder_implementation.cpp.o	c2b76ddd3c3cefd2
+1	489	1677965697095462498	CMakeFiles/task1.dir/logger_implementation.cpp.o	47d3005aed343845
+489	552	1677965697155463141	task1	1926973f448a8f83
+0	68	1677965918625838178	task1	1926973f448a8f83

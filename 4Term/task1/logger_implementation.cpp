@@ -2,7 +2,7 @@
 #include <fstream>
 #include "logger_implementation.h"
 
-std::map<std::string, std::pair<std::ofstream *, size_t> > logger_implementation::_all_streams =
+std::map<std::string, std::pair<std::ofstream *, size_t>> logger_implementation::_all_streams =
     std::map<std::string, std::pair<std::ofstream *, size_t>>();
 
 logger_implementation::logger_implementation(std::map<std::string, logger::severity> const &targets)
@@ -12,7 +12,7 @@ logger_implementation::logger_implementation(std::map<std::string, logger::sever
         std::ofstream *stream = nullptr;
         auto current_stream = _all_streams.find(target);
 
-        if (current_stream == _all_streams.end()) // такой поток не найден
+        if (current_stream == _all_streams.end())
         {
             if (target != "console")
             {
@@ -24,7 +24,7 @@ logger_implementation::logger_implementation(std::map<std::string, logger::sever
         }
         else
         {
-            stream = current_stream->second.first; //присваеваем поток, который нашли
+            stream = current_stream->second.first;
             current_stream->second.second++;
         }
 
