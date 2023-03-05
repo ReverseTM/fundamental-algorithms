@@ -1,4 +1,3 @@
-#include <iostream>
 #include "builder_implementation.h"
 #include "logger_implementation.h"
 

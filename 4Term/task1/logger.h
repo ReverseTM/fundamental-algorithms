@@ -2,7 +2,6 @@
 #define LOGGER_H
 #include <iostream>
 #include <map>
-#include <ctime>
 
 class logger
 {
@@ -17,10 +16,9 @@ public:
         critical
     };
 
-    virtual logger const *log(const std::string &target, severity level) const = 0;
+    virtual logger const *log(const std::string &message, severity level) const = 0;
 
     virtual ~logger() {};
 };
-
 
 #endif // LOGGER_H

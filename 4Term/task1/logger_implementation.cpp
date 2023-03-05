@@ -1,9 +1,18 @@
 #include <iostream>
-#include <fstream>
+#include <ctime>
 #include "logger_implementation.h"
 
 std::map<std::string, std::pair<std::ofstream *, size_t>> logger_implementation::_all_streams =
-    std::map<std::string, std::pair<std::ofstream *, size_t>>();
+        std::map<std::string, std::pair<std::ofstream *, size_t>>();
+
+std::map<logger::severity, std::string> logger_implementation::_str_severity = {
+        {logger::severity::trace, "trace"},
+        {logger::severity::debug, "debug"},
+        {logger::severity::information, "information"},
+        {logger::severity::warning, "warning"},
+        {logger::severity::error, "error"},
+        {logger::severity::critical, "critical"},
+};
 
 logger_implementation::logger_implementation(std::map<std::string, logger::severity> const &targets)
 {
@@ -52,7 +61,7 @@ logger_implementation::~logger_implementation()
     }
 }
 
-logger const *logger_implementation::log(const std::string & to_log, logger::severity severity_level) const
+logger const *logger_implementation::log(const std::string &message, logger::severity severity_level) const
 {
     for (auto & [target, stream_info] : _logger_streams)
     {
@@ -62,13 +71,19 @@ logger const *logger_implementation::log(const std::string & to_log, logger::sev
         }
         else
         {
+            time_t t = time(nullptr);
+            tm *now = localtime(&t);
+
+            char current_time[64];
+            strftime(current_time, sizeof(current_time), "%d/%m/%Y %X", now);
+
             if (stream_info.first == nullptr)
             {
-                std::cout << "[TODO: severity]" << "[TODO: datetime] " << to_log << std::endl;
+                std::cout << "[" << current_time << "]" << "[" << logger_implementation::_str_severity[severity_level] << "] " << message << std::endl;
             }
             else
             {
-                (*stream_info.first) << "[TODO: severity]" << "[TODO: datetime] " << to_log << std::endl;
+                (*(stream_info.first)) << "[" << current_time << "]" << "[" << logger_implementation::_str_severity[severity_level] << "] " << message << std::endl;
             }
         }
     }

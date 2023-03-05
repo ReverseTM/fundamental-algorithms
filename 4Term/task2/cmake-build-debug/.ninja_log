@@ -1,0 +1,18 @@
+# ninja log v5
+3	365	6997556119149612	CMakeFiles/task2.dir/main.cpp.obj	cc3616ba9cd9b13a
+10	411	6997555955367790	CMakeFiles/task2.dir/memory_implementation.cpp.obj	b026adf3171f9816
+722	890	6997554694955578	task2.exe	183fbe7ee388f36d
+8	395	6997560098905163	CMakeFiles/task2.dir/memory_implementation.cpp.obj	b026adf3171f9816
+3	396	6997560098899410	CMakeFiles/task2.dir/main.cpp.obj	cc3616ba9cd9b13a
+3	382	6997562574496035	CMakeFiles/task2.dir/memory_implementation.cpp.obj	b026adf3171f9816
+9	359	6997562927229074	CMakeFiles/task2.dir/memory_implementation.cpp.obj	b026adf3171f9816
+5	362	6997562927260480	CMakeFiles/task2.dir/main.cpp.obj	cc3616ba9cd9b13a
+5	412	6997569443345958	CMakeFiles/task2.dir/main.cpp.obj	cc3616ba9cd9b13a
+412	534	6997569444535721	task2.exe	183fbe7ee388f36d
+6	552	6997570703807703	CMakeFiles/task2.dir/main.cpp.obj	cc3616ba9cd9b13a
+10	446	6997578832578936	CMakeFiles/task2.dir/main.cpp.obj	cc3616ba9cd9b13a
+4	448	6997578832586765	CMakeFiles/task2.dir/memory_implementation.cpp.obj	b026adf3171f9816
+448	580	6997578833895659	task2.exe	183fbe7ee388f36d
+6	551	6997584914162839	CMakeFiles/task2.dir/main.cpp.obj	cc3616ba9cd9b13a
+11	552	6997584914207409	CMakeFiles/task2.dir/memory_implementation.cpp.obj	b026adf3171f9816
+553	687	6997584915567583	task2.exe	183fbe7ee388f36d
