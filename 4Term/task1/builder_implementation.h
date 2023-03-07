@@ -2,15 +2,15 @@
 #define BUILDER_IMPLEMENTATION
 #include "builder.h"
 
-class builder_implementation final : public builder
+class Builder_implementation final : public Builder
 {
 private:
-    std::map<std::string, logger::severity> _settings;
+    std::map<std::string, Logger::severity> _settings;
 
 public:
-    builder* add_stream(std::string const &target, logger::severity level) override;
+    Builder* add_stream(std::string const &target, Logger::severity level) override;
 
-    logger* build() const override;
+    Logger* build() const override;
 };
 
 #endif //BUILDER_IMPLEMENTATION

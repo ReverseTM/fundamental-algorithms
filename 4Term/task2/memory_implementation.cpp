@@ -1,12 +1,13 @@
 #include "memory_implementation.h"
 
-
-void *memory_implementation::allocate(size_t target_size) const
+void *Memory_implementation::allocate(const Logger &logger, size_t target_size) const
 {
-    return static_cast<void*>(new unsigned char[target_size]);
+    logger.log("Memory allocated", Logger::severity::trace);
+    return reinterpret_cast<void*>(new unsigned char[target_size]);
 }
 
-void memory_implementation::deallocate(void const *target_to_dealloc) const
+void Memory_implementation::deallocate(const Logger &logger, void const *target_to_dealloc) const
 {
-    delete target_to_dealloc;
+    logger.log("Memory deallocate", Logger::severity::trace);
+    delete[] target_to_dealloc;
 }

@@ -3,14 +3,14 @@
 #include <iostream>
 #include "logger.h"
 
-class builder
+class Builder
 {
 public:
-    virtual builder* add_stream(std::string const &target, logger::severity level) = 0;
+    virtual Builder* add_stream(std::string const &target, Logger::severity level) = 0;
 
-    virtual logger* build() const = 0;
+    virtual Logger* build() const = 0;
 
-    virtual ~builder() {};
+    virtual ~Builder() = default;
 };
 
 #endif //BUILDER_H

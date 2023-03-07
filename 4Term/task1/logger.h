@@ -3,7 +3,7 @@
 #include <iostream>
 #include <map>
 
-class logger
+class Logger
 {
 public:
     enum class severity
@@ -16,9 +16,9 @@ public:
         critical
     };
 
-    virtual logger const *log(const std::string &message, severity level) const = 0;
+    virtual Logger const *log(const std::string &message, severity level) const = 0;
 
-    virtual ~logger() {};
+    virtual ~Logger() = default;
 };
 
 #endif // LOGGER_H

@@ -3,12 +3,12 @@
 #include "forJson/single_include/nlohmann/json.hpp"
 #include "logger.h"
 
-class json
+class Json
 {
 public:
-    virtual logger* create() const = 0;
+    virtual Logger* create() const = 0;
 
-    virtual ~json() {};
+    virtual ~Json() = default;
 };
 
 #endif //JSON_H

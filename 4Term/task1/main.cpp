@@ -4,22 +4,22 @@
 
 int main()
 {
-    builder *logger_builder = new builder_implementation();
+    Builder *logger_builder = new Builder_implementation();
 
-    logger *logger1 = logger_builder
-            ->add_stream("file1.txt", logger::severity::information)
-            ->add_stream("file2.txt", logger::severity::warning)
+    Logger *logger1 = logger_builder
+            ->add_stream("file1.txt", Logger::severity::information)
+            ->add_stream("file2.txt", Logger::severity::warning)
             ->build();
 
 
-    json *logger_json = new json_implementation("../config.json");
+    Json *logger_json = new Json_implementation("../config.json");
 
-    logger *logger2 = logger_json->create();
+    Logger *logger2 = logger_json->create();
 
-    logger1->log("Hello", logger::severity::trace);
-    logger1->log("everyone", logger::severity::warning);
-    logger2->log("hey", logger::severity::trace);
-    logger2->log("123", logger::severity::information);
+    logger1->log("Hello", Logger::severity::trace);
+    logger1->log("everyone", Logger::severity::warning);
+    logger2->log("hey", Logger::severity::trace);
+    logger2->log("123", Logger::severity::information);
 
     delete logger1;
     delete logger2;

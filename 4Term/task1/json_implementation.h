@@ -4,15 +4,15 @@
 #include "logger_implementation.h"
 #include "json.h"
 
-class json_implementation final : public json
+class Json_implementation final : public Json
 {
 private:
-    std::map<std::string, logger::severity> _configuration;
+    std::map<std::string, Logger::severity> _configuration;
 
 public:
-    json_implementation(const std::string &path);
+    Json_implementation(const std::string &path);
 
-    logger* create() const override;
+    Logger* create() const override;
 };
 
 #endif //JSON_IMPLEMENTATION_H

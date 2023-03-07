@@ -24,3 +24,8 @@
 19	3629	6997557078324290	CMakeFiles/task1.dir/builder_implementation.cpp.obj	6c0849a8ad1d81c1
 10	3976	6997557081797097	CMakeFiles/task1.dir/logger_implementation.cpp.obj	7b7b6f3aa74818eb
 3976	5178	6997557093798007	task1.exe	7f332db9f322163c
+8	4397	6999212592684951	CMakeFiles/task1.dir/main.cpp.obj	b2bd87c93d21235f
+20	4583	6999212594593775	CMakeFiles/task1.dir/builder_implementation.cpp.obj	6c0849a8ad1d81c1
+3	5059	6999212599366145	CMakeFiles/task1.dir/logger_implementation.cpp.obj	7b7b6f3aa74818eb
+14	6538	6999212614136596	CMakeFiles/task1.dir/json_implementation.cpp.obj	69c1d406f0c49927
+6538	7552	6999212624262598	task1.exe	7f332db9f322163c

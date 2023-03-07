@@ -1,6 +1,6 @@
 #include "json_implementation.h"
 
-json_implementation::json_implementation(const std::string &path)
+Json_implementation::Json_implementation(const std::string &path)
 {
     nlohmann::json obj_json;
     std::fstream json_file;
@@ -15,7 +15,7 @@ json_implementation::json_implementation(const std::string &path)
     }
 }
 
-logger* json_implementation::create() const
+Logger* Json_implementation::create() const
 {
-    return new logger_implementation(_configuration);
+    return new Logger_implementation(_configuration);
 }

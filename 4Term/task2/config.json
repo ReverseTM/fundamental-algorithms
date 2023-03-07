@@ -1,0 +1,9 @@
+{
+  "configs":
+  [
+    {
+      "target": "console",
+      "severity": 0
+    }
+  ]
+}

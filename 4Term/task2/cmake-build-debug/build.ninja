@@ -61,6 +61,18 @@ build CMakeFiles/task2.dir/memory_implementation.cpp.obj: CXX_COMPILER__task2_De
   OBJECT_DIR = CMakeFiles\task2.dir
   OBJECT_FILE_DIR = CMakeFiles\task2.dir
 
+build CMakeFiles/task2.dir/C_/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/task1/logger_implementation.cpp.obj: CXX_COMPILER__task2_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/task1/logger_implementation.cpp || cmake_object_order_depends_target_task2
+  DEP_FILE = CMakeFiles\task2.dir\C_\Users\Steam\Desktop\ClionProjects\fundamental-algorithms\4Term\task1\logger_implementation.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\task2.dir
+  OBJECT_FILE_DIR = CMakeFiles\task2.dir\C_\Users\Steam\Desktop\ClionProjects\fundamental-algorithms\4Term\task1
+
+build CMakeFiles/task2.dir/C_/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/task1/json_implementation.cpp.obj: CXX_COMPILER__task2_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/task1/json_implementation.cpp || cmake_object_order_depends_target_task2
+  DEP_FILE = CMakeFiles\task2.dir\C_\Users\Steam\Desktop\ClionProjects\fundamental-algorithms\4Term\task1\json_implementation.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\task2.dir
+  OBJECT_FILE_DIR = CMakeFiles\task2.dir\C_\Users\Steam\Desktop\ClionProjects\fundamental-algorithms\4Term\task1
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target task2
@@ -69,7 +81,7 @@ build CMakeFiles/task2.dir/memory_implementation.cpp.obj: CXX_COMPILER__task2_De
 #############################################
 # Link the executable task2.exe
 
-build task2.exe: CXX_EXECUTABLE_LINKER__task2_Debug CMakeFiles/task2.dir/main.cpp.obj CMakeFiles/task2.dir/memory_implementation.cpp.obj
+build task2.exe: CXX_EXECUTABLE_LINKER__task2_Debug CMakeFiles/task2.dir/main.cpp.obj CMakeFiles/task2.dir/memory_implementation.cpp.obj CMakeFiles/task2.dir/C_/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/task1/logger_implementation.cpp.obj CMakeFiles/task2.dir/C_/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/task1/json_implementation.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\task2.dir

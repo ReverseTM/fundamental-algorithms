@@ -2,19 +2,19 @@
 #include <ctime>
 #include "logger_implementation.h"
 
-std::map<std::string, std::pair<std::ofstream *, size_t>> logger_implementation::_all_streams =
+std::map<std::string, std::pair<std::ofstream *, size_t>> Logger_implementation::_all_streams =
         std::map<std::string, std::pair<std::ofstream *, size_t>>();
 
-std::map<logger::severity, std::string> logger_implementation::_str_severity = {
-        {logger::severity::trace, "trace"},
-        {logger::severity::debug, "debug"},
-        {logger::severity::information, "information"},
-        {logger::severity::warning, "warning"},
-        {logger::severity::error, "error"},
-        {logger::severity::critical, "critical"},
+std::map<Logger::severity, std::string> Logger_implementation::_str_severity = {
+        {Logger::severity::trace, "trace"},
+        {Logger::severity::debug, "debug"},
+        {Logger::severity::information, "information"},
+        {Logger::severity::warning, "warning"},
+        {Logger::severity::error, "error"},
+        {Logger::severity::critical, "critical"},
 };
 
-logger_implementation::logger_implementation(std::map<std::string, logger::severity> const &targets)
+Logger_implementation::Logger_implementation(std::map<std::string, Logger::severity> const &targets)
 {
     for (auto & [target, severity_level] : targets)
     {
@@ -41,7 +41,7 @@ logger_implementation::logger_implementation(std::map<std::string, logger::sever
     }
 }
 
-logger_implementation::~logger_implementation()
+Logger_implementation::~Logger_implementation()
 {
     for (auto & [target, stream_info] : _logger_streams)
     {
@@ -61,7 +61,7 @@ logger_implementation::~logger_implementation()
     }
 }
 
-logger const *logger_implementation::log(const std::string &message, logger::severity severity_level) const
+Logger const *Logger_implementation::log(const std::string &message, Logger::severity severity_level) const
 {
     for (auto & [target, stream_info] : _logger_streams)
     {
@@ -79,11 +79,11 @@ logger const *logger_implementation::log(const std::string &message, logger::sev
 
             if (stream_info.first == nullptr)
             {
-                std::cout << "[" << current_time << "]" << "[" << logger_implementation::_str_severity[severity_level] << "] " << message << std::endl;
+                std::cout << "[" << current_time << "]" << "[" << Logger_implementation::_str_severity[severity_level] << "] " << message << std::endl;
             }
             else
             {
-                (*(stream_info.first)) << "[" << current_time << "]" << "[" << logger_implementation::_str_severity[severity_level] << "] " << message << std::endl;
+                (*(stream_info.first)) << "[" << current_time << "]" << "[" << Logger_implementation::_str_severity[severity_level] << "] " << message << std::endl;
             }
         }
     }
