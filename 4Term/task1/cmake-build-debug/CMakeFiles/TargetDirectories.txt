@@ -1,3 +1,0 @@
-C:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/task1/cmake-build-debug/CMakeFiles/task1.dir
-C:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/task1/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/task1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
