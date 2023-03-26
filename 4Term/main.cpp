@@ -12,18 +12,20 @@ int main() {
             ->build();
 
     memory *allocator1 = new global_heap_allocator(logger);
-    memory *allocator2 = new sorted_list_memory(100, memory::allocation_mode::first_match, logger, allocator1);
+    memory *allocator2 = new sorted_list_memory(150, memory::allocation_mode::first_match, logger, allocator1);
 
     int *number = reinterpret_cast<int*>(allocator2->allocate(sizeof(int)));
     *number = 5;
+
     int *number2 = reinterpret_cast<int*>(allocator2->allocate(sizeof(int)));
     *number2 = 10;
-    std::cout << *number << " " << *number2 << std::endl;
-    void *ptr = allocator2->allocate(0);
 
-    allocator2->deallocate(number);
-    allocator2->deallocate(number2);
-    allocator2->deallocate(ptr);
+    int *number3 = reinterpret_cast<int*>(allocator2->allocate(sizeof(int)));
+    *number3 = 15;
+
+    allocator2->deallocate(reinterpret_cast<void*>(number));
+    allocator2->deallocate(reinterpret_cast<void*>(number2));
+    allocator2->deallocate(reinterpret_cast<void*>(number3));
 
     delete allocator2;
     delete allocator1;

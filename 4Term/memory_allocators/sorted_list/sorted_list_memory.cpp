@@ -234,7 +234,7 @@ void * const  sorted_list_memory::allocate(size_t request_size) const
 
 void sorted_list_memory::deallocate(void * const target_to_dealloc) const
 {
-    memory_state_before_deallocation(target_to_dealloc);
+    sorted_list_memory::memory_state_before_deallocation(target_to_dealloc);
 
     std::string address = address_to_string(target_to_dealloc);
 

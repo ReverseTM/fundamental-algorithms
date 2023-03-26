@@ -46,7 +46,7 @@ void global_heap_allocator::deallocate(void *const target_to_dealloc) const
 {
     auto * block_of_memory = reinterpret_cast<void*>(reinterpret_cast<size_t*>(const_cast<void*>(target_to_dealloc)) - 1);
 
-    memory_state_before_deallocation(target_to_dealloc);
+    global_heap_allocator::memory_state_before_deallocation(block_of_memory);
 
     std::string address = address_to_string(block_of_memory);
 
