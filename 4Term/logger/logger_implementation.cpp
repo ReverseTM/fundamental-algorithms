@@ -76,7 +76,6 @@ logger_implementation::~logger_implementation()
                 current_stream->second.first->close();
                 delete current_stream->second.first;
             }
-
             _all_streams.erase(current_stream);
         }
     }

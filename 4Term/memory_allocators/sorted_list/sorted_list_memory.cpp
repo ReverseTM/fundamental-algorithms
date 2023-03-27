@@ -74,7 +74,7 @@ void sorted_list_memory::memory_state_before_deallocation(void * const block_of_
         return;
     }
 
-    auto const block_size = get_occupied_block_size(block_of_memory);
+    auto block_size = get_occupied_block_size(block_of_memory);
     auto * iter = reinterpret_cast<unsigned char*>(block_of_memory);
 
     std::string bytes;
@@ -190,7 +190,7 @@ void * const  sorted_list_memory::allocate(size_t request_size) const
 
     if (target_block_size - request_size - occupied_block_service_block_size <= available_block_service_block_size)
     {
-        auto new_request_size = target_block_size - occupied_block_service_block_size - available_block_service_block_size;
+        auto new_request_size = target_block_size - occupied_block_service_block_size;
 
         this->log_with_guard("Requested was " + std::to_string(request_size) + " bytes, but for correct operation " + std::to_string(new_request_size) + " were allocated", fund_alg::logger::severity::trace);
 
@@ -229,6 +229,8 @@ void * const  sorted_list_memory::allocate(size_t request_size) const
 
     this->log_with_guard("[SORTED LIST]Memory allocation at address: " + address_to_string(target_block_size_space + 1) + " success!", fund_alg::logger::severity::trace);
 
+    //std::cout << get_occupied_block_size(target_block_size_space + 1);
+
     return reinterpret_cast<void*>(target_block_size_space + 1);
 }
 
@@ -252,13 +254,15 @@ void sorted_list_memory::deallocate(void * const target_to_dealloc) const
         next_to_target_block = get_next_available_block(next_to_target_block);
     }
 
+    //TODO ПРОВЕРИТЬ ЧТО ОСВОБОЖДАЕМЫЙ БЛОК БЫЛ ВЫДЕЛЕН
+
     auto target_block_size = get_available_block_size(target_block);
     auto * const next_available_block_to_target_block = reinterpret_cast<void**>(reinterpret_cast<size_t*>(target_block) + 1);
 
     if (next_to_target_block != nullptr &&
     reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(target_block) + occupied_block_service_block_size + target_block_size) == next_to_target_block)
     {
-        target_block_size += get_available_block_size(next_to_target_block);
+        target_block_size = target_block_size + get_available_block_size(next_to_target_block) - occupied_block_service_block_size;
         *next_available_block_to_target_block = get_next_available_block(next_to_target_block);
     }
     else
@@ -271,9 +275,9 @@ void sorted_list_memory::deallocate(void * const target_to_dealloc) const
     get_available_block_size(previous_to_target_block)) == target_block)
     {
         auto * const previous_to_target_block_size_space = reinterpret_cast<size_t*>(previous_to_target_block);
-        *previous_to_target_block_size_space = get_available_block_size(previous_to_target_block) + target_block_size;
+        *previous_to_target_block_size_space += target_block_size + available_block_service_block_size;
 
-        *reinterpret_cast<void**>(reinterpret_cast<size_t*>(previous_to_target_block) + 1) = next_available_block_to_target_block;
+        *reinterpret_cast<void**>(reinterpret_cast<size_t*>(previous_to_target_block) + 1) = *next_available_block_to_target_block;
     }
     else
     {

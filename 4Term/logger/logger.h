@@ -16,7 +16,7 @@ public:
         critical
     };
 
-    virtual fund_alg::logger const *log(const std::string &message, severity level) const = 0;
+    virtual fund_alg::logger const * log(const std::string &message, severity level) const = 0;
 
     virtual ~logger() = default;
 };
