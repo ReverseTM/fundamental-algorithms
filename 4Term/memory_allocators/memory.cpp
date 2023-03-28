@@ -10,7 +10,7 @@ const char *memory::memory_exception::what() const noexcept
     return _msg.c_str();
 }
 
-std::string memory::address_to_string(const void* const address)
+std::string memory::address_to_string(const void * const address)
 {
     return std::string { (std::stringstream () << address).str() };
 }

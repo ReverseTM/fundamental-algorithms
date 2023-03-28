@@ -79,17 +79,17 @@ build CMakeFiles/project.dir/memory_allocators/memory.cpp.obj: CXX_COMPILER__pro
   OBJECT_DIR = CMakeFiles\project.dir
   OBJECT_FILE_DIR = CMakeFiles\project.dir\memory_allocators
 
-build CMakeFiles/project.dir/memory_allocators/global_heap/global_heap_memory.cpp.obj: CXX_COMPILER__project_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/memory_allocators/global_heap/global_heap_memory.cpp || cmake_object_order_depends_target_project
-  DEP_FILE = CMakeFiles\project.dir\memory_allocators\global_heap\global_heap_memory.cpp.obj.d
+build CMakeFiles/project.dir/memory_allocators/global_heap_allocator.cpp.obj: CXX_COMPILER__project_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/memory_allocators/global_heap_allocator.cpp || cmake_object_order_depends_target_project
+  DEP_FILE = CMakeFiles\project.dir\memory_allocators\global_heap_allocator.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\project.dir
-  OBJECT_FILE_DIR = CMakeFiles\project.dir\memory_allocators\global_heap
+  OBJECT_FILE_DIR = CMakeFiles\project.dir\memory_allocators
 
-build CMakeFiles/project.dir/memory_allocators/sorted_list/sorted_list_memory.cpp.obj: CXX_COMPILER__project_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/memory_allocators/sorted_list/sorted_list_memory.cpp || cmake_object_order_depends_target_project
-  DEP_FILE = CMakeFiles\project.dir\memory_allocators\sorted_list\sorted_list_memory.cpp.obj.d
+build CMakeFiles/project.dir/memory_allocators/sorted_list_allocator.cpp.obj: CXX_COMPILER__project_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/memory_allocators/sorted_list_allocator.cpp || cmake_object_order_depends_target_project
+  DEP_FILE = CMakeFiles\project.dir\memory_allocators\sorted_list_allocator.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\project.dir
-  OBJECT_FILE_DIR = CMakeFiles\project.dir\memory_allocators\sorted_list
+  OBJECT_FILE_DIR = CMakeFiles\project.dir\memory_allocators
 
 
 # =============================================================================
@@ -99,7 +99,7 @@ build CMakeFiles/project.dir/memory_allocators/sorted_list/sorted_list_memory.cp
 #############################################
 # Link the executable project.exe
 
-build project.exe: CXX_EXECUTABLE_LINKER__project_Debug CMakeFiles/project.dir/main.cpp.obj CMakeFiles/project.dir/logger/builder_implementation.cpp.obj CMakeFiles/project.dir/logger/logger_implementation.cpp.obj CMakeFiles/project.dir/logger/json_implementation.cpp.obj CMakeFiles/project.dir/memory_allocators/memory.cpp.obj CMakeFiles/project.dir/memory_allocators/global_heap/global_heap_memory.cpp.obj CMakeFiles/project.dir/memory_allocators/sorted_list/sorted_list_memory.cpp.obj
+build project.exe: CXX_EXECUTABLE_LINKER__project_Debug CMakeFiles/project.dir/main.cpp.obj CMakeFiles/project.dir/logger/builder_implementation.cpp.obj CMakeFiles/project.dir/logger/logger_implementation.cpp.obj CMakeFiles/project.dir/logger/json_implementation.cpp.obj CMakeFiles/project.dir/memory_allocators/memory.cpp.obj CMakeFiles/project.dir/memory_allocators/global_heap_allocator.cpp.obj CMakeFiles/project.dir/memory_allocators/sorted_list_allocator.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\project.dir
