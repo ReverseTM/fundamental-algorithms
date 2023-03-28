@@ -1,24 +1,14 @@
-[TRACE][28/03/2023 18:08:18] [GLOBAL HEAP ALLOCATOR] Memory allocated success at address: 0x1e153456698 success.
-[TRACE][28/03/2023 18:08:18] [SORTED LIST ALLOCATOR] Allocator successfully created.
-[TRACE][28/03/2023 18:08:18] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x1e1534566c4 success.
-[TRACE][28/03/2023 18:08:18] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x1e1534566fe success.
-[TRACE][28/03/2023 18:08:18] [SORTED LIST ALLOCATOR] Memory state at address: 0x1e1534566c4 = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-[TRACE][28/03/2023 18:08:18] [SORTED LIST ALLOCATOR] Memory at address: 0x1e1534566c4 was deallocated.
-[TRACE][28/03/2023 18:08:18] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x1e1534566c4 success.
-[TRACE][28/03/2023 18:08:18] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x1e1534566e1 success.
-[TRACE][28/03/2023 18:08:18] [SORTED LIST ALLOCATOR] Memory state at address: 0x1e1534566c4 = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-[TRACE][28/03/2023 18:08:18] [SORTED LIST ALLOCATOR] Memory at address: 0x1e1534566c4 was deallocated.
-[TRACE][28/03/2023 18:08:18] [SORTED LIST ALLOCATOR] Memory state at address: 0x1e1534566e1 = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-[TRACE][28/03/2023 18:08:18] [SORTED LIST ALLOCATOR] Memory at address: 0x1e1534566e1 was deallocated.
-[TRACE][28/03/2023 18:08:18] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x1e1534566c4 success.
-[TRACE][28/03/2023 18:08:18] [SORTED LIST ALLOCATOR] Memory state at address: 0x1e1534566fe = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-[TRACE][28/03/2023 18:08:18] [SORTED LIST ALLOCATOR] Memory at address: 0x1e1534566fe was deallocated.
-[TRACE][28/03/2023 18:08:18] [SORTED LIST ALLOCATOR] Memory state at address: 0x1e1534566c4 = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 29 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-[TRACE][28/03/2023 18:08:18] [SORTED LIST ALLOCATOR] Memory at address: 0x1e1534566c4 was deallocated.
-[TRACE][28/03/2023 18:08:18] [SORTED LIST ALLOCATOR] Requested 4 bytes, but will be allocated 8 bytes for further stable operation of the allocator.
-[TRACE][28/03/2023 18:08:18] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x1e1534566c4 success.
-[TRACE][28/03/2023 18:08:18] [SORTED LIST ALLOCATOR] Memory state at address: 0x1e1534566c4 = [210 4 0 0 0 0 0 0]
-[TRACE][28/03/2023 18:08:18] [SORTED LIST ALLOCATOR] Memory at address: 0x1e1534566c4 was deallocated.
-[TRACE][28/03/2023 18:08:18] [SORTED LIST ALLOCATOR] Allocator success deleted.
-[TRACE][28/03/2023 18:08:18] [GLOBAL HEAP ALLOCATOR] Memory state at address: 0x1e153456698 = [152 0 0 0 0 0 0 0 64 29 69 83 225 1 0 0 48 99 69 83 225 1 0 0 0 0 0 0 188 102 69 83 225 1 0 0 116 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 100 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 58 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-[TRACE][28/03/2023 18:08:18] [GLOBAL HEAP ALLOCATOR] Memory at address: 0x1e153456698 was deallocated.
+[TRACE][29/03/2023 02:35:25] [GLOBAL HEAP ALLOCATOR] Memory allocated success at address: 0x1a6c1c16698 success.
+[TRACE][29/03/2023 02:35:25] [SORTED LIST ALLOCATOR] Allocator successfully created.
+[TRACE][29/03/2023 02:35:25] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x8 success.
+[TRACE][29/03/2023 02:35:25] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x2c success.
+[TRACE][29/03/2023 02:35:25] [SORTED LIST ALLOCATOR] Requested 27 bytes, but for correct operation 38 will be allocated.
+[TRACE][29/03/2023 02:35:25] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x4e success.
+[TRACE][29/03/2023 02:35:25] [SORTED LIST ALLOCATOR] Memory state at address: 0x8 = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+[TRACE][29/03/2023 02:35:25] [SORTED LIST ALLOCATOR] Memory at address: 0x1a6c1c166c4 was deallocated.
+[TRACE][29/03/2023 02:35:25] [SORTED LIST ALLOCATOR] Memory state at address: 0x4e = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+[TRACE][29/03/2023 02:35:25] [SORTED LIST ALLOCATOR] Memory at address: 0x1a6c1c1670a was deallocated.
+[TRACE][29/03/2023 02:35:25] [SORTED LIST ALLOCATOR] Memory state at address: 0x2c = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+[TRACE][29/03/2023 02:35:25] [SORTED LIST ALLOCATOR] Memory at address: 0x1a6c1c166e8 was deallocated.
+[TRACE][29/03/2023 02:35:25] [GLOBAL HEAP ALLOCATOR] Memory allocated success at address: 0x1a6c1c16778 success.
+[WARNING][29/03/2023 02:35:25] [SORTED LIST ALLOCATOR] Block with address: 0x1a6c1c16778 does not belong to the allocator.

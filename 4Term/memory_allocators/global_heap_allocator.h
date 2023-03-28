@@ -9,7 +9,7 @@ class global_heap_allocator final : public memory
 {
 private:
 
-    const fund_alg::logger *_log_memory = nullptr;
+    fund_alg::logger *_log_memory = nullptr;
 
 public:
 
@@ -17,12 +17,15 @@ public:
 
     void deallocate(void * target_to_dealloc) const override;
 
-    global_heap_allocator(const fund_alg::logger * const log_memory);
+    global_heap_allocator(fund_alg::logger * const log_memory);
 
-private:
+protected:
 
-    void memory_state_before_deallocation(void * const block_of_memory) const override;
+    size_t get_occupied_block_size_without_service_block(void *current_block) const override;
 
+    void * get_address_relative_to_allocator(void * current_block_address) const override;
+
+    fund_alg::logger const * const get_logger() const override;
 };
 
 

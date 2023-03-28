@@ -1,24 +1,21 @@
 #include "global_heap_allocator.h"
 
-global_heap_allocator::global_heap_allocator(const fund_alg::logger * const log_memory)
+global_heap_allocator::global_heap_allocator(fund_alg::logger * const log_memory)
     : _log_memory(log_memory) {}
 
-void global_heap_allocator::memory_state_before_deallocation(void * const block_of_memory) const
+void * global_heap_allocator::get_address_relative_to_allocator(void * current_block_address) const
 {
-    size_t block_size = *(reinterpret_cast<size_t *>(block_of_memory) - 1);
-    auto *iter = reinterpret_cast<unsigned char*>(block_of_memory);
-    std::string bytes;
+    return current_block_address;
+}
 
-    for(size_t i = 0; i < block_size; i++)
-    {
-        bytes += std::to_string(static_cast<unsigned short>(*iter++));
+fund_alg::logger const * const global_heap_allocator::get_logger() const
+{
+    return _log_memory;
+}
 
-        if (i != block_size - 1)
-        {
-            bytes += ' ';
-        }
-    }
-    _log_memory->log("[GLOBAL HEAP ALLOCATOR] Memory state at address: " + address_to_string(block_of_memory) + " = [" + bytes + "]", fund_alg::logger::severity::trace);
+size_t global_heap_allocator::get_occupied_block_size_without_service_block(void *current_block) const
+{
+    return *(reinterpret_cast<size_t*>(current_block) - 1);
 }
 
 void * const global_heap_allocator::allocate(size_t target_size) const
@@ -31,14 +28,14 @@ void * const global_heap_allocator::allocate(size_t target_size) const
         *block_size = target_size;
 
 
-        _log_memory->log("[GLOBAL HEAP ALLOCATOR] Memory allocated success at address: " + address_to_string(block_size + 1) + " success.", fund_alg::logger::severity::trace);
+        this->trace_with_guard("[GLOBAL HEAP ALLOCATOR] Memory allocated success at address: " + address_to_string(block_size + 1) + " success.");
 
         return reinterpret_cast<void*>(block_size + 1);
     }
     catch (const std::bad_alloc &ex)
     {
         std::string message = "Memory allocated error";
-        _log_memory->log("[GLOBAL HEAP ALLOCATOR] " + message + ".", fund_alg::logger::severity::warning);
+        warning_with_guard("[GLOBAL HEAP ALLOCATOR] " + message + ".");
 
         throw memory_exception("Memory allocated error");
     }
@@ -46,13 +43,13 @@ void * const global_heap_allocator::allocate(size_t target_size) const
 
 void global_heap_allocator::deallocate(void * target_to_dealloc) const
 {
-    memory_state_before_deallocation(target_to_dealloc);
+    memory_state_before_deallocation(target_to_dealloc, get_logger());
 
     auto * target_block = reinterpret_cast<void*>(reinterpret_cast<size_t*>(target_to_dealloc) - 1);
 
     ::operator delete(target_block);
 
-    _log_memory->log("[GLOBAL HEAP ALLOCATOR] Memory at address: " + address_to_string(target_to_dealloc) + " was deallocated.", fund_alg::logger::severity::trace);
+    trace_with_guard("[GLOBAL HEAP ALLOCATOR] Memory at address: " + address_to_string(target_to_dealloc) + " was deallocated.");
 }
 
 void *const operator+=(memory const &allocator, size_t target_size)

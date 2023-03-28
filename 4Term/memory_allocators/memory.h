@@ -2,8 +2,9 @@
 #define MEMORY_H
 #include <iostream>
 #include "../logger/logger.h"
+#include "../logger/logger_holder.h"
 
-class memory {
+class memory : public logger_holder {
 
 public:
 
@@ -57,21 +58,27 @@ protected:
 
     virtual size_t get_occupied_block_size(void *current_block) const;
 
-    virtual memory* get_outer_allocator() const;
+    virtual size_t get_occupied_block_size_without_service_block(void *current_block) const;
 
-    virtual fund_alg::logger* get_logger() const;
+    virtual memory* get_outer_allocator() const;
 
     virtual memory::allocation_mode get_allocation_mode() const;
 
-    virtual void* get_first_available_block() const;
+    virtual void * get_first_available_block() const;
 
     virtual void** get_first_available_block_ptr() const;
 
-    virtual void* get_next_available_block(void *current_block) const;
+    virtual void * get_next_available_block(void *current_block) const;
 
-    virtual void memory_state_before_deallocation(void * const block_of_memory) const;
+    virtual void * get_allocated_memory_for_allocator() const;
+
+    virtual void * get_address_relative_to_allocator(void * current_block_address) const;
+
+protected:
 
     static std::string address_to_string(void const * const address);
+
+    void memory_state_before_deallocation(void * const target_block, fund_alg::logger const * const logger) const;
 
 };
 

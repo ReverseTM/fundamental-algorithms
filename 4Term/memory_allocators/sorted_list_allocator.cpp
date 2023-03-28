@@ -1,17 +1,5 @@
 #include "sorted_list_allocator.h"
 
-sorted_list_allocator const *sorted_list_allocator::log_with_guard(const std::string &message, fund_alg::logger::severity severity_level) const
-{
-    const fund_alg::logger *logger = get_logger();
-
-    if (logger != nullptr)
-    {
-        logger->log(message, severity_level);
-    }
-
-    return this;
-}
-
 size_t sorted_list_allocator::get_available_block_service_block_size() const
 {
     return sizeof(size_t) + sizeof(void*);
@@ -42,9 +30,14 @@ size_t sorted_list_allocator::get_occupied_block_size(void *current_block) const
     return *(reinterpret_cast<size_t*>(current_block) - 1);
 }
 
-fund_alg::logger* sorted_list_allocator::get_logger() const
+size_t sorted_list_allocator::get_occupied_block_size_without_service_block(void *current_block) const
 {
-    return *reinterpret_cast<fund_alg::logger**>(reinterpret_cast<memory**>(reinterpret_cast<size_t *>(_allocated_memory) + 1) + 1);
+    return get_occupied_block_size(current_block) - get_occupied_block_service_block_size();
+}
+
+fund_alg::logger const * const sorted_list_allocator::get_logger() const
+{
+    return *reinterpret_cast<fund_alg::logger**>(reinterpret_cast<unsigned char*>(_allocated_memory) + sizeof(size_t) + sizeof(memory*));
 }
 
 memory* sorted_list_allocator::get_outer_allocator() const
@@ -54,17 +47,17 @@ memory* sorted_list_allocator::get_outer_allocator() const
 
 memory::allocation_mode sorted_list_allocator::get_allocation_mode() const
 {
-    return *reinterpret_cast<memory::allocation_mode*>(reinterpret_cast<fund_alg::logger**>(reinterpret_cast<memory**>(reinterpret_cast<size_t *>(_allocated_memory) + 1) + 1) + 1);
+    return *reinterpret_cast<memory::allocation_mode*>(reinterpret_cast<unsigned char*>(_allocated_memory) + sizeof(size_t) + sizeof(memory*) + sizeof(fund_alg::logger*));
 }
 
 void* sorted_list_allocator::get_first_available_block() const
 {
-    return *reinterpret_cast<void**>(reinterpret_cast<memory::allocation_mode*>(reinterpret_cast<fund_alg::logger**>(reinterpret_cast<memory**>(reinterpret_cast<size_t *>(_allocated_memory) + 1) + 1) + 1) + 1);
+    return *reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(_allocated_memory) + sizeof(size_t) + sizeof(memory*) + sizeof(fund_alg::logger*) + sizeof(allocation_mode));
 }
 
 void** sorted_list_allocator::get_first_available_block_ptr() const
 {
-    return reinterpret_cast<void**>(reinterpret_cast<memory::allocation_mode*>(reinterpret_cast<fund_alg::logger**>(reinterpret_cast<memory**>(reinterpret_cast<size_t *>(_allocated_memory) + 1) + 1) + 1) + 1);
+    return reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(_allocated_memory) + sizeof(size_t) + sizeof(memory*) + sizeof(fund_alg::logger*) + sizeof(allocation_mode));
 }
 
 void* sorted_list_allocator::get_next_available_block(void *current_block) const
@@ -72,29 +65,14 @@ void* sorted_list_allocator::get_next_available_block(void *current_block) const
     return *reinterpret_cast<void**>(reinterpret_cast<size_t*>(current_block) + 1);
 }
 
-void sorted_list_allocator::memory_state_before_deallocation(void * const block_of_memory) const
+void * sorted_list_allocator::get_allocated_memory_for_allocator() const
 {
-    if (get_logger() == nullptr)
-    {
-        return;
-    }
+    return reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(_allocated_memory) + get_allocator_service_block_size());
+}
 
-    auto block_size = get_occupied_block_size(block_of_memory) - get_occupied_block_service_block_size();
-    auto * iter = reinterpret_cast<unsigned char*>(block_of_memory);
-
-    std::string bytes;
-
-    for(size_t i = 0; i < block_size; i++)
-    {
-        bytes += std::to_string(static_cast<unsigned short>(*iter++));
-
-        if (i != block_size - 1)
-        {
-            bytes += ' ';
-        }
-    }
-
-    this->log_with_guard("[SORTED LIST ALLOCATOR] Memory state at address: " + address_to_string(block_of_memory) + " = [" + bytes + "]", fund_alg::logger::severity::trace);
+void * sorted_list_allocator::get_address_relative_to_allocator(void * current_block_address) const
+{
+    return reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(current_block_address) - reinterpret_cast<unsigned char*>(get_allocated_memory_for_allocator()));
 }
 
 sorted_list_allocator::sorted_list_allocator(
@@ -109,7 +87,7 @@ sorted_list_allocator::sorted_list_allocator(
     if (target_size < allocator_service_block_size)
     {
         std::string message = "Not enough memory";
-        this->log_with_guard("[SORTED LIST ALLOCATOR] " + message + ".", fund_alg::logger::severity::warning);
+        this->warning_with_guard("[SORTED LIST ALLOCATOR] " + message + ".");
 
         throw memory::memory_exception(message);
     }
@@ -148,7 +126,7 @@ sorted_list_allocator::sorted_list_allocator(
     auto * const next_available_block_ptr = reinterpret_cast<void**>(first_available_block_size + 1);
     *next_available_block_ptr = nullptr;
 
-    this->log_with_guard("[SORTED LIST ALLOCATOR] Allocator successfully created.", fund_alg::logger::severity::trace);
+    this->trace_with_guard("[SORTED LIST ALLOCATOR] Allocator successfully created.");
 
 }
 
@@ -156,7 +134,8 @@ void * const  sorted_list_allocator::allocate(size_t request_size) const
 {
     if (request_size < sizeof(void*))
     {
-        this->log_with_guard("[SORTED LIST ALLOCATOR] Requested " + std::to_string(request_size) + " bytes, but will be allocated " + std::to_string(sizeof(void *)) + " bytes for further stable operation of the allocator.", fund_alg::logger::severity::trace);
+        this->trace_with_guard("[SORTED LIST ALLOCATOR] Requested " + std::to_string(request_size) + " bytes, but will be allocated " + std::to_string(sizeof(void *)) + " bytes for further stable operation of the allocator.");
+
         request_size = sizeof(void*);
     }
 
@@ -200,7 +179,7 @@ void * const  sorted_list_allocator::allocate(size_t request_size) const
     if (target_block == nullptr)
     {
         std::string message = "No available memory";
-        this->log_with_guard("[SORTED LIST ALLOCATOR] " + message + ".", fund_alg::logger::severity::warning);
+        this->warning_with_guard("[SORTED LIST ALLOCATOR] " + message + ".");
 
         throw memory::memory_exception(message);
     }
@@ -213,7 +192,7 @@ void * const  sorted_list_allocator::allocate(size_t request_size) const
     {
         auto new_request_size = target_block_size - occupied_block_service_block_size;
 
-        this->log_with_guard("[SORTED LIST ALLOCATOR] Requested " + std::to_string(request_size) + " bytes, but for correct operation " + std::to_string(new_request_size) + " will be allocated.", fund_alg::logger::severity::trace);
+        this->trace_with_guard("[SORTED LIST ALLOCATOR] Requested " + std::to_string(request_size) + " bytes, but for correct operation " + std::to_string(new_request_size) + " will be allocated.");
 
         request_size = new_request_size;
     }
@@ -248,7 +227,7 @@ void * const  sorted_list_allocator::allocate(size_t request_size) const
     auto *target_block_size_space = reinterpret_cast<size_t*>(target_block);
     *target_block_size_space = request_size + occupied_block_service_block_size;
 
-    this->log_with_guard("[SORTED LIST ALLOCATOR] Memory allocation at address: " + address_to_string(target_block_size_space + 1) + " success.", fund_alg::logger::severity::trace);
+    this->trace_with_guard("[SORTED LIST ALLOCATOR] Memory allocation at address: " + address_to_string(get_address_relative_to_allocator(target_block_size_space + 1)) + " success.");
 
     return reinterpret_cast<void*>(target_block_size_space + 1);
 }
@@ -260,12 +239,12 @@ void sorted_list_allocator::deallocate(void * target_to_dealloc) const
     if (target_block < _allocated_memory || target_block > reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(_allocated_memory) + get_allocated_memory_size()))
     {
         std::string message = "Block with address: " + address_to_string(target_to_dealloc) + " does not belong to the allocator";
-        this->log_with_guard("[SORTED LIST ALLOCATOR] " + message + ".", fund_alg::logger::severity::warning);
+        this->warning_with_guard("[SORTED LIST ALLOCATOR] " + message + ".");
 
         throw memory::memory_exception(message);
     }
 
-    memory_state_before_deallocation(target_to_dealloc);
+    memory_state_before_deallocation(target_to_dealloc, get_logger());
 
     void * previous_to_target_block = nullptr;
     auto next_to_target_block = get_first_available_block();
@@ -290,32 +269,42 @@ void sorted_list_allocator::deallocate(void * target_to_dealloc) const
         *next_available_block_to_target_block = next_to_target_block;
     }
 
-    if (previous_to_target_block != nullptr &&
-    reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(previous_to_target_block) +
-    get_available_block_size(previous_to_target_block)) == target_block)
-    {
-        auto * const previous_to_target_block_size_space = reinterpret_cast<size_t*>(previous_to_target_block);
-        *previous_to_target_block_size_space += target_block_size;
+    if (previous_to_target_block != nullptr) {
 
-        *reinterpret_cast<void**>(reinterpret_cast<size_t*>(previous_to_target_block) + 1) = *next_available_block_to_target_block;
+        auto * const next_available_block_for_previous_block = reinterpret_cast<void**>(reinterpret_cast<size_t*>(previous_to_target_block) + 1);
+
+        if (reinterpret_cast<void *>(reinterpret_cast<unsigned char *>(previous_to_target_block) + get_available_block_size(previous_to_target_block)) == target_block)
+        {
+            auto *const previous_to_target_block_size_space = reinterpret_cast<size_t *>(previous_to_target_block);
+            *previous_to_target_block_size_space += target_block_size;
+
+            *next_available_block_for_previous_block = *next_available_block_to_target_block;
+        }
+        else
+        {
+            auto * const target_block_size_space = reinterpret_cast<size_t *>(target_block);
+            *target_block_size_space = target_block_size;
+
+            *next_available_block_for_previous_block = target_block;
+        }
     }
     else
     {
-        auto * const target_block_size_space = reinterpret_cast<size_t*>(target_block);
+        auto * const target_block_size_space = reinterpret_cast<size_t *>(target_block);
         *target_block_size_space = target_block_size;
 
         auto * const first_available_block = get_first_available_block_ptr();
         *first_available_block = target_block;
     }
 
-    this->log_with_guard("[SORTED LIST ALLOCATOR] Memory at address: " + address_to_string(target_to_dealloc) + " was deallocated.", fund_alg::logger::severity::trace);
+    this->trace_with_guard("[SORTED LIST ALLOCATOR] Memory at address: " + address_to_string(target_to_dealloc) + " was deallocated.");
 }
 
 sorted_list_allocator::~sorted_list_allocator()
 {
     const auto * const outer_allocator = get_outer_allocator();
 
-    this->log_with_guard("[SORTED LIST ALLOCATOR] Allocator success deleted.", fund_alg::logger::severity::trace);
+    this->trace_with_guard("[SORTED LIST ALLOCATOR] Allocator success deleted.");
 
     if (outer_allocator == nullptr)
     {
