@@ -15,7 +15,7 @@ public:
 
     void *const allocate(size_t target_size) const override;
 
-    void deallocate(void* const target_to_dealloc) const override;
+    void deallocate(void * target_to_dealloc) const override;
 
     sorted_list_memory const *log_with_guard(const std::string&, fund_alg::logger::severity) const;
 
@@ -35,6 +35,8 @@ protected:
     size_t get_occupied_block_service_block_size() const override;
 
     size_t get_allocator_service_block_size() const override;
+
+    size_t get_allocated_memory_size() const override;
 
     size_t get_available_block_size(void *current_block) const override;
 

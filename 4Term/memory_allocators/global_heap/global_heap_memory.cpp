@@ -32,7 +32,7 @@ void * const global_heap_allocator::allocate(size_t target_size) const
 
         auto * available_block = reinterpret_cast<void*>(block_size + 1);
 
-        _log_memory->log("[GLOBAL HEAP]Memory allocated success at address: " + address_to_string(block_of_memory), fund_alg::logger::severity::trace);
+        _log_memory->log("[GLOBAL HEAP] Memory allocated success at address: " + address_to_string(block_of_memory) + " success.", fund_alg::logger::severity::trace);
 
         return available_block;
     }
@@ -52,7 +52,7 @@ void global_heap_allocator::deallocate(void *const target_to_dealloc) const
 
     ::operator delete(block_of_memory);
 
-    _log_memory->log("[GLOBAL HEAP]Memory at address: " + address + " was deallocated!", fund_alg::logger::severity::trace);
+    _log_memory->log("[GLOBAL HEAP] Memory at address: " + address + " was deallocated.", fund_alg::logger::severity::trace);
 }
 
 void *const operator+=(memory const &allocator, size_t target_size)
