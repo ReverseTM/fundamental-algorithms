@@ -13,7 +13,7 @@ private:
 
 public:
 
-    void *const allocate(size_t target_size) const override;
+    void * const allocate(size_t target_size) const override;
 
     void deallocate(void * target_to_dealloc) const override;
 

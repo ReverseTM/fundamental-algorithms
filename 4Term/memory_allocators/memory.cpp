@@ -69,12 +69,37 @@ void** memory::get_first_available_block_ptr() const
     throw memory::memory_exception("Method not implemented");
 }
 
+void * memory::get_first_occupied_block() const
+{
+    throw memory::memory_exception("Method not implemented");
+}
+
+void** memory::get_first_occupied_block_ptr() const
+{
+    throw memory::memory_exception("Method not implemented");
+}
+
 void* memory::get_next_available_block(void *current_block) const
 {
     throw memory::memory_exception("Method not implemented");
 }
 
-void * memory::get_allocated_memory_for_allocator() const
+void * memory::get_next_occupied_block(void * current_block) const
+{
+    throw memory::memory_exception("Method not implemented");
+}
+
+void * memory::get_previous_occupied_block(void * current_block) const
+{
+    throw memory::memory_exception("Method not implemented");
+}
+
+void * memory::get_start_allocated_memory_address() const
+{
+    throw memory::memory_exception("Method not implemented");
+}
+
+void * memory::get_end_allocated_memory_address() const
 {
     throw memory::memory_exception("Method not implemented");
 }

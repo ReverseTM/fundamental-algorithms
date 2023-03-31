@@ -5,7 +5,7 @@
 
 void printMultiples(int number)
 {
-    int count = 0;
+    int count =0;
     int digit = 1;
     int result = 0;
     if (number > 0) {

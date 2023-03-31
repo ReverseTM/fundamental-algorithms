@@ -42,21 +42,21 @@ protected:
 
     size_t get_occupied_block_size_without_service_block(void *current_block) const override;
 
-    memory* get_outer_allocator() const override;
-
-    fund_alg::logger const * const get_logger() const override;
-
-    memory::allocation_mode get_allocation_mode() const override;
-
     void* get_first_available_block() const override;
 
     void **get_first_available_block_ptr() const override;
 
     void* get_next_available_block(void *current_block) const override;
 
-    void * get_allocated_memory_for_allocator() const override;
+    void * get_start_allocated_memory_address() const override;
 
     void * get_address_relative_to_allocator(void * current_block_address) const override;
+
+    memory* get_outer_allocator() const override;
+
+    fund_alg::logger const * const get_logger() const override;
+
+    memory::allocation_mode get_allocation_mode() const override;
 
 };
 

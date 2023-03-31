@@ -3,9 +3,24 @@
 #include "logger/builder_implementation.h"
 #include "memory_allocators/global_heap_allocator.h"
 #include "memory_allocators/sorted_list_allocator.h"
+#include "memory_allocators/border_descriptors_allocator.h"
 #include <list>
 
-void test_global_heap_allocator()
+void border_descriptors_allocator_demo()
+{
+    memory *allocator = new border_descriptors_allocator(100, memory::allocation_mode::first_match);
+
+    std::cout << "First block info" << std::endl;
+    void * ptr = allocator->allocate(10);
+    std::cout << "Allocated block #1: " << ptr << std::endl;
+
+    std::cout << "Second block info" << std::endl;
+    void * ptr2 = allocator->allocate(10);
+    std::cout << "Allocated block #2: " << ptr2 << std::endl;
+
+}
+
+void global_heap_allocator_demo()
 {
     builder *builder = new builder_implementation();
 
@@ -132,8 +147,11 @@ void sorted_list_allocator_demo()
 
 int main() {
 
+    //global_heap_allocator_demo();
+    //sorted_list_allocator_demo();
+    border_descriptors_allocator_demo();
     //testing_sorted_list_allocator();
-    sorted_list_allocator_demo();
+
 
     return 0;
 }

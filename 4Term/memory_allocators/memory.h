@@ -68,9 +68,19 @@ protected:
 
     virtual void** get_first_available_block_ptr() const;
 
-    virtual void * get_next_available_block(void *current_block) const;
+    virtual void * get_first_occupied_block() const;
 
-    virtual void * get_allocated_memory_for_allocator() const;
+    virtual void** get_first_occupied_block_ptr() const;
+
+    virtual void * get_next_available_block(void * current_block) const;
+
+    virtual void * get_next_occupied_block(void * current_block) const;
+
+    virtual void * get_previous_occupied_block(void * current_block) const;
+
+    virtual void * get_start_allocated_memory_address() const;
+
+    virtual void * get_end_allocated_memory_address() const;
 
     virtual void * get_address_relative_to_allocator(void * current_block_address) const;
 
