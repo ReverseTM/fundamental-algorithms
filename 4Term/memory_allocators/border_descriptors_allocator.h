@@ -18,7 +18,7 @@ public:
 
     void deallocate(void * target_to_dealloc) const override;
 
-    border_descriptors_allocator(
+    explicit border_descriptors_allocator(
             size_t target_size,
             memory::allocation_mode mode,
             fund_alg::logger *logger = nullptr,
@@ -26,6 +26,16 @@ public:
             );
 
     ~border_descriptors_allocator() override;
+
+public:
+
+    border_descriptors_allocator(const border_descriptors_allocator &) = delete;
+
+    border_descriptors_allocator & operator=(border_descriptors_allocator const &) = delete;
+
+    border_descriptors_allocator(border_descriptors_allocator &&) = delete;
+
+    border_descriptors_allocator & operator=(border_descriptors_allocator &&) = delete;
 
 protected:
 
@@ -37,7 +47,7 @@ protected:
 
     void * get_end_allocated_memory_address() const override;
 
-    size_t get_available_block_size(void * first_occupied_block_to_target_block) const override; //
+    size_t get_available_block_size(void * next_occupied_block_to_target_block) const override; //
 
     size_t get_occupied_block_service_block_size() const override; //
 
@@ -57,7 +67,7 @@ protected:
 
     memory* get_outer_allocator() const override; //
 
-    fund_alg::logger const * const get_logger() const override; //
+    fund_alg::logger * get_logger() const override; //
 
     memory::allocation_mode get_allocation_mode() const override; //
 

@@ -21,7 +21,7 @@ public:
 
 protected:
 
-    virtual fund_alg::logger const * const get_logger() const = 0;
+    virtual fund_alg::logger * get_logger() const = 0;
 
 public:
 

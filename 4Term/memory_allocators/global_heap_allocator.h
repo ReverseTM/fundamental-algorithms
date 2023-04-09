@@ -25,7 +25,7 @@ protected:
 
     void * get_address_relative_to_allocator(void * current_block_address) const override;
 
-    fund_alg::logger const * const get_logger() const override;
+    fund_alg::logger * get_logger() const override;
 };
 
 

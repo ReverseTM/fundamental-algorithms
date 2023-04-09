@@ -8,7 +8,7 @@ void * global_heap_allocator::get_address_relative_to_allocator(void * current_b
     return current_block_address;
 }
 
-fund_alg::logger const * const global_heap_allocator::get_logger() const
+fund_alg::logger * global_heap_allocator::get_logger() const
 {
     return _log_memory;
 }
@@ -49,7 +49,7 @@ void global_heap_allocator::deallocate(void * target_to_dealloc) const
 
     ::operator delete(target_block);
 
-    trace_with_guard("[GLOBAL HEAP ALLOCATOR] Memory at address: " + address_to_string(target_to_dealloc) + " was deallocated.");
+    this->trace_with_guard("[GLOBAL HEAP ALLOCATOR] Memory at address: " + address_to_string(target_to_dealloc) + " was deallocated.");
 }
 
 void *const operator+=(memory const &allocator, size_t target_size)

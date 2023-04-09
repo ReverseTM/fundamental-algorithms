@@ -1,5 +1,4 @@
 #include "memory.h"
-#include "../logger/logger.h"
 #include <sstream>
 
 memory::memory_exception::memory_exception(const std::string &msg)
@@ -34,12 +33,12 @@ size_t memory::get_allocated_memory_size() const
     throw memory::memory_exception("Method not implemented");
 }
 
-size_t memory::get_available_block_size(void *current_block) const
+size_t memory::get_available_block_size(void * current_block) const
 {
     throw memory::memory_exception("Method not implemented");
 }
 
-size_t memory::get_occupied_block_size(void *current_block) const
+size_t memory::get_occupied_block_size(void * current_block) const
 {
     throw memory::memory_exception("Method not implemented");
 }
@@ -109,7 +108,7 @@ void * memory::get_address_relative_to_allocator(void * current_block_address) c
     throw memory::memory_exception("Method not implemented");
 }
 
-void memory::memory_state_before_deallocation(void * const block_of_memory, fund_alg::logger const * const logger) const
+void memory::memory_state_before_deallocation(void * const block_of_memory, fund_alg::logger * logger) const
 {
     if (logger == nullptr)
     {
@@ -135,5 +134,5 @@ void memory::memory_state_before_deallocation(void * const block_of_memory, fund
 
     std::string address = address_to_string(block_of_memory_address);
 
-    logger->log("[SORTED LIST ALLOCATOR] Memory state at address: " + address + " = [" + bytes + "]", fund_alg::logger::severity::trace);
+    logger->log("Memory state at address: " + address + " = [" + bytes + "]", fund_alg::logger::severity::trace);
 }

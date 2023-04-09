@@ -1,22 +1,18 @@
-#ifndef SANDBOX_CPP_BINARY_SEARCH_TREE_H
-#define SANDBOX_CPP_BINARY_SEARCH_TREE_H
+#ifndef BINARY_SEARCH_TREE_H
+#define BINARY_SEARCH_TREE_H
 
-#include <stack>
 #include "associative_container.h"
-//#include "../exception/not_implemented.h"
-//#include "../logger/logger.h"
-//#include "../logger/logger_holder.h"
-//#include "../memory/memory.h"
-//#include "traversable.h"
+#include "../logger/logger.h"
+#include "../logger/logger_holder.h"
+#include "../memory_allocators/memory.h"
 #include <vector>
+#include <stack>
 
 template<
     typename tkey,
     typename tvalue,
     typename tkey_comparer>
-class binary_search_tree:
-    public associative_container<tkey, tvalue>
-    //protected logger_holder
+class binary_search_tree : public associative_container<tkey, tvalue>, protected logger_holder
 {
 
 protected:
@@ -229,7 +225,7 @@ private:
 
     node *_root;
     memory *_allocator;
-    logger *_logger;
+    fund_alg::logger *_logger;
     insertion_template_method *_insertion;
     reading_template_method *_reading;
     removing_template_method *_removing;
@@ -241,13 +237,13 @@ protected:
         reading_template_method *reading,
         removing_template_method *removing,
         memory *allocator = nullptr,
-        logger *logger = nullptr);
+        fund_alg::logger *logger = nullptr);
 
 public:
 
     explicit binary_search_tree(
         memory *allocator = nullptr,
-        logger *logger = nullptr);
+        fund_alg::logger *logger = nullptr);
 
     binary_search_tree(
         binary_search_tree const &other);
@@ -267,17 +263,17 @@ public:
 
     void insert(
         tkey const &key,
-        tvalue &&value) final;
+        tvalue &&value) final override;
 
     tvalue const &get(
-        tkey const &key) final;
+        tkey const &key) final override;
 
     tvalue &&remove(
-        tkey const &key) final;
+        tkey const &key) final override;
 
 private:
 
-    logger *get_logger() const override;
+    fund_alg::logger * get_logger() const override;
 
 public:
 
@@ -314,7 +310,17 @@ template<
             subtree_root->left_subtree_address = tmp;
 }
 
-
+template<
+        typename tkey,
+        typename tvalue,
+        typename tkey_comparer>
+        void binary_search_tree<tkey, tvalue, tkey_comparer>::right_rotation(node *&subtree_root) const
+{
+            node *tmp = subtree_root;
+            subtree_root = subtree_root->left_subtree_address;
+            tmp->left_subtree_address = subtree_root->right_subtree_address;
+            subtree_root->right_subtree_address = tmp;
+}
 // region iterators implementation
 
 //region prefix_iterator implementation
@@ -659,7 +665,7 @@ binary_search_tree<tkey, tvalue, tkey_comparer>::binary_search_tree(
     binary_search_tree::reading_template_method *reading,
     binary_search_tree::removing_template_method *removing,
     memory *allocator,
-    logger *logger)
+    fund_alg::logger *logger)
     : _insertion(insertion),
       _reading(reading),
       _removing(removing),
@@ -675,7 +681,7 @@ template<
     typename tkey_comparer>
 binary_search_tree<tkey, tvalue, tkey_comparer>::binary_search_tree(
     memory *allocator,
-    logger *logger):
+    fund_alg::logger *logger):
     _insertion(new insertion_template_method()),
     _reading(new reading_template_method()),
     _removing(new removing_template_method()),
@@ -796,7 +802,7 @@ template<
     typename tkey,
     typename tvalue,
     typename tkey_comparer>
-logger *binary_search_tree<tkey, tvalue, tkey_comparer>::get_logger() const
+fund_alg::logger *binary_search_tree<tkey, tvalue, tkey_comparer>::get_logger() const
 {
     return _logger;
 }
@@ -861,4 +867,4 @@ typename binary_search_tree<tkey, tvalue, tkey_comparer>::postfix_iterator binar
 
 // endregion iterators requesting implementation
 
-#endif //SANDBOX_CPP_BINARY_SEARCH_TREE_H
+#endif //BINARY_SEARCH_TREE_H

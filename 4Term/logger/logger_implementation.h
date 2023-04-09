@@ -31,6 +31,10 @@ public:
     logger_implementation(logger_implementation const &) = delete;
 
     logger_implementation& operator=(logger_implementation const &) = delete;
+
+    logger_implementation(logger_implementation &&) = delete;
+
+    logger_implementation & operator=(logger_implementation &&) = delete;
 };
 
 #endif //LOGGER_IMPLEMENTATION

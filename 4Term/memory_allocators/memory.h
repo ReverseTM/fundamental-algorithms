@@ -88,7 +88,7 @@ protected:
 
     static std::string address_to_string(void const * const address);
 
-    void memory_state_before_deallocation(void * const target_block, fund_alg::logger const * const logger) const;
+    void memory_state_before_deallocation(void * const target_block, fund_alg::logger * logger) const;
 
 };
 

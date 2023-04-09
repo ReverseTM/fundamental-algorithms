@@ -26,6 +26,16 @@ public:
 
     ~sorted_list_allocator() override;
 
+public:
+
+    sorted_list_allocator(const sorted_list_allocator & obj) = delete;
+
+    sorted_list_allocator & operator=(sorted_list_allocator const & obj) = delete;
+
+    sorted_list_allocator(sorted_list_allocator && obj) = delete;
+
+    sorted_list_allocator & operator=(sorted_list_allocator && obj) = delete;
+
 protected:
 
     size_t get_available_block_service_block_size() const override;
@@ -36,11 +46,11 @@ protected:
 
     size_t get_allocated_memory_size() const override;
 
-    size_t get_available_block_size(void *current_block) const override;
+    size_t get_available_block_size(void * current_block) const override;
 
-    size_t get_occupied_block_size(void *current_block) const override;
+    size_t get_occupied_block_size(void * current_block) const override;
 
-    size_t get_occupied_block_size_without_service_block(void *current_block) const override;
+    size_t get_occupied_block_size_without_service_block(void * current_block) const override;
 
     void* get_first_available_block() const override;
 
@@ -54,7 +64,7 @@ protected:
 
     memory* get_outer_allocator() const override;
 
-    fund_alg::logger const * const get_logger() const override;
+    fund_alg::logger * get_logger() const override;
 
     memory::allocation_mode get_allocation_mode() const override;
 

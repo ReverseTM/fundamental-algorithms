@@ -15,7 +15,7 @@ memory* sorted_list_allocator::get_outer_allocator() const
     return *reinterpret_cast<memory**>(reinterpret_cast<size_t *>(_allocated_memory) + 1);
 }
 
-fund_alg::logger const * const sorted_list_allocator::get_logger() const
+fund_alg::logger * sorted_list_allocator::get_logger() const
 {
     return *reinterpret_cast<fund_alg::logger**>(reinterpret_cast<unsigned char*>(_allocated_memory) + sizeof(size_t) + sizeof(memory*));
 }
@@ -84,14 +84,6 @@ sorted_list_allocator::sorted_list_allocator(
         )
 {
     size_t allocator_service_block_size = get_allocator_service_block_size();
-
-//    if (target_size < allocator_service_block_size)
-//    {
-//        std::string message = "Not enough memory";
-//        this->warning_with_guard("[SORTED LIST ALLOCATOR] " + message + ".");
-//
-//        throw memory::memory_exception(message);
-//    }
 
     size_t available_block_service_block_size = get_available_block_service_block_size();
 
@@ -228,9 +220,11 @@ void * const sorted_list_allocator::allocate(size_t request_size) const
     auto *target_block_size_space = reinterpret_cast<size_t*>(target_block);
     *target_block_size_space = request_size + occupied_block_service_block_size;
 
-    this->trace_with_guard("[SORTED LIST ALLOCATOR] Memory allocation at address: " + address_to_string(get_address_relative_to_allocator(target_block_size_space + 1)) + " success.");
+    auto allocated_block = reinterpret_cast<void*>(target_block_size_space + 1);
 
-    return reinterpret_cast<void*>(target_block_size_space + 1);
+    this->trace_with_guard("[SORTED LIST ALLOCATOR] Memory allocation at address: " + address_to_string(get_address_relative_to_allocator(allocated_block)) + " success.");
+
+    return reinterpret_cast<void*>(allocated_block);
 }
 
 void sorted_list_allocator::deallocate(void * target_to_dealloc) const
@@ -298,14 +292,11 @@ void sorted_list_allocator::deallocate(void * target_to_dealloc) const
         *first_available_block = target_block;
     }
 
-    this->trace_with_guard("[SORTED LIST ALLOCATOR] Memory at address: " + address_to_string(target_to_dealloc) + " was deallocated.");
+    this->trace_with_guard("[SORTED LIST ALLOCATOR] Memory at address: " + address_to_string(get_address_relative_to_allocator(target_to_dealloc)) + " was deallocated.");
 }
 
 sorted_list_allocator::~sorted_list_allocator()
 {
-    std::cout << get_available_block_size(get_first_available_block()) << std::endl;
-    std::cout << get_next_available_block(get_first_available_block()) << std::endl;
-
     const auto * const outer_allocator = get_outer_allocator();
 
     this->trace_with_guard("[SORTED LIST ALLOCATOR] Allocator success deleted.");
