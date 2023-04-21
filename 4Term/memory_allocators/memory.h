@@ -2,9 +2,9 @@
 #define MEMORY_H
 #include <iostream>
 #include "../logger/logger.h"
-#include "../logger/logger_holder.h"
 
-class memory : public logger_holder {
+class memory
+{
 
 public:
 
@@ -60,8 +60,6 @@ protected:
 
     virtual size_t get_occupied_block_size_without_service_block(void *current_block) const;
 
-    virtual memory* get_outer_allocator() const;
-
     virtual memory::allocation_mode get_allocation_mode() const;
 
     virtual void * get_first_available_block() const;
@@ -78,11 +76,19 @@ protected:
 
     virtual void * get_previous_occupied_block(void * current_block) const;
 
+    virtual void * get_previous_available_block(void * current_block) const;
+
     virtual void * get_start_allocated_memory_address() const;
 
     virtual void * get_end_allocated_memory_address() const;
 
     virtual void * get_address_relative_to_allocator(void * current_block_address) const;
+
+    virtual unsigned char set_block_size_and_block_status(unsigned char power_of_2, bool block_status) const;
+
+    virtual bool get_block_status(void * current_block) const;
+
+    virtual void * get_buddies(void * current_block) const;
 
 protected:
 

@@ -295,6 +295,8 @@ void sorted_list_allocator::deallocate(void * target_to_dealloc) const
     this->trace_with_guard("[SORTED LIST ALLOCATOR] Memory at address: " + address_to_string(get_address_relative_to_allocator(target_to_dealloc)) + " was deallocated.");
 }
 
+
+
 sorted_list_allocator::~sorted_list_allocator()
 {
     const auto * const outer_allocator = get_outer_allocator();

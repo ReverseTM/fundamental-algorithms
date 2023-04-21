@@ -1,0 +1,12 @@
+{
+  "configs": [
+    {
+      "target": "file1.txt",
+      "severity": 0
+    },
+    {
+      "target": "file2.txt",
+      "severity": 0
+    }
+  ]
+}

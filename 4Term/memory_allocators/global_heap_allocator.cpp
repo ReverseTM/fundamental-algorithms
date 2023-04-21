@@ -13,6 +13,11 @@ fund_alg::logger * global_heap_allocator::get_logger() const
     return _log_memory;
 }
 
+memory * global_heap_allocator::get_outer_allocator() const
+{
+    return nullptr;
+}
+
 size_t global_heap_allocator::get_occupied_block_size_without_service_block(void *current_block) const
 {
     return *(reinterpret_cast<size_t*>(current_block) - 1);

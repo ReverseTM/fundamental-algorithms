@@ -7,22 +7,19 @@
 #include "../memory_allocators/memory.h"
 #include <vector>
 #include <stack>
-
+*& ~ **
 template<
     typename tkey,
     typename tvalue,
     typename tkey_comparer>
-class binary_search_tree : public associative_container<tkey, tvalue>, protected logger_holder
+class binary_search_tree : public associative_container<tkey, tvalue>, public logger_holder
 {
 
 protected:
 
     struct node
     {
-
-        tkey key;
-
-        tvalue value;
+        associative_container<tkey, tvalue>::key_value_pair key_and_value;
 
         node *left_subtree_address;
 
@@ -42,18 +39,15 @@ public:
 
     public:
 
-        explicit prefix_iterator(
-            node *tree_root);
+        explicit prefix_iterator(node *tree_root);
 
     public:
 
-        bool operator==(
-            prefix_iterator const &other) const;
+        bool operator==(prefix_iterator const &other) const;
 
         prefix_iterator& operator++();
 
-        prefix_iterator operator++(
-            int not_used);
+        prefix_iterator operator++(int not_used);
 
         std::tuple<unsigned int, tkey const&, tvalue const&> operator*() const;
 
@@ -69,18 +63,15 @@ public:
 
     public:
 
-        explicit infix_iterator(
-            node *tree_root);
+        explicit infix_iterator(node *tree_root);
 
     public:
 
-        bool operator==(
-            infix_iterator const &other) const;
+        bool operator==(infix_iterator const &other) const;
 
         infix_iterator& operator++();
 
-        infix_iterator operator++(
-            int not_used);
+        infix_iterator operator++(int not_used);
 
         std::tuple<unsigned int, tkey const&, tvalue const&> operator*() const;
 
@@ -96,18 +87,15 @@ public:
 
     public:
 
-        explicit postfix_iterator(
-            node *tree_root);
+        explicit postfix_iterator(node *tree_root);
 
     public:
 
-        bool operator==(
-            postfix_iterator const &other) const;
+        bool operator==(postfix_iterator const &other) const;
 
         postfix_iterator &operator++();
 
-        postfix_iterator operator++(
-            int not_used);
+        postfix_iterator operator++(int not_used);
 
         std::tuple<unsigned int, tkey const&, tvalue const&> operator*() const;
 
@@ -265,8 +253,8 @@ public:
         tkey const &key,
         tvalue &&value) final override;
 
-    tvalue const &get(
-        tkey const &key) final override;
+    bool find(
+            associative_container<tkey, tvalue>::key_value_pair * target_key_and_result_value) final override;
 
     tvalue &&remove(
         tkey const &key) final override;
@@ -619,7 +607,7 @@ tvalue &&binary_search_tree<tkey, tvalue, tkey_comparer>::removing_template_meth
     binary_search_tree<tkey, tvalue, tkey_comparer>::node *&subtree_root_address,
     std::stack<binary_search_tree<tkey, tvalue, tkey_comparer>::node **> &path_to_subtree_root_exclusive)
 {
-    before_remove_inner(key, subtree_root_address, path_to_subtree_root_exclusive);
+    before_remove_inner(key, subtree_root_address, path_to_subtree_root_exclusive); //not used
 
 
 
@@ -767,9 +755,7 @@ template<
     typename tkey,
     typename tvalue,
     typename tkey_comparer>
-void binary_search_tree<tkey, tvalue, tkey_comparer>::insert(
-    tkey const &key,
-    tvalue &&value)
+void binary_search_tree<tkey, tvalue, tkey_comparer>::insert(tkey const &key,tvalue &&value)
 {
     return _insertion->insert(key, std::move(value), _root);
 }
@@ -778,18 +764,16 @@ template<
     typename tkey,
     typename tvalue,
     typename tkey_comparer>
-tvalue const &binary_search_tree<tkey, tvalue, tkey_comparer>::get(
-    tkey const &key)
+bool binary_search_tree<tkey, tvalue, tkey_comparer>::find(associative_container<tkey, tvalue>::key_value_pair * target_key_and_result_value)
 {
-    return _reading->read(key, _root);
+    return _reading->read(target_key_and_result_value, _root);
 }
 
 template<
     typename tkey,
     typename tvalue,
     typename tkey_comparer>
-tvalue &&binary_search_tree<tkey, tvalue, tkey_comparer>::remove(
-    tkey const &key)
+tvalue &&binary_search_tree<tkey, tvalue, tkey_comparer>::remove(tkey const &key)
 {
     return std::move(_removing->remove(key, _root));
 }

@@ -1,11 +1,16 @@
 #ifndef GLOBAL_HEAP_MEMORY_H
 #define GLOBAL_HEAP_MEMORY_H
 #include "memory.h"
+#include "memory_holder.h"
 #include "../logger/logger_implementation.h"
 #include "../logger/builder_implementation.h"
 #include "../logger/json_implementation.h"
+#include "../logger/logger_holder.h"
 
-class global_heap_allocator final : public memory
+class global_heap_allocator final :
+        public memory,
+        public logger_holder,
+        public memory_holder
 {
 private:
 
@@ -26,6 +31,8 @@ protected:
     void * get_address_relative_to_allocator(void * current_block_address) const override;
 
     fund_alg::logger * get_logger() const override;
+
+    memory * get_outer_allocator() const override;
 };
 
 

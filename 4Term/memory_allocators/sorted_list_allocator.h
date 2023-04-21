@@ -1,11 +1,16 @@
 #ifndef SORTED_LIST_ALLOCATOR_H
 #define SORTED_LIST_ALLOCATOR_H
 #include "memory.h"
+#include "memory_holder.h"
 #include "../logger/logger_implementation.h"
 #include "../logger/builder_implementation.h"
 #include "../logger/json_implementation.h"
+#include "../logger/logger_holder.h"
 
-class sorted_list_allocator final : public memory
+class sorted_list_allocator final :
+        public memory,
+        public logger_holder,
+        public memory_holder
 {
 private:
 

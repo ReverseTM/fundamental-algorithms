@@ -6,6 +6,10 @@ json_implementation::json_implementation(const std::string &path)
     std::fstream json_file;
 
     json_file.open(path);
+    if (!json_file.is_open())
+    {
+        throw std::invalid_argument("File not found");
+    }
     json_file >> obj_json;
     json_file.close();
 

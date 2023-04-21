@@ -2,6 +2,7 @@
 #define LOGGER_IMPLEMENTATION
 #include "builder_implementation.h"
 #include "json_implementation.h"
+#include <sstream>
 
 class logger_implementation final : public fund_alg::logger
 {
@@ -14,7 +15,7 @@ private:
 
     static std::map<std::string, std::pair<std::ofstream*, size_t>> _all_streams;
 
-    logger_implementation(std::map<std::string, fund_alg::logger::severity> const &);
+    explicit logger_implementation(std::map<std::string, fund_alg::logger::severity> const &);
 
 private:
 
@@ -26,7 +27,7 @@ public:
 
     fund_alg::logger const *log(const std::string &message, severity level) const override;
 
-    ~logger_implementation();
+    ~logger_implementation() override;
 
     logger_implementation(logger_implementation const &) = delete;
 

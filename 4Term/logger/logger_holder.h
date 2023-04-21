@@ -6,6 +6,7 @@ class logger_holder
 {
 
 public:
+    const logger_holder * log_with_guard(std::string const &, fund_alg::logger::severity) const;
 
     const logger_holder * trace_with_guard(std::string const &) const;
 

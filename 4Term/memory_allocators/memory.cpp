@@ -48,11 +48,6 @@ size_t memory::get_occupied_block_size_without_service_block(void *current_block
     throw memory::memory_exception("Method not implemented");
 }
 
-memory* memory::get_outer_allocator() const
-{
-    throw memory::memory_exception("Method not implemented");
-}
-
 memory::allocation_mode memory::get_allocation_mode() const
 {
     throw memory::memory_exception("Method not implemented");
@@ -104,6 +99,26 @@ void * memory::get_end_allocated_memory_address() const
 }
 
 void * memory::get_address_relative_to_allocator(void * current_block_address) const
+{
+    throw memory::memory_exception("Method not implemented");
+}
+
+void * memory::get_previous_available_block(void * current_block) const
+{
+    throw memory::memory_exception("Method not implemented");
+}
+
+unsigned char memory::set_block_size_and_block_status(unsigned char power_of_2, bool block_status) const
+{
+    throw memory::memory_exception("Method not implemented");
+}
+
+bool memory::get_block_status(void * current_block) const
+{
+    throw memory::memory_exception("Method not implemented");
+}
+
+void * memory::get_buddies(void * current_block) const
 {
     throw memory::memory_exception("Method not implemented");
 }

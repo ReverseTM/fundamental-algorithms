@@ -1,12 +1,17 @@
 #ifndef BORDER_DESCRIPTORS_ALLOCATOR_H
 #define BORDER_DESCRIPTORS_ALLOCATOR_H
 #include "memory.h"
+#include "memory_holder.h"
 #include "../logger/logger_implementation.h"
 #include "../logger/builder_implementation.h"
 #include "../logger/json_implementation.h"
+#include "../logger/logger_holder.h"
 
 
-class border_descriptors_allocator final : public memory
+class border_descriptors_allocator final :
+        public memory,
+        public logger_holder,
+        public memory_holder
 {
 private:
 
