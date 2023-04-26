@@ -104,7 +104,6 @@ border_descriptors_allocator::border_descriptors_allocator(
     size_t occupied_block_service_block_size = get_occupied_block_service_block_size();
 
     size_t allocator_service_block_size = get_allocator_service_block_size();
-    std::cout << allocator_service_block_size << std::endl;
 
     size_t memory_size = allocator_service_block_size + occupied_block_service_block_size + target_size;
 

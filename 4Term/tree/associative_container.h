@@ -15,7 +15,7 @@ public:
 
 public:
 
-    virtual void insert(tkey const &key, tvalue const &&value) = 0;
+    virtual void insert(tkey const &key, tvalue &&value) = 0;
 
     virtual bool find(key_value_pair * target_key_and_result_value) = 0;
 

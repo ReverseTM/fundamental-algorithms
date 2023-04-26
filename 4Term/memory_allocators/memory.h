@@ -84,8 +84,6 @@ protected:
 
     virtual void * get_address_relative_to_allocator(void * current_block_address) const;
 
-    virtual unsigned char set_block_size_and_block_status(unsigned char power_of_2, bool block_status) const;
-
     virtual bool get_block_status(void * current_block) const;
 
     virtual void * get_buddies(void * current_block) const;

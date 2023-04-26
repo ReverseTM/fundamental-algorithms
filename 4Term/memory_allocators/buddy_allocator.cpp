@@ -71,11 +71,6 @@ size_t buddy_system_allocator::get_occupied_block_service_block_size() const
     return sizeof(unsigned char);
 }
 
-unsigned char buddy_system_allocator::set_block_size_and_block_status(unsigned char power_of_2, bool block_status) const
-{
-    return ((power_of_2 << 1) | block_status);
-}
-
 bool buddy_system_allocator::get_block_status(void * current_block) const
 {
     return *reinterpret_cast<unsigned char*>(current_block) & 1;
@@ -146,14 +141,19 @@ buddy_system_allocator::buddy_system_allocator(
     auto * const first_available_block_ptr = reinterpret_cast<void**>(allocation_mode_ptr + 1);
     *first_available_block_ptr = reinterpret_cast<void*>(first_available_block_ptr + 1);
 
-    auto * const first_available_block_size = reinterpret_cast<unsigned char*>(*first_available_block_ptr);
-    *first_available_block_size = set_block_size_and_block_status(power_of_2, 0);
+    auto * const first_available_block_size_and_status = reinterpret_cast<unsigned char*>(*first_available_block_ptr);
+    *first_available_block_size_and_status = (static_cast<unsigned char>(power_of_2) << 1) | 0;
 
-    auto * const previous_available_block = reinterpret_cast<void**>(first_available_block_size + 1);
+    auto * const previous_available_block = reinterpret_cast<void**>(first_available_block_size_and_status + 1);
     *previous_available_block = nullptr;
 
     auto * const next_available_block = reinterpret_cast<void**>(previous_available_block + 1);
     *next_available_block = nullptr;
+
+    std::cout << "---------------" << std::endl;
+    std::cout << "first_block: " << get_first_available_block() << std::endl;
+    std::cout << "first_block_size: " << get_available_block_size(get_first_available_block()) << std::endl;
+    std::cout << "---------------" << std::endl;
 
     this->trace_with_guard("[BUDDY SYSTEM ALLOCATOR] Allocator successfully created.");
 }
@@ -374,11 +374,8 @@ buddy_system_allocator::~buddy_system_allocator()
     const auto * const outer_allocator = get_outer_allocator();
 
     std::cout << "----------------" << std::endl;
-
     std::cout << "first_block: " << get_first_available_block() << std::endl;
-
     std::cout << "first_block_size: " << get_available_block_size(get_first_available_block()) << std::endl;
-
     std::cout << "----------------" << std::endl;
 
     this->trace_with_guard("[BUDDY SYSTEM ALLOCATOR] Allocator success deleted.");

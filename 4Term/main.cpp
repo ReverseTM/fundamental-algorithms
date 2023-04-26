@@ -5,8 +5,9 @@
 #include "memory_allocators/sorted_list_allocator.h"
 #include "memory_allocators/border_descriptors_allocator.h"
 #include "memory_allocators/buddy_allocator.h"
+#include "tree/binary_search_tree.h"
 #include <list>
-#include <cmath>
+
 
 void testing_allocator()
 {
@@ -18,8 +19,8 @@ void testing_allocator()
             ->build();
 
     memory *allocator1 = new global_heap_allocator(logger);
-    memory *allocator2 = new border_descriptors_allocator(1000000, memory::allocation_mode::first_match, logger, allocator1);
-    memory *allocator3 = new sorted_list_allocator(999900, memory::allocation_mode::the_best_match, logger, allocator2);
+    memory *allocator2 = new border_descriptors_allocator(500000, memory::allocation_mode::first_match, logger, allocator1);
+    memory *allocator3 = new sorted_list_allocator(400000, memory::allocation_mode::the_best_match, logger, allocator2);
     memory * allocator4 = new buddy_system_allocator(17, memory::allocation_mode::first_match, logger, allocator3);
 
     std::list<void*> allocated_blocks;
@@ -194,47 +195,39 @@ void testing_allocator()
  */
 
 
+class key_comparer
+{
+public:
 
-
-
-
+    int operator()(int first, int second)
+    {
+        return first - second;
+    }
+};
 
 int main()
 {
 
-    testing_allocator();
+    builder * builder = new builder_implementation();
 
-//    builder * builder = new builder_implementation();
-//    fund_alg::logger * logger = builder->add_stream("logs.txt", fund_alg::logger::severity::trace)->build();
-//
-//    memory * allocator = new buddy_system_allocator(16, memory::allocation_mode::first_match, logger);
-//
-//    auto ptr1 = allocator->allocate(69);
-//    auto ptr2 = allocator->allocate(106);
-//    auto ptr3 = allocator->allocate(104);
-//    auto ptr4 = allocator->allocate(44);
-//    allocator->deallocate(ptr2);
-//    allocator->deallocate(ptr3);
-//    auto ptr5 = allocator->allocate(118);
-//    allocator->deallocate(ptr4); // посмотреть тут указатели
-//    auto ptr6 = allocator->allocate(114);
-//    allocator->deallocate(ptr5);
-//    auto ptr7 = allocator->allocate(41);
-//    auto ptr8 = allocator->allocate(103); //ptr8 ptr9 один адресс ??
-//    auto ptr9 = allocator->allocate(102);
-//    auto ptr10 = allocator->allocate(45);
-//    auto ptr11 = allocator->allocate(91);
-//    allocator->deallocate(ptr8);
-//    auto ptr12 = allocator->allocate(116);
-//    auto ptr13 = allocator->allocate(97);
-//    allocator->deallocate(ptr12);
-//    allocator->deallocate(ptr1);
-//    auto ptr14 = allocator->allocate(143);
+    fund_alg::logger *logger = builder
+            ->add_stream("logs.txt", fund_alg::logger::severity::trace)
+            ->build();
+
+    memory * allocator = new sorted_list_allocator(10000, memory::allocation_mode::first_match, logger);
+    associative_container<int, int> * tree = new binary_search_tree<int, int, key_comparer>(allocator, logger);
+
+    tree->insert(1, 50);
+    tree->insert(2, 10);
 
 
-//    delete allocator;
-//    delete logger;
-//    delete builder;
+    associative_container<int, int>::key_value_pair x {1};
+    associative_container<int, int>::key_value_pair y {2};
+    std::cout << tree->find(&x) << std::endl;
+    std::cout << x._value << std::endl;
+    std::cout << tree->find(&y) << std::endl;
+
+    delete tree;
 
     return 0;
 }
