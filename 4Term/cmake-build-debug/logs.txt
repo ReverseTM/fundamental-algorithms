@@ -1,3 +1,44 @@
-[TRACE][26/04/2023 21:18:02] [SORTED LIST ALLOCATOR] Allocator successfully created.
-[TRACE][26/04/2023 21:18:02] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x8 success.
-[TRACE][26/04/2023 21:18:02] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x28 success.
+[TRACE][28/04/2023 23:42:50] [BUDDY SYSTEM ALLOCATOR] Allocator successfully created.
+[TRACE][28/04/2023 23:42:50] [BUDDY SYSTEM ALLOCATOR] Memory allocation at address: 0x1 success.size: 24
+[TRACE][28/04/2023 23:42:50] [BST] Initialize node with type {binary_search_tree<i, i, Z11testing_bstvE12key_comparer>::node}.
+[TRACE][28/04/2023 23:42:50] [BST] Node with key: {6} inserted.
+[TRACE][28/04/2023 23:42:50] [BUDDY SYSTEM ALLOCATOR] Memory allocation at address: 0x21 success.size: 24
+[TRACE][28/04/2023 23:42:50] [BST] Initialize node with type {binary_search_tree<i, i, Z11testing_bstvE12key_comparer>::node}.
+[TRACE][28/04/2023 23:42:50] [BST] Node with key: {2} inserted.
+[TRACE][28/04/2023 23:42:50] [BUDDY SYSTEM ALLOCATOR] Memory allocation at address: 0x41 success.size: 24
+[TRACE][28/04/2023 23:42:50] [BST] Initialize node with type {binary_search_tree<i, i, Z11testing_bstvE12key_comparer>::node}.
+[TRACE][28/04/2023 23:42:50] [BST] Node with key: {10} inserted.
+[TRACE][28/04/2023 23:42:50] [BUDDY SYSTEM ALLOCATOR] Memory allocation at address: 0x61 success.size: 24
+[TRACE][28/04/2023 23:42:50] [BST] Initialize node with type {binary_search_tree<i, i, Z11testing_bstvE12key_comparer>::node}.
+[TRACE][28/04/2023 23:42:50] [BST] Node with key: {1} inserted.
+[TRACE][28/04/2023 23:42:50] [BUDDY SYSTEM ALLOCATOR] Memory allocation at address: 0x81 success.size: 24
+[TRACE][28/04/2023 23:42:50] [BST] Initialize node with type {binary_search_tree<i, i, Z11testing_bstvE12key_comparer>::node}.
+[TRACE][28/04/2023 23:42:50] [BST] Node with key: {4} inserted.
+[TRACE][28/04/2023 23:42:50] [BUDDY SYSTEM ALLOCATOR] Memory allocation at address: 0xa1 success.size: 24
+[TRACE][28/04/2023 23:42:50] [BST] Initialize node with type {binary_search_tree<i, i, Z11testing_bstvE12key_comparer>::node}.
+[TRACE][28/04/2023 23:42:50] [BST] Node with key: {7} inserted.
+[TRACE][28/04/2023 23:42:50] [BUDDY SYSTEM ALLOCATOR] Memory allocation at address: 0xc1 success.size: 24
+[TRACE][28/04/2023 23:42:50] [BST] Initialize node with type {binary_search_tree<i, i, Z11testing_bstvE12key_comparer>::node}.
+[TRACE][28/04/2023 23:42:50] [BST] Node with key: {12} inserted.
+[TRACE][28/04/2023 23:42:50] Memory state at address: 0x61 = [1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+[TRACE][28/04/2023 23:42:50] [BUDDY SYSTEM ALLOCATOR] Memory at address: 0x61 was deallocated.
+[TRACE][28/04/2023 23:42:50] Node with key: {1} removed.
+[TRACE][28/04/2023 23:42:50] Memory state at address: 0x81 = [4 0 0 0 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+[TRACE][28/04/2023 23:42:50] [BUDDY SYSTEM ALLOCATOR] Memory at address: 0x81 was deallocated.
+[TRACE][28/04/2023 23:42:50] Node with key: {2} removed.
+[TRACE][28/04/2023 23:42:50] Memory state at address: 0x21 = [4 0 0 0 2 0 0 0 21 54 63 157 92 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+[TRACE][28/04/2023 23:42:50] [BUDDY SYSTEM ALLOCATOR] Memory at address: 0x21 was deallocated.
+[TRACE][28/04/2023 23:42:50] Node with key: {4} removed.
+[TRACE][28/04/2023 23:42:50] Memory state at address: 0xa1 = [7 0 0 0 7 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+[TRACE][28/04/2023 23:42:50] [BUDDY SYSTEM ALLOCATOR] Memory at address: 0xa1 was deallocated.
+[TRACE][28/04/2023 23:42:50] Node with key: {6} removed.
+[TRACE][28/04/2023 23:42:50] Memory state at address: 0x41 = [10 0 0 0 10 0 0 0 0 0 0 0 0 0 0 0 117 54 63 157 92 2 0 0 0 0 0 0 0 0 0]
+[TRACE][28/04/2023 23:42:50] [BUDDY SYSTEM ALLOCATOR] Memory at address: 0x41 was deallocated.
+[TRACE][28/04/2023 23:42:50] Node with key: {7} removed.
+[TRACE][28/04/2023 23:42:50] Memory state at address: 0xc1 = [12 0 0 0 12 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+[TRACE][28/04/2023 23:42:50] [BUDDY SYSTEM ALLOCATOR] Memory at address: 0xc1 was deallocated.
+[TRACE][28/04/2023 23:42:50] Node with key: {10} removed.
+[TRACE][28/04/2023 23:42:50] Memory state at address: 0x1 = [12 0 0 0 6 0 0 0 213 53 63 157 92 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+[TRACE][28/04/2023 23:42:50] [BUDDY SYSTEM ALLOCATOR] Memory at address: 0x1 was deallocated.
+[TRACE][28/04/2023 23:42:50] Node with key: {12} removed.
+[TRACE][28/04/2023 23:42:50] [BUDDY SYSTEM ALLOCATOR] Allocator success deleted.

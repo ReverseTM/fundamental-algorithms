@@ -8,6 +8,74 @@
 #include "tree/binary_search_tree.h"
 #include <list>
 
+/*
+            About 11 task
+class A
+{
+
+protected:
+    class Summator
+    {
+    public:
+        int sum_template() {
+            std::cout << "sum_template" << std::endl;
+            sum_inner();
+        }
+
+    private:
+        int sum_inner() {
+            std::cout << "sum_inner" << std::endl;
+            sum_after_inner();
+        }
+
+    protected:
+        virtual int sum_after_inner()
+        {
+            std::cout << "sum_after_inner" << std::endl;
+        }
+
+    };
+private:
+    Summator *_summator;
+
+public:
+    A(A::Summator *sum_method) : _summator(sum_method) {};
+    A() : _summator(new Summator()) {};
+
+    virtual ~A() = default;
+
+    void sum()
+    {
+        _summator->sum_template();
+    }
+
+};
+
+class B : public A
+{
+protected:
+    class C : public A::Summator
+    {
+        int sum_after_inner() override
+        {
+            std::cout << "sum_after_inner class B" << std::endl;
+        }
+
+    };
+public:
+    B() : A(new C()) {};
+};
+
+Вызов фунции sum, которая дополнена в потомке
+A * ptr = new B();
+ptr->sum();
+*/
+
+/*
+ * постфиксный (лево право корень)
+ * инфиксный (лево корень право)
+ * префиксный(корень лево право)
+ */
 
 void testing_allocator()
 {
@@ -90,123 +158,27 @@ void testing_allocator()
     delete builder;
 }
 
-
-//!! About 11 task
-//class A
-//{
-//
-//protected:
-//    class Summator
-//    {
-//    public:
-//        int sum_template() {
-//            std::cout << "sum_template" << std::endl;
-//            sum_inner();
-//        }
-//
-//    private:
-//        int sum_inner() {
-//            std::cout << "sum_inner" << std::endl;
-//            sum_after_inner();
-//        }
-//
-//    protected:
-//        virtual int sum_after_inner()
-//        {
-//            std::cout << "sum_after_inner" << std::endl;
-//        }
-//
-//    };
-//private:
-//    Summator *_summator;
-//
-//public:
-//    A(A::Summator *sum_method) : _summator(sum_method) {};
-//    A() : _summator(new Summator()) {};
-//
-//    virtual ~A() = default;
-//
-//    void sum()
-//    {
-//        _summator->sum_template();
-//    }
-//
-//};
-//
-//class B : public A
-//{
-//protected:
-//    class C : public A::Summator
-//    {
-//        int sum_after_inner() override
-//        {
-//            std::cout << "sum_after_inner class B" << std::endl;
-//        }
-//
-//    };
-//public:
-//    B() : A(new C()) {};
-//};
-
-//Вызов фунции sum, которая дополнена в потомке
-//A * ptr = new B();
-//ptr->sum();
-
-/*
- * постфиксный (лево право корень)
- * инфиксный (лево корень право)
- * префиксный(корень лево право)
- */
-
-
-/*
- *  в конструкторе инфиксного итератора сразу спускаемся в самый левый узел
-*/
-
-/*
- * в свободных храним ( в одном байте(размер занятость), некст прев) unsigned char memory_size_power_2
- * в занятых храним (размер и занятость)
- */
-
-
-
-
-
-/*
- * if (cur == null) return *this;
- *
- * if (left != null)
- * push in stack;
- * current_node = left;
- *
- *
- * else same  right
- *
- *
- * else
- *  while (true)
- *      if (stack empty) return nullptr
- *      break;
- *
- *      else stack.top
- *
- *
- *
- */
-
-
-class key_comparer
+void testing_bst()
 {
-public:
-
-    int operator()(int first, int second)
+    class key_comparer
     {
-        return first - second;
-    }
-};
+    public:
 
-int main()
-{
+        int operator()(int first, int second)
+        {
+            return first - second;
+        }
+
+        int operator()(std::string first, std::string second)
+        {
+            if (first > second)
+                return 1;
+            else if (first < second)
+                return -1;
+            else
+                return 0;
+        }
+    };
 
     builder * builder = new builder_implementation();
 
@@ -214,20 +186,55 @@ int main()
             ->add_stream("logs.txt", fund_alg::logger::severity::trace)
             ->build();
 
-    memory * allocator = new sorted_list_allocator(10000, memory::allocation_mode::first_match, logger);
-    associative_container<int, int> * tree = new binary_search_tree<int, int, key_comparer>(allocator, logger);
+    memory * allocator = new buddy_system_allocator(10, memory::allocation_mode::first_match, logger);
+    associative_container<int, int> * tree = new binary_search_tree<int , int, key_comparer>(allocator, logger);
 
-    tree->insert(1, 50);
-    tree->insert(2, 10);
+    tree->insert(6, 6);
+    tree->insert(2, 2);
+    tree->insert(10, 10);
+    tree->insert(1, 1);
+    tree->insert(4, 4);
+    tree->insert(7, 7);
+    tree->insert(12, 12);
 
+    auto end_prefix = reinterpret_cast<binary_search_tree<int, int, key_comparer>*>(tree)->end_prefix();
+    for (auto it = reinterpret_cast<binary_search_tree<int, int, key_comparer>*>(tree)->begin_prefix(); it != end_prefix; ++it)
+    {
+        std::cout << std::get<2>(*it) << " ";
+    }
+    std::cout << std::endl;
 
-    associative_container<int, int>::key_value_pair x {1};
-    associative_container<int, int>::key_value_pair y {2};
-    std::cout << tree->find(&x) << std::endl;
-    std::cout << x._value << std::endl;
-    std::cout << tree->find(&y) << std::endl;
+    auto end_infix = reinterpret_cast<binary_search_tree<int, int, key_comparer>*>(tree)->end_infix();
+    for (auto it = reinterpret_cast<binary_search_tree<int, int, key_comparer>*>(tree)->begin_infix(); it != end_infix; ++it)
+    {
+        std::cout << std::get<2>(*it) << " ";
+    }
+    std::cout << std::endl;
+
+    auto end_postfix = reinterpret_cast<binary_search_tree<int, int, key_comparer>*>(tree)->end_postfix();
+    for (auto it = reinterpret_cast<binary_search_tree<int, int, key_comparer>*>(tree)->begin_postfix(); it != end_postfix; ++it)
+    {
+        std::cout << std::get<2>(*it) << " ";
+    }
+    std::cout << std::endl;
+
+    tree->remove(1);
+    tree->remove(2);
+    tree->remove(4);
+    tree->remove(6);
+    tree->remove(7);
+    tree->remove(10);
+    tree->remove(12);
 
     delete tree;
+    delete allocator;
+    delete logger;
+    delete builder;
+}
+
+int main()
+{
+    testing_bst();
 
     return 0;
 }

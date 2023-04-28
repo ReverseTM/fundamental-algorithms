@@ -8,6 +8,13 @@
 #include "../memory_allocators/memory_holder.h"
 #include <vector>
 #include <stack>
+#include <sstream>
+
+template <typename T>
+std::string to_string(T str)
+{
+    return std::string { (std::stringstream () << str).str() };
+}
 
 template<
     typename tkey,
@@ -38,7 +45,7 @@ public:
 
     private:
 
-        node *_tree_root;
+        node * _current_node;
         std::stack<node *> _way;
 
     public:
@@ -48,6 +55,8 @@ public:
     public:
 
         bool operator==(prefix_iterator const &other) const;
+
+        bool operator!=(prefix_iterator const &other) const;
 
         prefix_iterator& operator++();
 
@@ -62,7 +71,7 @@ public:
 
     private:
 
-        node *_tree_root;
+        node * _current_node;
         std::stack<node *> _way;
 
     public:
@@ -72,6 +81,8 @@ public:
     public:
 
         bool operator==(infix_iterator const &other) const;
+
+        bool operator!=(infix_iterator const &other) const;
 
         infix_iterator& operator++();
 
@@ -86,7 +97,7 @@ public:
 
     private:
 
-        node *_tree_root;
+        node * _current_node;
         std::stack<node *> _way;
 
     public:
@@ -96,6 +107,8 @@ public:
     public:
 
         bool operator==(postfix_iterator const &other) const;
+
+        bool operator!=(postfix_iterator const &other) const;
 
         postfix_iterator &operator++();
 
@@ -150,6 +163,8 @@ protected:
             std::stack<node **> &path_to_subtree_root_exclusive);
 
         virtual void initialize_memory_with_node(binary_search_tree<tkey, tvalue, tkey_comparer>::node * const node_address);
+
+        virtual std::string get_typename() const;
 
 
     private:
@@ -306,10 +321,6 @@ public:
 
 private:
 
-    std::string get_typename() const;
-
-private:
-
     memory * get_outer_allocator() const override;
 
     fund_alg::logger * get_logger() const override;
@@ -369,7 +380,8 @@ template<
     typename tvalue,
     typename tkey_comparer>
 binary_search_tree<tkey, tvalue, tkey_comparer>::prefix_iterator::prefix_iterator(
-    binary_search_tree<tkey, tvalue, tkey_comparer>::node *tree_root)
+    binary_search_tree<tkey, tvalue, tkey_comparer>::node *tree_root):
+    _current_node(tree_root)
 {
 
 }
@@ -381,7 +393,22 @@ template<
 bool binary_search_tree<tkey, tvalue, tkey_comparer>::prefix_iterator::operator==(
     binary_search_tree<tkey, tvalue, tkey_comparer>::prefix_iterator const &other) const
 {
+    if (_way == other._way && _current_node == other._current_node)
+    {
+        return true;
+    }
 
+    return false;
+}
+
+template<
+    typename tkey,
+    typename tvalue,
+    typename tkey_comparer>
+bool binary_search_tree<tkey, tvalue, tkey_comparer>::prefix_iterator::operator!=(
+    prefix_iterator const &other) const
+{
+    return !(*this == other);
 }
 
 template<
@@ -390,7 +417,42 @@ template<
     typename tkey_comparer>
 typename binary_search_tree<tkey, tvalue, tkey_comparer>::prefix_iterator &binary_search_tree<tkey, tvalue, tkey_comparer>::prefix_iterator::operator++()
 {
+    if (_current_node == nullptr)
+    {
+        return *this;
+    }
 
+    if (_current_node->left_subtree_address != nullptr)
+    {
+        _way.push(_current_node);
+        _current_node = _current_node->left_subtree_address;
+
+        return *this;
+    }
+    else if (_current_node->right_subtree_address != nullptr)
+    {
+        _way.push(_current_node);
+        _current_node = _current_node->right_subtree_address;
+
+        return *this;
+    }
+    else
+    {
+        while (!_way.empty() && _way.top()->right_subtree_address == _current_node)
+        {
+            _current_node = _way.top();
+            _way.pop();
+        }
+
+        if (_way.empty())
+        {
+            _current_node = nullptr;
+            return *this;
+        }
+
+        _current_node = _way.top()->right_subtree_address;
+        return *this;
+    }
 }
 
 template<
@@ -400,7 +462,11 @@ template<
 typename binary_search_tree<tkey, tvalue, tkey_comparer>::prefix_iterator binary_search_tree<tkey, tvalue, tkey_comparer>::prefix_iterator::operator++(
     int not_used)
 {
+    typename binary_search_tree<tkey, tvalue, tkey_comparer>::prefix_iterator prev_state = *this;
 
+    ++(*this);
+
+    return prev_state;
 }
 
 template<
@@ -409,7 +475,7 @@ template<
     typename tkey_comparer>
 std::tuple<unsigned int, tkey const&, tvalue const&> binary_search_tree<tkey, tvalue, tkey_comparer>::prefix_iterator::operator*() const
 {
-
+    return std::tuple<unsigned int, tkey const&, tvalue const&>(_way.size(), _current_node->key_and_value._key, _current_node->key_and_value._value);
 }
 
 //endregion prefix_iterator implementation
@@ -423,7 +489,12 @@ template<
 binary_search_tree<tkey, tvalue, tkey_comparer>::infix_iterator::infix_iterator(
     binary_search_tree<tkey, tvalue, tkey_comparer>::node *tree_root)
 {
-
+    _current_node = tree_root;
+    while (_current_node && _current_node->left_subtree_address)
+    {
+        _way.push(_current_node);
+        _current_node = _current_node->left_subtree_address;
+    }
 }
 
 template<
@@ -433,7 +504,22 @@ template<
 bool binary_search_tree<tkey, tvalue, tkey_comparer>::infix_iterator::operator==(
     binary_search_tree<tkey, tvalue, tkey_comparer>::infix_iterator const &other) const
 {
+    if (_way == other._way && _current_node == other._current_node)
+    {
+        return true;
+    }
 
+    return false;
+}
+
+template<
+    typename tkey,
+    typename tvalue,
+    typename tkey_comparer>
+bool binary_search_tree<tkey, tvalue, tkey_comparer>::infix_iterator::operator!=(
+    binary_search_tree<tkey, tvalue, tkey_comparer>::infix_iterator const &other) const
+{
+    return !(*this == other);
 }
 
 template<
@@ -442,7 +528,52 @@ template<
     typename tkey_comparer>
 typename binary_search_tree<tkey, tvalue, tkey_comparer>::infix_iterator &binary_search_tree<tkey, tvalue, tkey_comparer>::infix_iterator::operator++()
 {
+    if (_current_node == nullptr)
+    {
+        return *this;
+    }
 
+    if (_current_node->right_subtree_address != nullptr)
+    {
+        _way.push(_current_node);
+        _current_node = _current_node->right_subtree_address;
+
+        while (_current_node->left_subtree_address != nullptr)
+        {
+            _way.push(_current_node);
+            _current_node = _current_node->left_subtree_address;
+        }
+    }
+    else
+    {
+        if (!_way.empty())
+        {
+            if (_way.top()->left_subtree_address == _current_node)
+            {
+                _current_node = _way.top();
+                _way.pop();
+            }
+            else
+            {
+                while (!_way.empty() && _way.top()->right_subtree_address == _current_node)
+                {
+                    _current_node = _way.top();
+                    _way.pop();
+                }
+
+                if (_way.empty())
+                {
+                    _current_node = nullptr;
+                    return *this;
+                }
+
+                _current_node = _way.top();
+                _way.pop();
+            }
+        }
+    }
+
+    return *this;
 }
 
 template<
@@ -452,7 +583,11 @@ template<
 typename binary_search_tree<tkey, tvalue, tkey_comparer>::infix_iterator binary_search_tree<tkey, tvalue, tkey_comparer>::infix_iterator::operator++(
     int not_used)
 {
+    typename binary_search_tree<tkey, tvalue, tkey_comparer>::infix_iterator prev_state = *this;
 
+    ++(*this);
+
+    return prev_state;
 }
 
 template<
@@ -461,7 +596,7 @@ template<
     typename tkey_comparer>
 std::tuple<unsigned int, tkey const&, tvalue const&> binary_search_tree<tkey, tvalue, tkey_comparer>::infix_iterator::operator*() const
 {
-
+    return std::tuple<unsigned int, tkey const&, tvalue const&>(_way.size(), _current_node->key_and_value._key, _current_node->key_and_value._value);
 }
 
 //endregion infix_iterator implementation
@@ -475,7 +610,12 @@ template<
 binary_search_tree<tkey, tvalue, tkey_comparer>::postfix_iterator::postfix_iterator(
     binary_search_tree<tkey, tvalue, tkey_comparer>::node *tree_root)
 {
-
+    _current_node = tree_root;
+    while (_current_node && _current_node->left_subtree_address)
+    {
+        _way.push(_current_node);
+        _current_node = _current_node->left_subtree_address;
+    }
 }
 
 template<
@@ -485,7 +625,22 @@ template<
 bool binary_search_tree<tkey, tvalue, tkey_comparer>::postfix_iterator::operator==(
     binary_search_tree<tkey, tvalue, tkey_comparer>::postfix_iterator const &other) const
 {
+    if (_way == other._way && _current_node == other._current_node)
+    {
+        return true;
+    }
 
+    return false;
+}
+
+template<
+    typename tkey,
+    typename tvalue,
+    typename tkey_comparer>
+bool binary_search_tree<tkey, tvalue, tkey_comparer>::postfix_iterator::operator!=(
+    binary_search_tree<tkey, tvalue, tkey_comparer>::postfix_iterator const &other) const
+{
+    return !(*this == other);
 }
 
 template<
@@ -494,7 +649,43 @@ template<
     typename tkey_comparer>
 typename binary_search_tree<tkey, tvalue, tkey_comparer>::postfix_iterator &binary_search_tree<tkey, tvalue, tkey_comparer>::postfix_iterator::operator++()
 {
+    if (_current_node == nullptr)
+    {
+        return *this;
+    }
 
+    if (_way.empty())
+    {
+        _current_node = nullptr;
+    }
+    else
+    {
+        if (_way.top()->right_subtree_address == _current_node)
+        {
+            _current_node = _way.top();
+            _way.pop();
+        }
+        else
+        {
+            if (_way.top()->right_subtree_address != nullptr)
+            {
+                _current_node = _way.top()->right_subtree_address;
+
+                while (_current_node->left_subtree_address || _current_node->right_subtree_address)
+                {
+                    _way.push(_current_node);
+                    _current_node = _current_node->left_subtree_address ? _current_node->left_subtree_address : _current_node->right_subtree_address;
+                }
+            }
+            else
+            {
+                _current_node = _way.top();
+                _way.pop();
+            }
+        }
+    }
+
+    return *this;
 }
 
 template<
@@ -504,7 +695,11 @@ template<
 typename binary_search_tree<tkey, tvalue, tkey_comparer>::postfix_iterator binary_search_tree<tkey, tvalue, tkey_comparer>::postfix_iterator::operator++(
     int not_used)
 {
+    typename binary_search_tree<tkey, tvalue, tkey_comparer>::postfix_iterator prev_state = *this;
 
+    ++(*this);
+
+    return prev_state;
 }
 
 template<
@@ -513,7 +708,7 @@ template<
     typename tkey_comparer>
 std::tuple<unsigned int, tkey const&, tvalue const&> binary_search_tree<tkey, tvalue, tkey_comparer>::postfix_iterator::operator*() const
 {
-
+    return std::tuple<unsigned int, tkey const&, tvalue const&>(_way.size(), _current_node->key_and_value._key, _current_node->key_and_value._value);
 }
 
 //endregion prefix_iterator implementation
@@ -531,6 +726,10 @@ template<
 void binary_search_tree<tkey, tvalue, tkey_comparer>::insertion_template_method::initialize_memory_with_node(
         binary_search_tree<tkey, tvalue, tkey_comparer>::node * const node_address)
 {
+    auto tree_typename = get_typename();
+
+    this->trace_with_guard("[BST] Initialize node with type {" + tree_typename + "::node}.");
+
     new (node_address) binary_search_tree<tkey, tvalue, tkey_comparer>::node;
 }
 
@@ -561,9 +760,11 @@ void binary_search_tree<tkey, tvalue, tkey_comparer>::insertion_template_method:
 {
     if (subtree_root_address == nullptr)
     {
-        subtree_root_address = reinterpret_cast<node*>(this->allocate_with_guard(get_node_size()));
+        subtree_root_address = reinterpret_cast<node*>(allocate_with_guard(get_node_size()));
 
-        this->initialize_memory_with_node(subtree_root_address);
+        initialize_memory_with_node(subtree_root_address);
+
+        this->trace_with_guard("[BST] Node with key: {" + to_string(key) + "} inserted.");
 
         subtree_root_address->key_and_value._key = key;
         subtree_root_address->key_and_value._value = std::move(value);
@@ -572,14 +773,19 @@ void binary_search_tree<tkey, tvalue, tkey_comparer>::insertion_template_method:
     }
     else
     {
-        if (_tree->_comparator(key, subtree_root_address->key_and_value._key) == 0)
+        int compare_result = _tree->_comparator(key, subtree_root_address->key_and_value._key);
+
+        if (compare_result == 0)
         {
-            throw "Gde labi";
+            std::string message = "Key already exists";
+            this->warning_with_guard("[BST] " + message + ".");
+
+            throw std::invalid_argument(message);
         }
 
         path_to_subtree_root_exclusive.push(&subtree_root_address);
 
-        if (_tree->_comparator(key, subtree_root_address->key_and_value._key) > 0)
+        if (compare_result > 0)
         {
             insert_inner(key, std::move(value), subtree_root_address->right_subtree_address, path_to_subtree_root_exclusive);
         }
@@ -587,6 +793,8 @@ void binary_search_tree<tkey, tvalue, tkey_comparer>::insertion_template_method:
         {
             insert_inner(key, std::move(value), subtree_root_address->left_subtree_address, path_to_subtree_root_exclusive);
         }
+
+        path_to_subtree_root_exclusive.pop();
     }
 
     after_insert_inner(key, subtree_root_address, path_to_subtree_root_exclusive);
@@ -649,28 +857,30 @@ bool binary_search_tree<tkey, tvalue, tkey_comparer>::reading_template_method::r
 
     tkey_comparer comparator;
 
-    int comparator_result = comparator(target_key_and_result_value->_key, subtree_root_address->key_and_value._key);
+    int compare_result = comparator(target_key_and_result_value->_key, subtree_root_address->key_and_value._key);
 
     bool result_method = false;
 
-    if (comparator_result == 0)
+    if (compare_result == 0)
     {
         target_key_and_result_value->_value = subtree_root_address->key_and_value._value;
         return true;
     }
-
-    path_to_subtree_root_exclusive.push(&subtree_root_address);
-
-    if (comparator_result < 0)
-    {
-        result_method = read_inner(target_key_and_result_value, subtree_root_address->left_subtree_address, path_to_subtree_root_exclusive);
-    }
     else
     {
-        result_method = read_inner(target_key_and_result_value, subtree_root_address->right_subtree_address, path_to_subtree_root_exclusive);
-    }
+        path_to_subtree_root_exclusive.push(&subtree_root_address);
 
-    path_to_subtree_root_exclusive.pop();
+        if (compare_result < 0)
+        {
+            result_method = read_inner(target_key_and_result_value, subtree_root_address->left_subtree_address,path_to_subtree_root_exclusive);
+        }
+        else
+        {
+            result_method = read_inner(target_key_and_result_value, subtree_root_address->right_subtree_address,path_to_subtree_root_exclusive);
+        }
+
+        path_to_subtree_root_exclusive.pop();
+    }
 
     after_read_inner(target_key_and_result_value, subtree_root_address, path_to_subtree_root_exclusive);
 
@@ -727,11 +937,81 @@ tvalue &&binary_search_tree<tkey, tvalue, tkey_comparer>::removing_template_meth
     binary_search_tree<tkey, tvalue, tkey_comparer>::node *&subtree_root_address,
     std::stack<binary_search_tree<tkey, tvalue, tkey_comparer>::node **> &path_to_subtree_root_exclusive)
 {
-    before_remove_inner(key, subtree_root_address, path_to_subtree_root_exclusive); //not used
+    if (subtree_root_address == nullptr)
+    {
+        std::string message = "Node not found";
+        this->warning_with_guard(message);
 
+        throw std::invalid_argument(message);
+    }
 
+    int compare_result = _tree->_comparator(key, subtree_root_address->key_and_value._key);
 
-    after_remove_inner(key, subtree_root_address, path_to_subtree_root_exclusive);
+    if (compare_result == 0)
+    {
+        tvalue && deleted_node = std::move(subtree_root_address->key_and_value._value);
+
+        if (subtree_root_address->left_subtree_address == nullptr && subtree_root_address->right_subtree_address == nullptr)
+        {
+            subtree_root_address->~node();
+            deallocate_with_guard(subtree_root_address);
+            subtree_root_address = nullptr;
+
+            this->trace_with_guard("Node with key: {" + to_string(key) + "} removed.");
+        }
+        else if (subtree_root_address->right_subtree_address && subtree_root_address->left_subtree_address)
+        {
+            node * parent = subtree_root_address;
+            node * successor = subtree_root_address->right_subtree_address;
+
+            while (successor->left_subtree_address)
+            {
+                parent = successor;
+                successor = successor->left_subtree_address;
+            }
+
+            subtree_root_address->key_and_value._key = successor->key_and_value._key;
+            subtree_root_address->key_and_value._value = subtree_root_address->key_and_value._value;
+
+            if (parent->right_subtree_address == successor)
+            {
+                parent->right_subtree_address = successor->right_subtree_address;
+            }
+            else
+            {
+                parent->left_subtree_address = successor->right_subtree_address;
+            }
+
+            deallocate_with_guard(successor);
+
+            this->trace_with_guard("Node with key: {" + to_string(key) + "} removed.");
+        }
+        else
+        {
+            node * tmp = subtree_root_address->left_subtree_address ? subtree_root_address->left_subtree_address : subtree_root_address->right_subtree_address;
+            deallocate_with_guard(subtree_root_address);
+            subtree_root_address = tmp;
+
+            this->trace_with_guard("Node with key: {" + to_string(key) + "} removed.");
+        }
+
+        return std::move(deleted_node);
+
+    }
+    else
+    {
+        path_to_subtree_root_exclusive.push(&subtree_root_address);
+
+        binary_search_tree<tkey, tvalue, tkey_comparer>::node * next_node = compare_result > 0 ? subtree_root_address->right_subtree_address : subtree_root_address->left_subtree_address;
+
+        tvalue && deleted_node = std::move(remove_inner(key, next_node, path_to_subtree_root_exclusive));
+
+        path_to_subtree_root_exclusive.pop();
+
+        after_remove_inner(key, subtree_root_address, path_to_subtree_root_exclusive);
+
+        return std::move(deleted_node);
+    }
 }
 
 template<
@@ -949,7 +1229,7 @@ template<
      typename tkey,
      typename tvalue,
      typename tkey_comparer>
-std::string binary_search_tree<tkey, tvalue, tkey_comparer>::get_typename() const
+std::string binary_search_tree<tkey, tvalue, tkey_comparer>::insertion_template_method::get_typename() const
 {
     auto tkey_typename = typeid(tkey).name();
     auto tvalue_typename = typeid(tvalue).name();
@@ -968,7 +1248,7 @@ template<
     typename tkey_comparer>
 typename binary_search_tree<tkey, tvalue, tkey_comparer>::prefix_iterator binary_search_tree<tkey, tvalue, tkey_comparer>::begin_prefix() const noexcept
 {
-
+    return prefix_iterator(_root);
 }
 
 template<
@@ -977,7 +1257,7 @@ template<
     typename tkey_comparer>
 typename binary_search_tree<tkey, tvalue, tkey_comparer>::prefix_iterator binary_search_tree<tkey, tvalue, tkey_comparer>::end_prefix() const noexcept
 {
-
+    return prefix_iterator(nullptr);
 }
 
 template<
@@ -986,7 +1266,7 @@ template<
     typename tkey_comparer>
 typename binary_search_tree<tkey, tvalue, tkey_comparer>::infix_iterator binary_search_tree<tkey, tvalue, tkey_comparer>::begin_infix() const noexcept
 {
-
+    return infix_iterator(_root);
 }
 
 template<
@@ -995,7 +1275,7 @@ template<
     typename tkey_comparer>
 typename binary_search_tree<tkey, tvalue, tkey_comparer>::infix_iterator binary_search_tree<tkey, tvalue, tkey_comparer>::end_infix() const noexcept
 {
-
+    return infix_iterator(nullptr);
 }
 
 template<
@@ -1004,7 +1284,7 @@ template<
     typename tkey_comparer>
 typename binary_search_tree<tkey, tvalue, tkey_comparer>::postfix_iterator binary_search_tree<tkey, tvalue, tkey_comparer>::begin_postfix() const noexcept
 {
-
+    return postfix_iterator(_root);
 }
 
 template<
@@ -1013,7 +1293,7 @@ template<
     typename tkey_comparer>
 typename binary_search_tree<tkey, tvalue, tkey_comparer>::postfix_iterator binary_search_tree<tkey, tvalue, tkey_comparer>::end_postfix() const noexcept
 {
-
+    return postfix_iterator(nullptr);
 }
 
 // endregion iterators requesting implementation
