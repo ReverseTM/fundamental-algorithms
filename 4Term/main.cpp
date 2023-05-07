@@ -79,17 +79,14 @@ ptr->sum();
 
 void testing_allocator()
 {
-    builder *builder = new builder_implementation();
+    std::unique_ptr<builder> logger_builder = std::make_unique<builder_implementation>();
 
+    auto logger = logger_builder->add_stream("logs.txt", fund_alg::logger::severity::trace)->build();
 
-    fund_alg::logger *logger = builder
-            ->add_stream("logs.txt", fund_alg::logger::severity::trace)
-            ->build();
-
-    memory *allocator1 = new global_heap_allocator(logger);
-    memory *allocator2 = new border_descriptors_allocator(500000, memory::allocation_mode::first_match, logger, allocator1);
-    memory *allocator3 = new sorted_list_allocator(400000, memory::allocation_mode::the_best_match, logger, allocator2);
-    memory * allocator4 = new buddy_system_allocator(17, memory::allocation_mode::first_match, logger, allocator3);
+    std::shared_ptr<memory> allocator1 = std::make_shared<global_heap_allocator>(logger.get());
+    std::shared_ptr<memory> allocator2 = std::make_shared<sorted_list_allocator>(1000000, memory::allocation_mode::first_match, logger.get(), allocator1.get());
+    std::shared_ptr<memory> allocator3 = std::make_shared<border_descriptors_allocator>(700000, memory::allocation_mode::first_match, logger.get(), allocator2.get());
+    std::shared_ptr<memory> allocator4 = std::make_shared<buddy_system_allocator>(15, memory::allocation_mode::first_match, logger.get(), allocator3.get());
 
     std::list<void*> allocated_blocks;
 
@@ -150,12 +147,6 @@ void testing_allocator()
         }
     }
 
-    delete allocator4;
-    delete allocator3;
-    delete allocator2;
-    delete allocator1;
-    delete logger;
-    delete builder;
 }
 
 void testing_bst()
@@ -180,14 +171,13 @@ void testing_bst()
         }
     };
 
-    builder * builder = new builder_implementation();
+    std::unique_ptr<builder> logger_builder = std::make_unique<builder_implementation>();
 
-    fund_alg::logger *logger = builder
-            ->add_stream("logs.txt", fund_alg::logger::severity::trace)
-            ->build();
+    auto logger = logger_builder->add_stream("logs.txt", fund_alg::logger::severity::trace)->build();
 
-    memory * allocator = new buddy_system_allocator(10, memory::allocation_mode::first_match, logger);
-    associative_container<int, int> * tree = new binary_search_tree<int , int, key_comparer>(allocator, logger);
+    std::shared_ptr<memory> allocator = std::make_shared<sorted_list_allocator>(1000000, memory::allocation_mode::first_match, logger.get());
+
+    associative_container<int, int> * tree = new binary_search_tree<int , int, key_comparer>(allocator.get(), logger.get());
 
     tree->insert(6, 6);
     tree->insert(2, 2);
@@ -196,40 +186,23 @@ void testing_bst()
     tree->insert(4, 4);
     tree->insert(7, 7);
     tree->insert(12, 12);
+    tree->insert(3, 3);
+    tree->insert(11, 11);
 
-    auto end_prefix = reinterpret_cast<binary_search_tree<int, int, key_comparer>*>(tree)->end_prefix();
-    for (auto it = reinterpret_cast<binary_search_tree<int, int, key_comparer>*>(tree)->begin_prefix(); it != end_prefix; ++it)
+    auto tree1 = *reinterpret_cast<binary_search_tree<int, int, key_comparer>*>(tree);
+
+    auto end_infix = tree1.end_infix();
+    for (auto it = tree1.begin_infix(); it != end_infix; ++it)
     {
-        std::cout << std::get<2>(*it) << " ";
+        for (int i = 0; i < std::get<0>(*it); i++)
+        {
+            std::cout << "  ";
+        }
+        std::cout << std::get<2>(*it) << std::endl;
     }
     std::cout << std::endl;
-
-    auto end_infix = reinterpret_cast<binary_search_tree<int, int, key_comparer>*>(tree)->end_infix();
-    for (auto it = reinterpret_cast<binary_search_tree<int, int, key_comparer>*>(tree)->begin_infix(); it != end_infix; ++it)
-    {
-        std::cout << std::get<2>(*it) << " ";
-    }
-    std::cout << std::endl;
-
-    auto end_postfix = reinterpret_cast<binary_search_tree<int, int, key_comparer>*>(tree)->end_postfix();
-    for (auto it = reinterpret_cast<binary_search_tree<int, int, key_comparer>*>(tree)->begin_postfix(); it != end_postfix; ++it)
-    {
-        std::cout << std::get<2>(*it) << " ";
-    }
-    std::cout << std::endl;
-
-    tree->remove(1);
-    tree->remove(2);
-    tree->remove(4);
-    tree->remove(6);
-    tree->remove(7);
-    tree->remove(10);
-    tree->remove(12);
 
     delete tree;
-    delete allocator;
-    delete logger;
-    delete builder;
 }
 
 int main()

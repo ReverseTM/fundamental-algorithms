@@ -144,5 +144,7 @@ void memory::memory_state_before_deallocation(void * const block_of_memory, fund
 
     std::string address = address_to_string(block_of_memory_address);
 
+
     logger->log("Memory state at address: " + address + " = [" + bytes + "]", fund_alg::logger::severity::trace);
+
 }

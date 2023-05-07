@@ -7,10 +7,14 @@ class associative_container
 
 public:
 
-    struct key_value_pair
+    struct key_value_pair final
     {
         tkey _key;
         tvalue _value;
+
+    public:
+
+        key_value_pair() { auto x = 10; }
     };
 
 public:

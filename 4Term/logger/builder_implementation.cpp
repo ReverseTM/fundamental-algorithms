@@ -12,7 +12,7 @@ builder* builder_implementation::add_stream(std::string const &target, fund_alg:
     return this;
 }
 
-fund_alg::logger* builder_implementation::build() const
+std::shared_ptr<fund_alg::logger> builder_implementation::build() const
 {
-    return new logger_implementation(_settings);
+    return std::make_shared<logger_implementation>(_settings);
 }

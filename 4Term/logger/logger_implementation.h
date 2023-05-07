@@ -9,13 +9,16 @@ class logger_implementation final : public fund_alg::logger
     friend class builder_implementation;
     friend class json_implementation;
 
+public:
+
+    explicit logger_implementation(std::map<std::string, fund_alg::logger::severity> const &);
+
 private:
 
     std::map<std::string, std::pair<std::ofstream*, fund_alg::logger::severity>> _logger_streams;
 
     static std::map<std::string, std::pair<std::ofstream*, size_t>> _all_streams;
 
-    explicit logger_implementation(std::map<std::string, fund_alg::logger::severity> const &);
 
 private:
 
