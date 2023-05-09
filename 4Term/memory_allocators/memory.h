@@ -8,11 +8,6 @@ class memory
 
 public:
 
-    friend void *const operator +=(memory const &allocator, size_t target_size);
-    friend void operator -=(memory const &allocator, void *const target_to_dealloc);
-
-public:
-
     class memory_exception final : public std::exception
     {
     private:
@@ -38,11 +33,16 @@ public:
 
 public:
 
-    virtual void *const allocate(size_t target_size) const = 0;
+    virtual void * const allocate(size_t target_size) const = 0;
 
     virtual void deallocate(void * target_to_dealloc) const = 0;
 
     virtual ~memory() = default;
+
+public:
+
+    void * const operator +=(size_t target_size);
+    void operator -=(void * target_to_dealloc);
 
 protected:
 

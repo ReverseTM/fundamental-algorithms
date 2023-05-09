@@ -19,7 +19,7 @@ private:
 
 public:
 
-    void *const allocate(size_t target_size) const override;
+    void * const allocate(size_t target_size) const override;
 
     void deallocate(void * target_to_dealloc) const override;
 
@@ -34,13 +34,13 @@ public:
 
 public:
 
-    border_descriptors_allocator(const border_descriptors_allocator &) = delete;
+    border_descriptors_allocator(border_descriptors_allocator const & other) = delete;
 
-    border_descriptors_allocator & operator=(border_descriptors_allocator const &) = delete;
+    border_descriptors_allocator & operator=(border_descriptors_allocator const & other) = delete;
 
-    border_descriptors_allocator(border_descriptors_allocator &&) = delete;
+    border_descriptors_allocator(border_descriptors_allocator && other) = delete;
 
-    border_descriptors_allocator & operator=(border_descriptors_allocator &&) = delete;
+    border_descriptors_allocator & operator=(border_descriptors_allocator && other) = delete;
 
 protected:
 

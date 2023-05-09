@@ -24,6 +24,16 @@ public:
 
     global_heap_allocator(fund_alg::logger * const log_memory);
 
+public:
+
+    global_heap_allocator(global_heap_allocator const & other) = delete;
+
+    global_heap_allocator & operator=(global_heap_allocator const & other) = delete;
+
+    global_heap_allocator(global_heap_allocator && other) = delete;
+
+    global_heap_allocator & operator=(global_heap_allocator && other) = delete;
+
 protected:
 
     size_t get_occupied_block_size_without_service_block(void *current_block) const override;

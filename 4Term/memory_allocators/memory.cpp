@@ -1,6 +1,16 @@
 #include "memory.h"
 #include <sstream>
 
+void * const memory::operator+=(size_t target_size)
+{
+    return allocate(target_size);
+}
+
+void memory::operator-=(void * target_to_dealloc)
+{
+    deallocate(target_to_dealloc);
+}
+
 memory::memory_exception::memory_exception(const std::string &msg)
     : _msg(msg) {}
 

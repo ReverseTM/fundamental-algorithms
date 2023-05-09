@@ -619,6 +619,10 @@ typename binary_search_tree<tkey, tvalue, tkey_comparer>::infix_iterator &binary
                 _way.pop();
             }
         }
+        else
+        {
+            _current_node = nullptr;
+        }
     }
 
     return *this;
@@ -1474,7 +1478,7 @@ std::string binary_search_tree<tkey, tvalue, tkey_comparer>::insertion_template_
     return std::string("binary_search_tree<") + tkey_typename + ", " + tvalue_typename + ", " + tkey_comparer_typename + ">";
 }
 
-// endregion logger_holder contract implementation
+// endregion logger_holder, memory_holder and other contract implementation
 
 // region iterators requesting implementation
 

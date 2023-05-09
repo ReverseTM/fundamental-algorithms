@@ -56,13 +56,3 @@ void global_heap_allocator::deallocate(void * target_to_dealloc) const
 
     this->trace_with_guard("[GLOBAL HEAP ALLOCATOR] Memory at address: " + address_to_string(target_to_dealloc) + " was deallocated.");
 }
-
-void *const operator+=(memory const &allocator, size_t target_size)
-{
-    return allocator.allocate(target_size);
-}
-
-void operator-=(memory const &allocator, void *const target_to_dealloc)
-{
-    allocator.deallocate(target_to_dealloc);
-}

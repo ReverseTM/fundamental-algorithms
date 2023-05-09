@@ -150,11 +150,6 @@ buddy_system_allocator::buddy_system_allocator(
     auto * const next_available_block = reinterpret_cast<void**>(previous_available_block + 1);
     *next_available_block = nullptr;
 
-    std::cout << "---------------" << std::endl;
-    std::cout << "first_block: " << get_first_available_block() << std::endl;
-    std::cout << "first_block_size: " << get_available_block_size(get_first_available_block()) << std::endl;
-    std::cout << "---------------" << std::endl;
-
     this->trace_with_guard("[BUDDY SYSTEM ALLOCATOR] Allocator successfully created.");
 }
 
@@ -260,7 +255,7 @@ void * const buddy_system_allocator::allocate(size_t request_size) const
 
     auto allocated_block = reinterpret_cast<void*>(reinterpret_cast<unsigned char*>(target_block) + sizeof(unsigned char));
 
-    this->trace_with_guard("[BUDDY SYSTEM ALLOCATOR] Memory allocation at address: " + address_to_string(get_address_relative_to_allocator(allocated_block)) + " success." + "size: " + std::to_string(request_size));
+    this->trace_with_guard("[BUDDY SYSTEM ALLOCATOR] Memory allocation at address: " + address_to_string(get_address_relative_to_allocator(allocated_block)) + " success.");
 
     return allocated_block;
 }
@@ -372,11 +367,6 @@ void buddy_system_allocator::deallocate(void * target_to_dealloc) const
 buddy_system_allocator::~buddy_system_allocator()
 {
     const auto * const outer_allocator = get_outer_allocator();
-
-    std::cout << "----------------" << std::endl;
-    std::cout << "first_block: " << get_first_available_block() << std::endl;
-    std::cout << "first_block_size: " << get_available_block_size(get_first_available_block()) << std::endl;
-    std::cout << "----------------" << std::endl;
 
     this->trace_with_guard("[BUDDY SYSTEM ALLOCATOR] Allocator success deleted.");
 

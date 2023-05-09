@@ -179,15 +179,24 @@ void testing_bst()
 
     associative_container<int, int> * tree = new binary_search_tree<int , int, key_comparer>(allocator.get(), logger.get());
 
-    tree->insert(6, 6);
-    tree->insert(2, 2);
-    tree->insert(10, 10);
-    tree->insert(1, 1);
-    tree->insert(4, 4);
-    tree->insert(7, 7);
-    tree->insert(12, 12);
-    tree->insert(3, 3);
-    tree->insert(11, 11);
+    *tree += associative_container<int, int>::key_value_pair{6, 6};
+    *tree += associative_container<int, int>::key_value_pair{2, 2};
+    *tree += associative_container<int, int>::key_value_pair{10, 10};
+    *tree += associative_container<int, int>::key_value_pair{1, 1};
+    *tree += associative_container<int, int>::key_value_pair{4, 4};
+    *tree += associative_container<int, int>::key_value_pair{7, 7};
+    *tree += associative_container<int, int>::key_value_pair{12, 12};
+    *tree += associative_container<int, int>::key_value_pair{3, 3};
+    *tree += associative_container<int, int>::key_value_pair{11, 11};
+
+    *tree -= 11;
+    *tree -= 3;
+    *tree -= 12;
+    *tree -= 7;
+    *tree -= 10;
+    *tree -= 4;
+    *tree -= 1;
+    *tree -= 2;
 
     auto tree1 = *reinterpret_cast<binary_search_tree<int, int, key_comparer>*>(tree);
 
@@ -201,6 +210,7 @@ void testing_bst()
         std::cout << std::get<2>(*it) << std::endl;
     }
     std::cout << std::endl;
+
 
     delete tree;
 }

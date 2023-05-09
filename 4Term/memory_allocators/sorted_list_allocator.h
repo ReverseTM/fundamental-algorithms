@@ -14,11 +14,11 @@ class sorted_list_allocator final :
 {
 private:
 
-    void *_allocated_memory;
+    void * _allocated_memory;
 
 public:
 
-    void *const allocate(size_t target_size) const override;
+    void * const allocate(size_t target_size) const override;
 
     void deallocate(void * target_to_dealloc) const override;
 
@@ -33,13 +33,13 @@ public:
 
 public:
 
-    sorted_list_allocator(const sorted_list_allocator & obj) = delete;
+    sorted_list_allocator(sorted_list_allocator const & other) = delete;
 
-    sorted_list_allocator & operator=(sorted_list_allocator const & obj) = delete;
+    sorted_list_allocator & operator=(sorted_list_allocator const & other) = delete;
 
-    sorted_list_allocator(sorted_list_allocator && obj) = delete;
+    sorted_list_allocator(sorted_list_allocator && other) = delete;
 
-    sorted_list_allocator & operator=(sorted_list_allocator && obj) = delete;
+    sorted_list_allocator & operator=(sorted_list_allocator && other) = delete;
 
 protected:
 
