@@ -1,0 +1,27 @@
+cmake_minimum_required(VERSION 3.24)
+project(kursovaya)
+
+set(CMAKE_CXX_STANDARD 17)
+
+add_executable(kursovaya
+        main.cpp
+        logger/builder_implementation.cpp
+        logger/logger_implementation.cpp
+        logger/json_implementation.cpp
+        memory_allocators/memory.cpp
+        memory_allocators/global_heap_allocator.cpp
+        memory_allocators/sorted_list_allocator.cpp
+        memory_allocators/border_descriptors_allocator.cpp
+        logger/logger_holder.cpp
+        memory_allocators/memory_holder.cpp
+        tree/associative_container.h
+        tree/binary_search_tree.h
+        memory_allocators/buddy_allocator.cpp
+        tree/splay_tree.h
+        containers/scheme.cpp
+        containers/pool.cpp
+        containers/data_base.cpp
+        containers/data_collection.cpp
+        containers/data.h
+        compare/comparator.cpp
+        )
