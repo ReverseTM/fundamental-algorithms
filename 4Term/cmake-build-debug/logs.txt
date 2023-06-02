@@ -1,63 +1,20 @@
-[TRACE][09/05/2023 15:39:16] [SORTED LIST ALLOCATOR] Allocator successfully created.
-[TRACE][09/05/2023 15:39:16] The tree has been created.
-[TRACE][09/05/2023 15:39:16] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x8 success.
-[TRACE][09/05/2023 15:39:16] [BST] Initialize node with type {binary_search_tree<i, i, Z11testing_bstvE12key_comparer>::node}.
-[TRACE][09/05/2023 15:39:16] [BST] Node with key: {6} inserted.
-[TRACE][09/05/2023 15:39:16] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x30 success.
-[TRACE][09/05/2023 15:39:16] [BST] Initialize node with type {binary_search_tree<i, i, Z11testing_bstvE12key_comparer>::node}.
-[TRACE][09/05/2023 15:39:16] [BST] Node with key: {2} inserted.
-[TRACE][09/05/2023 15:39:16] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x58 success.
-[TRACE][09/05/2023 15:39:16] [BST] Initialize node with type {binary_search_tree<i, i, Z11testing_bstvE12key_comparer>::node}.
-[TRACE][09/05/2023 15:39:16] [BST] Node with key: {10} inserted.
-[TRACE][09/05/2023 15:39:16] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x80 success.
-[TRACE][09/05/2023 15:39:16] [BST] Initialize node with type {binary_search_tree<i, i, Z11testing_bstvE12key_comparer>::node}.
-[TRACE][09/05/2023 15:39:16] [BST] Node with key: {1} inserted.
-[TRACE][09/05/2023 15:39:16] [SORTED LIST ALLOCATOR] Memory allocation at address: 0xa8 success.
-[TRACE][09/05/2023 15:39:16] [BST] Initialize node with type {binary_search_tree<i, i, Z11testing_bstvE12key_comparer>::node}.
-[TRACE][09/05/2023 15:39:16] [BST] Node with key: {4} inserted.
-[TRACE][09/05/2023 15:39:16] [SORTED LIST ALLOCATOR] Memory allocation at address: 0xd0 success.
-[TRACE][09/05/2023 15:39:16] [BST] Initialize node with type {binary_search_tree<i, i, Z11testing_bstvE12key_comparer>::node}.
-[TRACE][09/05/2023 15:39:16] [BST] Node with key: {7} inserted.
-[TRACE][09/05/2023 15:39:16] [SORTED LIST ALLOCATOR] Memory allocation at address: 0xf8 success.
-[TRACE][09/05/2023 15:39:16] [BST] Initialize node with type {binary_search_tree<i, i, Z11testing_bstvE12key_comparer>::node}.
-[TRACE][09/05/2023 15:39:16] [BST] Node with key: {12} inserted.
-[TRACE][09/05/2023 15:39:16] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x120 success.
-[TRACE][09/05/2023 15:39:16] [BST] Initialize node with type {binary_search_tree<i, i, Z11testing_bstvE12key_comparer>::node}.
-[TRACE][09/05/2023 15:39:16] [BST] Node with key: {3} inserted.
-[TRACE][09/05/2023 15:39:16] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x148 success.
-[TRACE][09/05/2023 15:39:16] [BST] Initialize node with type {binary_search_tree<i, i, Z11testing_bstvE12key_comparer>::node}.
-[TRACE][09/05/2023 15:39:16] [BST] Node with key: {11} inserted.
-[TRACE][09/05/2023 15:39:16] Memory state at address: 0x148 = [120 145 165 185 247 127 0 0 11 0 0 0 11 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-[TRACE][09/05/2023 15:39:16] [SORTED LIST ALLOCATOR] Memory at address: 0x148 was deallocated.
-[TRACE][09/05/2023 15:39:16] [BST] Node with key: {11} has been deleted.
-[TRACE][09/05/2023 15:39:16] Memory state at address: 0x120 = [120 145 165 185 247 127 0 0 3 0 0 0 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-[TRACE][09/05/2023 15:39:16] [SORTED LIST ALLOCATOR] Memory at address: 0x120 was deallocated.
-[TRACE][09/05/2023 15:39:16] [BST] Node with key: {3} has been deleted.
-[TRACE][09/05/2023 15:39:16] Memory state at address: 0xf8 = [120 145 165 185 247 127 0 0 12 0 0 0 12 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-[TRACE][09/05/2023 15:39:16] [SORTED LIST ALLOCATOR] Memory at address: 0xf8 was deallocated.
-[TRACE][09/05/2023 15:39:16] [BST] Node with key: {12} has been deleted.
-[TRACE][09/05/2023 15:39:16] Memory state at address: 0xd0 = [120 145 165 185 247 127 0 0 7 0 0 0 7 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-[TRACE][09/05/2023 15:39:16] [SORTED LIST ALLOCATOR] Memory at address: 0xd0 was deallocated.
-[TRACE][09/05/2023 15:39:16] [BST] Node with key: {7} has been deleted.
-[TRACE][09/05/2023 15:39:16] Memory state at address: 0x58 = [120 145 165 185 247 127 0 0 10 0 0 0 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-[TRACE][09/05/2023 15:39:16] [SORTED LIST ALLOCATOR] Memory at address: 0x58 was deallocated.
-[TRACE][09/05/2023 15:39:16] [BST] Node with key: {10} has been deleted.
-[TRACE][09/05/2023 15:39:16] Memory state at address: 0xa8 = [120 145 165 185 247 127 0 0 4 0 0 0 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-[TRACE][09/05/2023 15:39:16] [SORTED LIST ALLOCATOR] Memory at address: 0xa8 was deallocated.
-[TRACE][09/05/2023 15:39:16] [BST] Node with key: {4} has been deleted.
-[TRACE][09/05/2023 15:39:16] Memory state at address: 0x80 = [120 145 165 185 247 127 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-[TRACE][09/05/2023 15:39:16] [SORTED LIST ALLOCATOR] Memory at address: 0x80 was deallocated.
-[TRACE][09/05/2023 15:39:16] [BST] Node with key: {1} has been deleted.
-[TRACE][09/05/2023 15:39:16] Memory state at address: 0x30 = [120 145 165 185 247 127 0 0 2 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-[TRACE][09/05/2023 15:39:16] [SORTED LIST ALLOCATOR] Memory at address: 0x30 was deallocated.
-[TRACE][09/05/2023 15:39:16] [BST] Node with key: {2} has been deleted.
-[TRACE][09/05/2023 15:39:16] The tree has been created.
-[TRACE][09/05/2023 15:39:16] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x30 success.
-[TRACE][09/05/2023 15:39:16] The tree has been copy.
-[TRACE][09/05/2023 15:39:16] Memory state at address: 0x8 = [120 145 165 185 247 127 0 0 6 0 0 0 6 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-[TRACE][09/05/2023 15:39:16] [SORTED LIST ALLOCATOR] Memory at address: 0x8 was deallocated.
-[TRACE][09/05/2023 15:39:16] The tree has been deleted.
-[TRACE][09/05/2023 15:39:16] Memory state at address: 0x30 = [120 145 165 185 247 127 0 0 6 0 0 0 6 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
-[TRACE][09/05/2023 15:39:16] [SORTED LIST ALLOCATOR] Memory at address: 0x30 was deallocated.
-[TRACE][09/05/2023 15:39:16] The tree has been deleted.
-[TRACE][09/05/2023 15:39:16] [SORTED LIST ALLOCATOR] Allocator success deleted.
+[TRACE][01/06/2023 22:57:36] [SORTED LIST ALLOCATOR] Allocator successfully created.
+[TRACE][01/06/2023 22:57:36] [SPLAY TREE] The tree has been created.
+[TRACE][01/06/2023 22:57:36] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x8 success.
+[TRACE][01/06/2023 22:57:36] [SPLAY TREE] Initialize node with type {splay_tree<i, i, Z18testing_splay_treevE12key_comparer>::node}.
+[TRACE][01/06/2023 22:57:36] [SPLAY TREE] Node with key: {6} inserted.
+[TRACE][01/06/2023 22:57:36] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x30 success.
+[TRACE][01/06/2023 22:57:36] [SPLAY TREE] Initialize node with type {splay_tree<i, i, Z18testing_splay_treevE12key_comparer>::node}.
+[TRACE][01/06/2023 22:57:36] [SPLAY TREE] Node with key: {2} inserted.
+[TRACE][01/06/2023 22:57:36] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x58 success.
+[TRACE][01/06/2023 22:57:36] [SPLAY TREE] Initialize node with type {splay_tree<i, i, Z18testing_splay_treevE12key_comparer>::node}.
+[TRACE][01/06/2023 22:57:36] [SPLAY TREE] Node with key: {12} inserted.
+[TRACE][01/06/2023 22:57:36] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x80 success.
+[TRACE][01/06/2023 22:57:36] [SPLAY TREE] Initialize node with type {splay_tree<i, i, Z18testing_splay_treevE12key_comparer>::node}.
+[TRACE][01/06/2023 22:57:36] [SPLAY TREE] Node with key: {11} inserted.
+[TRACE][01/06/2023 22:57:36] [SORTED LIST ALLOCATOR] Memory allocation at address: 0xa8 success.
+[TRACE][01/06/2023 22:57:36] [SPLAY TREE] Initialize node with type {splay_tree<i, i, Z18testing_splay_treevE12key_comparer>::node}.
+[TRACE][01/06/2023 22:57:36] [SPLAY TREE] Node with key: {8} inserted.
+[TRACE][01/06/2023 22:57:36] [SORTED LIST ALLOCATOR] Memory allocation at address: 0xd0 success.
+[TRACE][01/06/2023 22:57:36] [SPLAY TREE] Initialize node with type {splay_tree<i, i, Z18testing_splay_treevE12key_comparer>::node}.
+[TRACE][01/06/2023 22:57:36] [SPLAY TREE] Node with key: {9} inserted.

@@ -33,9 +33,9 @@ protected:
     {
         typename associative_container<tkey, tvalue>::key_value_pair key_and_value;
 
-        node *left_subtree_address;
+        node * left_subtree_address;
 
-        node *right_subtree_address;
+        node * right_subtree_address;
 
     public:
 
@@ -177,14 +177,14 @@ protected:
 
         virtual std::string get_typename() const;
 
+        virtual size_t get_node_size() const;
+
 
     private:
 
         fund_alg::logger * get_logger() const override;
 
         memory * get_outer_allocator() const override;
-
-        virtual size_t get_node_size() const;
     };
 
     class reading_template_method : protected logger_holder
@@ -253,9 +253,9 @@ protected:
             tkey const &key,
             node *&tree_root_address);
 
-    private:
+    protected:
 
-        tvalue &&remove_inner(
+        virtual tvalue &&remove_inner(
             tkey const &key,
             node *&subtree_root_address,
             std::list<node **> &path_to_subtree_root_exclusive);
@@ -296,9 +296,12 @@ protected:
         memory * get_outer_allocator() const override;
     };
 
-private:
+protected:
 
     node *_root;
+
+private:
+
     memory *_allocator;
     fund_alg::logger *_logger;
     tkey_comparer _comparator;
@@ -349,7 +352,7 @@ private:
 
     fund_alg::logger * get_logger() const override;
 
-    virtual size_t get_node_size() const;
+    size_t get_node_size() const;
 
 private:
 
@@ -388,12 +391,12 @@ template<
     typename tkey,
     typename tvalue,
     typename tkey_comparer>
-void binary_search_tree<tkey, tvalue, tkey_comparer>::left_rotation(node *&subtree_root) const
+    void binary_search_tree<tkey, tvalue, tkey_comparer>::left_rotation(node *&subtree_root) const
 {
-            node *tmp = subtree_root;
-            subtree_root = subtree_root->right_subtree_address;
-            tmp->right_subtree_address = subtree_root->left_subtree_address;
-            subtree_root->left_subtree_address = tmp;
+    node * tmp = subtree_root;
+    subtree_root = subtree_root->right_subtree_address;
+    tmp->right_subtree_address = subtree_root->left_subtree_address;
+    subtree_root->left_subtree_address = tmp;
 }
 
 template<
@@ -402,10 +405,10 @@ template<
     typename tkey_comparer>
 void binary_search_tree<tkey, tvalue, tkey_comparer>::right_rotation(node *&subtree_root) const
 {
-            node *tmp = subtree_root;
-            subtree_root = subtree_root->left_subtree_address;
-            tmp->left_subtree_address = subtree_root->right_subtree_address;
-            subtree_root->right_subtree_address = tmp;
+    node *tmp = subtree_root;
+    subtree_root = subtree_root->left_subtree_address;
+    tmp->left_subtree_address = subtree_root->right_subtree_address;
+    subtree_root->right_subtree_address = tmp;
 }
 // region iterators implementation
 
@@ -844,9 +847,7 @@ void binary_search_tree<tkey, tvalue, tkey_comparer>::insertion_template_method:
     (*insert_node)->left_subtree_address = nullptr;
     (*insert_node)->right_subtree_address = nullptr;
 
-    this->trace_with_guard("[BST] Node with key: {" + to_string(key) + "} inserted.");
-
-    after_insert_inner(key, subtree_root_address, path_to_subtree_root_exclusive);
+    after_insert_inner(key, *insert_node, path_to_subtree_root_exclusive);
 }
 
 template<
@@ -870,7 +871,7 @@ void binary_search_tree<tkey, tvalue, tkey_comparer>::insertion_template_method:
     binary_search_tree<tkey, tvalue, tkey_comparer>::node *&subtree_root_address,
     std::stack<binary_search_tree<tkey, tvalue, tkey_comparer>::node **> &path_to_subtree_root_exclusive)
 {
-
+    this->trace_with_guard("[BST] Node with key: {" + to_string(key) + "} inserted.");
 }
 
 template<
@@ -945,7 +946,7 @@ bool binary_search_tree<tkey, tvalue, tkey_comparer>::reading_template_method::r
         if (compare_result == 0)
         {
             target_key_and_result_value->_value = std::move((*find_node)->key_and_value._value);
-            after_read_inner(target_key_and_result_value, subtree_root_address, path_to_subtree_root_exclusive);
+            after_read_inner(target_key_and_result_value, *find_node, path_to_subtree_root_exclusive);
             return true;
         }
         else
@@ -1043,7 +1044,7 @@ tvalue &&binary_search_tree<tkey, tvalue, tkey_comparer>::removing_template_meth
         }
     }
 
-    if (removed_node == nullptr)
+    if (*removed_node == nullptr)
     {
         std::string message = "Key not found";
         this->warning_with_guard(message);
@@ -1092,12 +1093,16 @@ tvalue &&binary_search_tree<tkey, tvalue, tkey_comparer>::removing_template_meth
         }
     }
 
-    if (!removal_completed) {
-        if ((*removed_node)->left_subtree_address == nullptr && (*removed_node)->right_subtree_address == nullptr) {
+    if (!removal_completed)
+    {
+        if ((*removed_node)->left_subtree_address == nullptr && (*removed_node)->right_subtree_address == nullptr)
+        {
             (*removed_node)->~node();
             deallocate_with_guard((*removed_node));
             (*removed_node) = nullptr;
-        } else {
+        }
+        else
+        {
             auto tmp = (*removed_node)->left_subtree_address != nullptr ? (*removed_node)->left_subtree_address
                                                                         : (*removed_node)->right_subtree_address;
             (*removed_node)->~node();
@@ -1105,8 +1110,6 @@ tvalue &&binary_search_tree<tkey, tvalue, tkey_comparer>::removing_template_meth
             (*removed_node) = tmp;
         }
     }
-
-    this->trace_with_guard("[BST] Node with key: {" + to_string(key) + "} has been deleted.");
 
     after_remove_inner(key, subtree_root_address, path_to_subtree_root_exclusive);
 
@@ -1134,7 +1137,7 @@ void binary_search_tree<tkey, tvalue, tkey_comparer>::removing_template_method::
     binary_search_tree<tkey, tvalue, tkey_comparer>::node *&subtree_root_address,
     std::list<binary_search_tree<tkey, tvalue, tkey_comparer>::node **> &path_to_subtree_root_exclusive)
 {
-
+    this->trace_with_guard("[BST] Node with key: {" + to_string(key) + "} has been deleted.");
 }
 
 template<

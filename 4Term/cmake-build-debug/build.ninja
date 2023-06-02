@@ -115,6 +115,12 @@ build CMakeFiles/project.dir/memory_allocators/buddy_allocator.cpp.obj: CXX_COMP
   OBJECT_DIR = CMakeFiles\project.dir
   OBJECT_FILE_DIR = CMakeFiles\project.dir\memory_allocators
 
+build CMakeFiles/project.dir/long_numbers/big_int.cpp.obj: CXX_COMPILER__project_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/long_numbers/big_int.cpp || cmake_object_order_depends_target_project
+  DEP_FILE = CMakeFiles\project.dir\long_numbers\big_int.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\project.dir
+  OBJECT_FILE_DIR = CMakeFiles\project.dir\long_numbers
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target project
@@ -123,7 +129,7 @@ build CMakeFiles/project.dir/memory_allocators/buddy_allocator.cpp.obj: CXX_COMP
 #############################################
 # Link the executable project.exe
 
-build project.exe: CXX_EXECUTABLE_LINKER__project_Debug CMakeFiles/project.dir/main.cpp.obj CMakeFiles/project.dir/logger/builder_implementation.cpp.obj CMakeFiles/project.dir/logger/logger_implementation.cpp.obj CMakeFiles/project.dir/logger/json_implementation.cpp.obj CMakeFiles/project.dir/memory_allocators/memory.cpp.obj CMakeFiles/project.dir/memory_allocators/global_heap_allocator.cpp.obj CMakeFiles/project.dir/memory_allocators/sorted_list_allocator.cpp.obj CMakeFiles/project.dir/memory_allocators/border_descriptors_allocator.cpp.obj CMakeFiles/project.dir/logger/logger_holder.cpp.obj CMakeFiles/project.dir/memory_allocators/memory_holder.cpp.obj CMakeFiles/project.dir/memory_allocators/buddy_allocator.cpp.obj
+build project.exe: CXX_EXECUTABLE_LINKER__project_Debug CMakeFiles/project.dir/main.cpp.obj CMakeFiles/project.dir/logger/builder_implementation.cpp.obj CMakeFiles/project.dir/logger/logger_implementation.cpp.obj CMakeFiles/project.dir/logger/json_implementation.cpp.obj CMakeFiles/project.dir/memory_allocators/memory.cpp.obj CMakeFiles/project.dir/memory_allocators/global_heap_allocator.cpp.obj CMakeFiles/project.dir/memory_allocators/sorted_list_allocator.cpp.obj CMakeFiles/project.dir/memory_allocators/border_descriptors_allocator.cpp.obj CMakeFiles/project.dir/logger/logger_holder.cpp.obj CMakeFiles/project.dir/memory_allocators/memory_holder.cpp.obj CMakeFiles/project.dir/memory_allocators/buddy_allocator.cpp.obj CMakeFiles/project.dir/long_numbers/big_int.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\project.dir

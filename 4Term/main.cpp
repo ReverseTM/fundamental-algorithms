@@ -6,6 +6,7 @@
 #include "memory_allocators/border_descriptors_allocator.h"
 #include "memory_allocators/buddy_allocator.h"
 #include "tree/binary_search_tree.h"
+#include "tree/splay_tree.h"
 #include <list>
 
 /*
@@ -76,6 +77,8 @@ ptr->sum();
  * инфиксный (лево корень право)
  * префиксный(корень лево право)
  */
+
+
 
 void testing_allocator()
 {
@@ -177,7 +180,7 @@ void testing_bst()
 
     std::shared_ptr<memory> allocator = std::make_shared<sorted_list_allocator>(1000000, memory::allocation_mode::first_match, logger.get());
 
-    associative_container<int, int> * tree = new binary_search_tree<int , int, key_comparer>(allocator.get(), logger.get());
+    associative_container<int, int> * tree = new binary_search_tree<int, int, key_comparer>(allocator.get(), logger.get());
 
     *tree += associative_container<int, int>::key_value_pair{6, 6};
     *tree += associative_container<int, int>::key_value_pair{2, 2};
@@ -189,14 +192,21 @@ void testing_bst()
     *tree += associative_container<int, int>::key_value_pair{3, 3};
     *tree += associative_container<int, int>::key_value_pair{11, 11};
 
-    *tree -= 11;
-    *tree -= 3;
-    *tree -= 12;
-    *tree -= 7;
-    *tree -= 10;
-    *tree -= 4;
-    *tree -= 1;
-    *tree -= 2;
+    auto x = associative_container<int, int>::key_value_pair{4};
+
+    if ((*tree)[&x])
+    {
+        std::cout << "Key found, value = " <<  x._value << std::endl;
+    }
+
+//    *tree -= 11;
+//    *tree -= 3;
+//    *tree -= 12;
+//    *tree -= 7;
+//    *tree -= 10;
+//    *tree -= 4;
+//    *tree -= 1;
+//    *tree -= 2;
 
     auto tree1 = *reinterpret_cast<binary_search_tree<int, int, key_comparer>*>(tree);
 
@@ -215,9 +225,64 @@ void testing_bst()
     delete tree;
 }
 
+void testing_splay_tree()
+{
+    class key_comparer
+    {
+    public:
+
+        int operator()(int first, int second)
+        {
+            return first - second;
+        }
+
+        int operator()(std::string first, std::string second)
+        {
+            if (first > second)
+                return 1;
+            else if (first < second)
+                return -1;
+            else
+                return 0;
+        }
+    };
+
+    std::unique_ptr<builder> logger_builder = std::make_unique<builder_implementation>();
+
+    auto logger = logger_builder->add_stream("logs.txt", fund_alg::logger::severity::trace)->build();
+
+    std::shared_ptr<memory> allocator = std::make_shared<sorted_list_allocator>(1000000, memory::allocation_mode::first_match, logger.get());
+
+    associative_container<int, int> * tree = new splay_tree<int , int, key_comparer>(allocator.get(), logger.get());
+
+    tree->insert(6, 6);
+    tree->insert(2, 2);
+    tree->insert(12, 12);
+    tree->insert(11, 11);
+    tree->insert(8, 8);
+    tree->insert(9, 9);
+
+    tree->remove(12);
+    tree->remove(2);
+    tree->remove(8);
+
+    auto end_infix = reinterpret_cast<binary_search_tree<int, int, key_comparer> *>(tree)->end_infix();
+    for (auto it = reinterpret_cast<binary_search_tree<int, int, key_comparer> *>(tree)->begin_infix(); it != end_infix; ++it)
+    {
+        for (int i = 0; i < std::get<0>(*it); i++)
+        {
+            std::cout << "  ";
+        }
+        std::cout << std::get<2>(*it) << std::endl;
+    }
+    std::cout << std::endl;
+
+    delete tree;
+}
+
 int main()
 {
-    testing_bst();
+    testing_splay_tree();
 
     return 0;
 }

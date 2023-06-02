@@ -11,10 +11,6 @@ public:
     {
         tkey _key;
         tvalue _value;
-
-        key_value_pair(): _key(0), _value(0) {};
-        key_value_pair(int key): _key(key), _value(0) {};
-        key_value_pair(int key, int value): _key(key), _value(value) {};
     };
 
 public:

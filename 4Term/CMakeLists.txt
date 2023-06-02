@@ -15,4 +15,6 @@ add_executable(project main.cpp
         memory_allocators/memory_holder.cpp
         tree/associative_container.h
         tree/binary_search_tree.h
-        memory_allocators/buddy_allocator.cpp)
+        memory_allocators/buddy_allocator.cpp
+        long_numbers/big_int.cpp
+        tree/splay_tree.h)
