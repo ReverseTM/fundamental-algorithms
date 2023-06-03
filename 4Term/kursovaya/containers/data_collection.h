@@ -1,34 +1,61 @@
 #ifndef DATA_COLLECTION_H
 #define DATA_COLLECTION_H
 
-#include "data.h"
-#include "../compare/comparator.h"
+#include "../types/data_type.h"
+#include "../compare/string_comparer.h"
+#include "../compare/key_comparator.h"
+#include "../memory_allocators/memory.h"
+#include "../memory_allocators/global_heap_allocator.h"
+#include "../memory_allocators/sorted_list_allocator.h"
+#include "../memory_allocators/border_descriptors_allocator.h"
+#include "../memory_allocators/buddy_allocator.h"
+#include "../tree/binary_search_tree.h"
 #include "../tree/splay_tree.h"
-#include <string>
-#include <tuple>
 
-class data_collection
+class data_collection final : protected memory_holder
 {
 
 private:
 
-    associative_container<key, value> * _data;
+    memory * _allocator;
+
+    associative_container<key*, value*> * _data;
 
 public:
 
-    explicit data_collection();
+    data_collection(memory * allocator = nullptr);
 
     ~data_collection();
 
 public:
 
-    data_collection(data_collection const & other) = delete;
+    void add(
+            unsigned int id_session,
+            unsigned int id_student,
+            const std::string &format,
+            const std::string &subject,
+            const std::string &surname,
+            const std::string &name,
+            const std::string &patronymic,
+            const std::string &date,
+            const std::string &time,
+            unsigned int mark);
 
-    data_collection & operator=(data_collection const & other) = delete;
+    value remove(key * data_key);
 
-    data_collection(data_collection && other) = delete;
+public:
 
-    data_collection & operator=(data_collection && other) = delete;
+    data_collection(data_collection const & other);
+
+    data_collection & operator=(data_collection const & other);
+
+    data_collection(data_collection && other) noexcept;
+
+    data_collection & operator=(data_collection && other) noexcept;
+
+private:
+
+    memory * get_outer_allocator() const override;
 
 };
 

@@ -27,7 +27,7 @@ public:
 
     //virtual std::vector<tvalue> find_in_range(tkey const & min_bound, tkey const & max_bound);
 
-    virtual tvalue && remove(tkey const &key) = 0;
+    virtual tvalue remove(tkey const &key) = 0;
 
 public:
 

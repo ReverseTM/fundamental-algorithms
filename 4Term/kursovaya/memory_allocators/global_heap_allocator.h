@@ -22,7 +22,7 @@ public:
 
     void deallocate(void * target_to_dealloc) const override;
 
-    global_heap_allocator(logger * const log_memory);
+    global_heap_allocator(logger * const log_memory = nullptr);
 
 public:
 

@@ -2,36 +2,41 @@
 #define POOL_H
 
 #include "scheme.h"
-#include "data_base.h"
 
-class pool
+class pool final
 {
-
-    friend class data_base;
 
 private:
 
     memory * _allocator;
 
-    associative_container<std::string, scheme *> * _pool;
+    associative_container<std::string, scheme> * _pool;
 
 public:
 
-    explicit pool();
+    pool(memory * allocator = nullptr);
 
     ~pool();
 
 public:
 
-    pool(pool const & other) = delete;
+    void add(std::string const & key, scheme && target);
 
-    pool & operator=(pool const & other) = delete;
+    void remove(std::string const & key);
 
-    pool(pool && other) = delete;
+    bool find(associative_container<std::string, scheme>::key_value_pair * target_key_and_value);
 
-    explicit pool(associative_container<std::string, scheme *> *pool);
+    memory * get_allocator() const;
 
-    pool & operator=(pool && other) = delete;
+public:
+
+    pool(pool const & other);
+
+    pool & operator=(pool const & other);
+
+    pool(pool && other) noexcept;
+
+    pool & operator=(pool && other) noexcept;
 
 };
 

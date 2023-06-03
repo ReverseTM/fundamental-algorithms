@@ -68,7 +68,7 @@ private:
 
     protected:
 
-        tvalue && remove_inner(
+        tvalue remove_inner(
                 tkey const &key,
                 typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *& subtree_root_address,
                 std::list<typename binary_search_tree<tkey, tvalue, tkey_comparer>::node **> &path_to_subtree_root_exclusive
@@ -85,13 +85,148 @@ protected:
             typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *&left_subtree,
             typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *&right_subtree);
 
+private:
+
+    void clear();
+
+    typename binary_search_tree<tkey, tvalue, tkey_comparer>::node * copy() const;
+
+    typename binary_search_tree<tkey, tvalue, tkey_comparer>::node * copy_inner(typename binary_search_tree<tkey, tvalue, tkey_comparer>::node * to_copy) const;
+
+    void move(splay_tree<tkey, tvalue, tkey_comparer> && other);
+
 public:
 
     explicit splay_tree(memory *allocator = nullptr, logger *logger = nullptr);
 
+    splay_tree(splay_tree const & other);
+
+    splay_tree(splay_tree && other) noexcept;
+
+    splay_tree &operator=(splay_tree const & other);
+
+    splay_tree &operator=(splay_tree && other) noexcept;
+
     ~splay_tree() final = default;
 
 };
+
+template<
+    typename tkey,
+    typename tvalue,
+    typename tkey_comparer>
+splay_tree<tkey, tvalue, tkey_comparer> &splay_tree<tkey, tvalue, tkey_comparer>::operator=(splay_tree &&other) noexcept
+{
+    if (this == &other)
+    {
+        return *this;
+    }
+
+    clear();
+
+    delete this->_insertion;
+    delete this->_reading;
+    delete this->_removing;
+
+    move(std::move(other));
+
+    return *this;
+}
+
+template<
+    typename tkey,
+    typename tvalue,
+    typename tkey_comparer>
+splay_tree<tkey, tvalue, tkey_comparer> &splay_tree<tkey, tvalue, tkey_comparer>::operator=(const splay_tree<tkey, tvalue, tkey_comparer> &other)
+{
+    if (this == &other)
+    {
+        return *this;
+    }
+
+    clear();
+    this->_root = other.copy();
+
+    return *this;
+}
+
+template<
+    typename tkey,
+    typename tvalue,
+    typename tkey_comparer>
+splay_tree<tkey, tvalue, tkey_comparer>::splay_tree(splay_tree<tkey, tvalue, tkey_comparer> &&other) noexcept
+{
+    move(std::move(other));
+
+    this->trace_with_guard("The tree has been moved.");
+}
+
+template<typename tkey, typename tvalue, typename tkey_comparer>
+splay_tree<tkey, tvalue, tkey_comparer>::splay_tree(const splay_tree<tkey, tvalue, tkey_comparer> &other)
+    : splay_tree<tkey, tvalue, tkey_comparer>(other.get_outer_allocator(), other.get_logger())
+{
+    this->_root = other.copy();
+}
+
+template<typename tkey, typename tvalue, typename tkey_comparer>
+void splay_tree<tkey, tvalue, tkey_comparer>::move(splay_tree<tkey, tvalue, tkey_comparer> &&other)
+{
+    this->_root = other._root;
+    other._root = nullptr;
+
+    this->_allocator = other._allocator;
+    other._allocator = nullptr;
+
+    this->_logger = other._logger;
+    other._logger = nullptr;
+
+    this->_insertion = other._insertion;
+    other._insertion = nullptr;
+
+    this->_reading = other._reading;
+    other._reading = nullptr;
+
+    this->_removing = other._removing;
+    other._removing = nullptr;
+}
+
+template<typename tkey, typename tvalue, typename tkey_comparer>
+typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *
+splay_tree<tkey, tvalue, tkey_comparer>::copy_inner(typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *to_copy) const
+{
+    if (to_copy == nullptr)
+    {
+        return nullptr;
+    }
+
+    auto * node_copy = reinterpret_cast<typename binary_search_tree<tkey, tvalue, tkey_comparer>::node*>(this->allocate_with_guard(this->get_node_size()));
+
+    new (node_copy) typename binary_search_tree<tkey, tvalue, tkey_comparer>::node;
+
+    node_copy->key_and_value._key = to_copy->key_and_value._key;
+    node_copy->key_and_value._value = to_copy->key_and_value._value;
+    node_copy->left_subtree_address = copy_inner(to_copy->left_subtree_address);
+    node_copy->right_subtree_address = copy_inner(to_copy->right_subtree_address);
+
+    return node_copy;
+}
+
+template<typename tkey, typename tvalue, typename tkey_comparer>
+typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *splay_tree<tkey, tvalue, tkey_comparer>::copy() const
+{
+    return copy_inner(this->_root);
+}
+
+template<typename tkey, typename tvalue, typename tkey_comparer>
+void splay_tree<tkey, tvalue, tkey_comparer>::clear()
+{
+    auto it_end = reinterpret_cast<binary_search_tree<tkey, tvalue, tkey_comparer> *>(this)->end_postfix();
+    for (auto it = reinterpret_cast<binary_search_tree<tkey, tvalue, tkey_comparer>* >(this)->begin_postfix(); it != it_end; ++it)
+    {
+        it.get_current_node()->~node();
+        this->deallocate_with_guard(it.get_current_node());
+    }
+}
 
 template<
         typename tkey,
@@ -250,7 +385,7 @@ template<
         typename tkey,
         typename tvalue,
         typename tkey_comparer>
-tvalue && splay_tree<tkey, tvalue, tkey_comparer>::splay_tree_removing_template_method::remove_inner(
+tvalue splay_tree<tkey, tvalue, tkey_comparer>::splay_tree_removing_template_method::remove_inner(
         const tkey &key,
         typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *&subtree_root_address,
         std::list<typename binary_search_tree<tkey, tvalue, tkey_comparer>::node **> &path_to_subtree_root_exclusive)

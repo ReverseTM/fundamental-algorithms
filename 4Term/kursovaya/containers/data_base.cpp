@@ -1,94 +1,176 @@
+#include <iostream>
 #include "data_base.h"
 #include <cmath>
 
-data_base::data_base(): _data_base(new splay_tree<std::string, std::pair<pool*, memory*>, key_comparer>()) {}
+
+data_base::data_base(): _data_base(new splay_tree<std::string, pool, string_comparer>()) {}
 
 data_base::~data_base()
 {
     delete _data_base;
 }
 
-void data_base::read_file(std::string & file_name)
-{
-
-    add_pool((std::string &)"pool_1", allocators::LIST, 1000000, memory::allocation_mode::first_match);
-//    std::ifstream file(file_name);
-//    std::string command;
-//
-//    while (std::getline(file, command))
-//    {
-//        parse(command);
-//    }
-}
-
-void data_base::parse(std::string & command)
-{
-
-}
-
-void data_base::add_pool(std::string & name, allocators allocator_name, size_t request_size, memory::allocation_mode mode)
+void data_base::add_pool(std::string const & pool_name, allocators allocator_name, size_t request_size, memory::allocation_mode mode)
 {
     memory * allocator = nullptr;
 
-    if (allocator_name == allocators::LIST)
+    switch (allocator_name)
     {
-        allocator = new sorted_list_allocator(request_size, mode);
-    }
-    else if (allocator_name == allocators::BORDER)
-    {
-        allocator = new border_descriptors_allocator(request_size, mode);
-    }
-    else
-    {
-        request_size = static_cast<int>(log2(request_size)) + 1;
-        allocator = new buddy_system_allocator(request_size, mode);
+        case allocators::GLOBAL_HEAP:
+            allocator = new global_heap_allocator();
+            break;
+
+        case allocators::SORTED_LIST:
+            allocator = new sorted_list_allocator(request_size, mode);
+            break;
+
+        case allocators::BORDER_DESCRIPTORS:
+            allocator = new border_descriptors_allocator(request_size, mode);
+            break;
+
+        case allocators::BUDDIES_SYSTEM:
+            request_size = static_cast<size_t>(log2(request_size)) + 1;
+            allocator = new buddy_system_allocator(request_size, mode);
+            break;
     }
 
-    pool * current_pool = reinterpret_cast<pool*>(allocator->allocate(sizeof(pool)));
-
-    new (current_pool) pool;
-
-    _data_base->insert(name, std::move(std::make_pair(current_pool, allocator)));
+    _data_base->insert(pool_name, std::move(pool(allocator)));
 }
 
-void data_base::add_scheme(std::string &pool_name, std::string &scheme_name)
+void data_base::add_scheme(std::string const & pool_name, std::string const & scheme_name)
 {
-    associative_container<std::string, std::pair<pool*, memory*>>::key_value_pair pair{pool_name};
+    associative_container<std::string, pool>::key_value_pair pair {pool_name};
 
-    if (_data_base->find(&pair))
+    if (!_data_base->find(&pair))
     {
-        auto current_pool = pair._value.first;
-        auto allocator = pair._value.second;
-
-        scheme * current_scheme = reinterpret_cast<scheme*>(allocator->allocate(sizeof(scheme)));
-
-        new (current_scheme) scheme;
-
-        current_pool->_pool->insert(scheme_name, std::move(current_scheme));
-
+        throw std::exception();
     }
+
+    pair._value.add(scheme_name, std::move(scheme()));
 }
 
-void data_base::add_collection(std::string &pool_name, std::string &scheme_name, std::string &collection_name)
+void data_base::add_collection(std::string const & pool_name, std::string const & scheme_name, std::string const & collection_name)
 {
-    associative_container<std::string, std::pair<pool*, memory*>>::key_value_pair pair_pool{pool_name};
+    associative_container<std::string, pool>::key_value_pair pair_pool {pool_name};
 
-    if (_data_base->find(&pair_pool))
+    if (!_data_base->find(&pair_pool))
     {
-        auto allocator = pair_pool._value.second;
-        auto current_pool = pair_pool._value.first;
-
-        associative_container<std::string, scheme*>::key_value_pair pair_scheme{scheme_name};
-
-        if (current_pool->_pool->find(&pair_scheme))
-        {
-            auto current_scheme = pair_scheme._value;
-
-            data_collection * current_collection = reinterpret_cast<data_collection*>(allocator->allocate(sizeof(data_collection)));
-
-            new (current_collection) data_collection;
-
-            current_scheme->_scheme->insert(collection_name, std::move(current_collection));
-        }
+        throw std::exception();
     }
+
+    memory * allocator = pair_pool._value.get_allocator();
+
+    associative_container<std::string, scheme>::key_value_pair pair_scheme {scheme_name};
+
+    if (!pair_pool._value.find(&pair_scheme))
+    {
+        throw std::exception();
+    }
+
+    pair_scheme._value.add(collection_name, std::move(data_collection(allocator)));
+}
+
+void data_base::add_data(
+        const std::string & pool_name,
+        const std::string & scheme_name,
+        const std::string & collection_name,
+        unsigned int id_session,
+        unsigned int id_student,
+        const std::string & format,
+        const std::string & subject,
+        const std::string & surname,
+        const std::string & name,
+        const std::string & patronymic,
+        const std::string & data,
+        const std::string & time,
+        unsigned int mark)
+{
+    associative_container<std::string, pool>::key_value_pair pair_pool {pool_name};
+
+    if (!_data_base->find(&pair_pool))
+    {
+        throw std::exception();
+    }
+
+    associative_container<std::string, scheme>::key_value_pair pair_scheme {scheme_name};
+
+    if (!pair_pool._value.find(&pair_scheme))
+    {
+        throw std::exception();
+    }
+
+    associative_container<std::string, data_collection>::key_value_pair collection_pair {collection_name};
+
+    if (!pair_scheme._value.find(&collection_pair))
+    {
+        throw std::exception();
+    }
+
+    collection_pair._value.add(id_session, id_student, format, subject, surname, name, patronymic, data, time, mark);
+}
+
+void data_base::remove_pool(const std::string & name)
+{
+    _data_base->remove(name);
+}
+
+void data_base::remove_scheme(const std::string & pool_name, const std::string & scheme_name)
+{
+    associative_container<std::string, pool>::key_value_pair pair {pool_name};
+
+    if (!_data_base->find(&pair))
+    {
+        throw std::exception();
+    }
+
+    pair._value.remove(scheme_name);
+}
+
+void data_base::remove_collection(const std::string & pool_name, const std::string & scheme_name, const std::string & collection_name)
+{
+    associative_container<std::string, pool>::key_value_pair pool_pair {pool_name};
+
+    if (!_data_base->find(&pool_pair))
+    {
+        throw std::exception();
+    }
+
+    associative_container<std::string, scheme>::key_value_pair scheme_pair {scheme_name};
+
+    if (!pool_pair._value.find(& scheme_pair))
+    {
+        throw std::exception();
+    }
+
+    scheme_pair._value.remove(collection_name);
+}
+
+value data_base::remove_data(
+        const std::string & pool_name,
+        const std::string & scheme_name,
+        const std::string & collection_name,
+        key * data_key)
+{
+    associative_container<std::string, pool>::key_value_pair pool_pair {pool_name};
+
+    if (!_data_base->find(&pool_pair))
+    {
+        throw std::exception();
+    }
+
+    associative_container<std::string, scheme>::key_value_pair scheme_pair {scheme_name};
+
+    if (!pool_pair._value.find(&scheme_pair))
+    {
+        throw std::exception();
+    }
+
+    associative_container<std::string, data_collection>::key_value_pair collection_pair {collection_name};
+
+    if (!scheme_pair._value.find(&collection_pair))
+    {
+        throw std::exception();
+    }
+
+    return collection_pair._value.remove(data_key);
 }

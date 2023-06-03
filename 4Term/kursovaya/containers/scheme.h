@@ -2,31 +2,38 @@
 #define SCHEME_H
 
 #include "data_collection.h"
-#include "data_base.h"
 
-class scheme
+class scheme final
 {
     friend class data_base;
 
 private:
 
-    associative_container<std::string, data_collection*> * _scheme;
+    associative_container<std::string, data_collection> * _scheme;
 
 public:
 
-    explicit scheme();
+    scheme();
 
     ~scheme();
 
 public:
 
-    scheme(scheme const & other) = delete;
+    void add(std::string const &key, data_collection && target);
 
-    scheme & operator=(scheme const & other) = delete;
+    void remove(std::string const & key);
 
-    scheme(scheme && other) = delete;
+    bool find(associative_container<std::string, data_collection>::key_value_pair * target_key_and_value);
 
-    scheme & operator=(scheme && other) = delete;
+public:
+
+    scheme(scheme const & other);
+
+    scheme & operator=(scheme const & other);
+
+    scheme(scheme && other) noexcept;
+
+    scheme & operator=(scheme && other) noexcept;
 
 };
 
