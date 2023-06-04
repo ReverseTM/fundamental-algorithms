@@ -32,7 +32,7 @@ public:
     void add(
             unsigned int id_session,
             unsigned int id_student,
-            const std::string &format,
+            form format,
             const std::string &subject,
             const std::string &surname,
             const std::string &name,
@@ -42,6 +42,22 @@ public:
             unsigned int mark);
 
     value remove(key * data_key);
+
+    value * get(key * const & data_key);
+
+    std::vector<value *> get_between_keys(key * const & min_key, key * const & max_key);
+
+    void update(
+            unsigned int id_session,
+            unsigned int id_student,
+            form format,
+            const std::string & subject,
+            const std::string & surname,
+            const std::string & name,
+            const std::string & patronymic,
+            const std::string & date,
+            const std::string & time,
+            unsigned int mark);
 
 public:
 

@@ -2,7 +2,7 @@
 
 int key_comparer::operator()(key * first, key * second)
 {
-    auto comparison_result = first->_id_session - second->_id_session;
+    int comparison_result = first->_id_session - second->_id_session;
     if (comparison_result != 0)
     {
         return comparison_result;
@@ -14,7 +14,7 @@ int key_comparer::operator()(key * first, key * second)
         return comparison_result;
     }
 
-    comparison_result = _string_comparer(first->_format, second->_format);
+    comparison_result = first->_format - second->_format;
     if (comparison_result != 0)
     {
         return comparison_result;

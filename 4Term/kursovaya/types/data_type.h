@@ -3,11 +3,18 @@
 
 #include <iostream>
 
+enum form
+{
+    COURSE_WORK,
+    EXAM,
+    TEST
+};
+
 struct key
 {
     unsigned int _id_session;
     unsigned int _id_student;
-    std::string _format;
+    form _format;
     std::string _subject;
 };
 

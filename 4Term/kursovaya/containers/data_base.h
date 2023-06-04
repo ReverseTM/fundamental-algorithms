@@ -2,7 +2,7 @@
 #define DATA_BASE_H
 
 #include "pool.h"
-
+#include "../types/allocator_types.h"
 
 class data_base
 {
@@ -13,16 +13,6 @@ private:
 
 public:
 
-    enum class allocators
-    {
-        GLOBAL_HEAP,
-        SORTED_LIST,
-        BORDER_DESCRIPTORS,
-        BUDDIES_SYSTEM
-    };
-
-public:
-
     explicit data_base();
 
     ~data_base();
@@ -30,7 +20,7 @@ public:
 
 public:
 
-    void add_pool(std::string const & name_pool, allocators allocator_name, size_t request_size, memory::allocation_mode mode);
+    void add_pool(std::string const & name_pool, allocator_types allocator_name, size_t request_size, memory::allocation_mode mode);
 
     void add_scheme(std::string const & pool_name, std::string const & scheme_name);
 
@@ -41,7 +31,7 @@ public:
          std::string const & collection_name,
          unsigned int id_session,
          unsigned int id_student,
-         std::string const & format,
+         form format,
          std::string const & subject,
          std::string const & surname,
          std::string const & name,
@@ -62,6 +52,27 @@ public:
             std::string const & scheme_name,
             std::string const & collection_name,
             key * data_key);
+
+    void update_data(
+            std::string const & pool_name,
+            std::string const & scheme_name,
+            std::string const & collection_name,
+            unsigned int id_session,
+            unsigned int id_student,
+            form format,
+            std::string const & subject,
+            std::string const & surname,
+            std::string const & name,
+            std::string const & patronymic,
+            std::string const & data,
+            std::string const & time,
+            unsigned int mark);
+
+    value * get_data(std::string const & pool_name, std::string const & scheme_name, std::string const & collection_name, key * const & data_key);
+
+    std::vector<value*> get_data_between_keys(std::string const & pool_name, std::string const & scheme_name, std::string const & collection_name, key * const & min_key, key * const & max_key);
+
+
 
 public:
 

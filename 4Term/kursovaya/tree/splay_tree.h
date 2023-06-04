@@ -281,13 +281,13 @@ void splay_tree<tkey, tvalue, tkey_comparer>::splay(
             {
                 this->left_rotation(*parent);
                 this->right_rotation(*grand_parent);
-                current_node = *parent;
+                current_node = *grand_parent;
             }
             else
             {
                 this->right_rotation(*parent);
                 this->left_rotation(*grand_parent);
-                current_node = *parent;
+                current_node = *grand_parent;
             }
         }
     }

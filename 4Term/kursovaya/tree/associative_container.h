@@ -9,6 +9,14 @@ class associative_container
 
 public:
 
+    enum class mode
+    {
+        INSERT,
+        UPDATE
+    };
+
+public:
+
     struct key_value_pair final
     {
         tkey _key;
@@ -19,13 +27,13 @@ public:
 
     virtual void insert(tkey const &key, tvalue &&value) = 0;
 
-    //virtual void update(tkey const &key, tvalue &&value);
+    virtual void update(tkey const &key, tvalue &&value) = 0;
 
     virtual bool find(key_value_pair * target_key_and_result_value) = 0;
 
-    tvalue get_value(tkey const &key);
+    tvalue get_value(tkey const & key);
 
-    //virtual std::vector<tvalue> find_in_range(tkey const & min_bound, tkey const & max_bound);
+    virtual std::vector<tvalue> find_in_range(tkey const & min_bound, tkey const & max_bound) = 0;
 
     virtual tvalue remove(tkey const &key) = 0;
 
@@ -46,14 +54,15 @@ public:
 template<
     typename tkey,
     typename tvalue>
-tvalue associative_container<tkey, tvalue>::get_value(const tkey & key)
+tvalue associative_container<tkey, tvalue>::get_value(tkey const & key)
 {
-    key_value_pair key_and_value(key);
+    key_value_pair key_and_value {std::move(key)};
 
     if ((*this).find(&key_and_value))
     {
         return key_and_value._value;
     }
+    return key_and_value._value;
 }
 
 template<

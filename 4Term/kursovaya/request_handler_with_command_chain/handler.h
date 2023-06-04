@@ -1,30 +1,26 @@
 #ifndef HANDLER_H
 #define HANDLER_H
 
+#include <iostream>
 
-template<typename trequest>
 class handler
 {
 
-    friend class request_handler_with_command_chain<trequest>;
+    friend class request_handler_with_command_chain;
 
 protected:
 
-    handler<trequest> *  _next_handler;
+    handler * _next_handler;
 
 public:
 
-    handler() : _next_handler(nullptr)
-    {
-
-    }
+    handler() : _next_handler(nullptr) {}
 
     virtual ~handler() = default;
 
 public:
 
-    virtual bool handle(trequest const &) const noexcept = 0;
-
+    virtual bool handle(std::string const & request) const noexcept = 0;
 };
 
 

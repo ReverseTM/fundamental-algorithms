@@ -10,25 +10,25 @@ data_base::~data_base()
     delete _data_base;
 }
 
-void data_base::add_pool(std::string const & pool_name, allocators allocator_name, size_t request_size, memory::allocation_mode mode)
+void data_base::add_pool(std::string const & pool_name, allocator_types allocator_name, size_t request_size, memory::allocation_mode mode)
 {
     memory * allocator = nullptr;
 
     switch (allocator_name)
     {
-        case allocators::GLOBAL_HEAP:
+        case allocator_types::GLOBAL_HEAP:
             allocator = new global_heap_allocator();
             break;
 
-        case allocators::SORTED_LIST:
+        case allocator_types::SORTED_LIST:
             allocator = new sorted_list_allocator(request_size, mode);
             break;
 
-        case allocators::BORDER_DESCRIPTORS:
+        case allocator_types::BORDER_DESCRIPTORS:
             allocator = new border_descriptors_allocator(request_size, mode);
             break;
 
-        case allocators::BUDDIES_SYSTEM:
+        case allocator_types::BUDDIES_SYSTEM:
             request_size = static_cast<size_t>(log2(request_size)) + 1;
             allocator = new buddy_system_allocator(request_size, mode);
             break;
@@ -76,7 +76,7 @@ void data_base::add_data(
         const std::string & collection_name,
         unsigned int id_session,
         unsigned int id_student,
-        const std::string & format,
+        form format,
         const std::string & subject,
         const std::string & surname,
         const std::string & name,
@@ -173,4 +173,104 @@ value data_base::remove_data(
     }
 
     return collection_pair._value.remove(data_key);
+}
+
+value * data_base::get_data(
+        const std::string & pool_name,
+        const std::string & scheme_name,
+        const std::string & collection_name,
+        key * const & data_key)
+{
+    associative_container<std::string, pool>::key_value_pair pool_pair {pool_name};
+
+    if (!_data_base->find(&pool_pair))
+    {
+        throw std::exception();
+    }
+
+    associative_container<std::string, scheme>::key_value_pair scheme_pair {scheme_name};
+
+    if (!pool_pair._value.find(&scheme_pair))
+    {
+        throw std::exception();
+    }
+
+    associative_container<std::string, data_collection>::key_value_pair collection_pair {collection_name};
+
+    if (!scheme_pair._value.find(&collection_pair))
+    {
+        throw std::exception();
+    }
+
+    return collection_pair._value.get(data_key);
+}
+
+std::vector<value *>data_base::get_data_between_keys(
+        const std::string & pool_name,
+        const std::string & scheme_name,
+        const std::string & collection_name,
+        key *const & min_key,
+        key *const & max_key)
+{
+    associative_container<std::string, pool>::key_value_pair pool_pair {pool_name};
+
+    if (!_data_base->find(&pool_pair))
+    {
+        throw std::exception();
+    }
+
+    associative_container<std::string, scheme>::key_value_pair scheme_pair {scheme_name};
+
+    if (!pool_pair._value.find(&scheme_pair))
+    {
+        throw std::exception();
+    }
+
+    associative_container<std::string, data_collection>::key_value_pair collection_pair {collection_name};
+
+    if (!scheme_pair._value.find(&collection_pair))
+    {
+        throw std::exception();
+    }
+
+    return collection_pair._value.get_between_keys(min_key, max_key);
+}
+
+void data_base::update_data(
+        const std::string & pool_name,
+        const std::string & scheme_name,
+        const std::string & collection_name,
+        unsigned int id_session,
+        unsigned int id_student,
+        form format,
+        const std::string & subject,
+        const std::string & surname,
+        const std::string & name,
+        const std::string & patronymic,
+        const std::string & data,
+        const std::string & time,
+        unsigned int mark)
+{
+    associative_container<std::string, pool>::key_value_pair pair_pool {pool_name};
+
+    if (!_data_base->find(&pair_pool))
+    {
+        throw std::exception();
+    }
+
+    associative_container<std::string, scheme>::key_value_pair pair_scheme {scheme_name};
+
+    if (!pair_pool._value.find(&pair_scheme))
+    {
+        throw std::exception();
+    }
+
+    associative_container<std::string, data_collection>::key_value_pair collection_pair {collection_name};
+
+    if (!pair_scheme._value.find(&collection_pair))
+    {
+        throw std::exception();
+    }
+
+    collection_pair._value.update(id_session, id_student, format, subject, surname, name, patronymic, data, time, mark);
 }
