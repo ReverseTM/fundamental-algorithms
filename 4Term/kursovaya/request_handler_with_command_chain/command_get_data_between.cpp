@@ -1,6 +1,6 @@
 #include "command_get_data_between.h"
 
-bool command_get_data_between::can_execute(const std::string &request) const noexcept
+bool command_get_data_between::can_execute(const std::string &request) noexcept
 {
     return false;
 }

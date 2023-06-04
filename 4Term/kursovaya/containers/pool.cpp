@@ -15,9 +15,9 @@ void pool::remove(const std::string & key)
     _pool->remove(key);
 }
 
-bool pool::find(associative_container<std::string, scheme>::key_value_pair * target_key_and_value)
+scheme const & pool::find(std::string const & scheme_name) const
 {
-    return _pool->find(target_key_and_value);
+    return _pool->find(scheme_name);
 }
 
 memory * pool::get_allocator() const
@@ -81,6 +81,6 @@ pool &pool::operator=(pool && other) noexcept
 
 pool::~pool()
 {
-    delete _allocator;
     delete _pool;
+    delete _allocator;
 }

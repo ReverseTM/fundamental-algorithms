@@ -158,5 +158,4 @@ data_collection &data_collection::operator=(data_collection &&other) noexcept
 data_collection::~data_collection()
 {
     delete _data;
-    delete _allocator;
 }

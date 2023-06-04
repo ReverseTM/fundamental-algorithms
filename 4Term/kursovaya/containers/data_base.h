@@ -2,10 +2,26 @@
 #define DATA_BASE_H
 
 #include "pool.h"
+#include "../request_handler_with_command_chain/request_handler_with_command_chain.h"
+#include "../request_handler_with_command_chain/command_add_pool.h"
+#include "../request_handler_with_command_chain/command_remove_pool.h"
+#include "../request_handler_with_command_chain/command_add_scheme.h"
+#include "../request_handler_with_command_chain/command_remove_scheme.h"
+#include "../request_handler_with_command_chain/command_add_collection.h"
+#include "../request_handler_with_command_chain/command_remove_collection.h"
+#include "../request_handler_with_command_chain/command_add_data.h"
+#include "../request_handler_with_command_chain/command_get_data.h"
+#include "../request_handler_with_command_chain/command_get_data_between.h"
+#include "../request_handler_with_command_chain/command_update_data.h"
+#include "../request_handler_with_command_chain/command_remove_data.h"
 #include "../types/allocator_types.h"
 
 class data_base
 {
+
+private:
+
+    request_handler_with_command_chain _chain;
 
 private:
 
@@ -16,7 +32,6 @@ public:
     explicit data_base();
 
     ~data_base();
-
 
 public:
 
@@ -36,7 +51,7 @@ public:
          std::string const & surname,
          std::string const & name,
          std::string const & patronymic,
-         std::string const & data,
+         std::string const & date,
          std::string const & time,
          unsigned int mark
          );
@@ -64,7 +79,7 @@ public:
             std::string const & surname,
             std::string const & name,
             std::string const & patronymic,
-            std::string const & data,
+            std::string const & date,
             std::string const & time,
             unsigned int mark);
 
@@ -72,7 +87,10 @@ public:
 
     std::vector<value*> get_data_between_keys(std::string const & pool_name, std::string const & scheme_name, std::string const & collection_name, key * const & min_key, key * const & max_key);
 
+public:
 
+    void handle_request(
+            std::string const &request);
 
 public:
 

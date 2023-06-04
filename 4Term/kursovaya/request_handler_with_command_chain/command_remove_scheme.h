@@ -13,7 +13,7 @@ private:
 
 public:
 
-    bool can_execute(std::string const &request) const noexcept final;
+    bool can_execute(std::string const &request) noexcept final;
 
     void execute(std::string const &request) const noexcept final;
 

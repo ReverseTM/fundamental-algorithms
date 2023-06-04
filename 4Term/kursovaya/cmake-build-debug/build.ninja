@@ -51,181 +51,187 @@ build cmake_object_order_depends_target_kursovaya: phony || CMakeFiles/kursovaya
 
 build CMakeFiles/kursovaya.dir/main.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/main.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\main.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir
 
 build CMakeFiles/kursovaya.dir/logger/builder_implementation.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/logger/builder_implementation.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\logger\builder_implementation.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\logger
 
 build CMakeFiles/kursovaya.dir/logger/logger_implementation.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/logger/logger_implementation.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\logger\logger_implementation.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\logger
 
 build CMakeFiles/kursovaya.dir/logger/json_implementation.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/logger/json_implementation.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\logger\json_implementation.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\logger
 
 build CMakeFiles/kursovaya.dir/logger/logger_holder.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/logger/logger_holder.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\logger\logger_holder.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\logger
 
 build CMakeFiles/kursovaya.dir/memory_allocators/memory.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/memory_allocators/memory.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\memory_allocators\memory.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\memory_allocators
 
 build CMakeFiles/kursovaya.dir/memory_allocators/global_heap_allocator.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/memory_allocators/global_heap_allocator.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\memory_allocators\global_heap_allocator.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\memory_allocators
 
 build CMakeFiles/kursovaya.dir/memory_allocators/sorted_list_allocator.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/memory_allocators/sorted_list_allocator.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\memory_allocators\sorted_list_allocator.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\memory_allocators
 
 build CMakeFiles/kursovaya.dir/memory_allocators/border_descriptors_allocator.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/memory_allocators/border_descriptors_allocator.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\memory_allocators\border_descriptors_allocator.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\memory_allocators
 
 build CMakeFiles/kursovaya.dir/memory_allocators/buddy_allocator.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/memory_allocators/buddy_allocator.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\memory_allocators\buddy_allocator.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\memory_allocators
 
 build CMakeFiles/kursovaya.dir/memory_allocators/memory_holder.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/memory_allocators/memory_holder.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\memory_allocators\memory_holder.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\memory_allocators
 
 build CMakeFiles/kursovaya.dir/compare/string_comparer.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/compare/string_comparer.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\compare\string_comparer.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\compare
 
 build CMakeFiles/kursovaya.dir/compare/key_comparator.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/compare/key_comparator.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\compare\key_comparator.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\compare
 
 build CMakeFiles/kursovaya.dir/containers/data_collection.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/containers/data_collection.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\containers\data_collection.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\containers
 
 build CMakeFiles/kursovaya.dir/containers/scheme.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/containers/scheme.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\containers\scheme.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\containers
 
 build CMakeFiles/kursovaya.dir/containers/pool.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/containers/pool.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\containers\pool.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\containers
 
 build CMakeFiles/kursovaya.dir/containers/data_base.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/containers/data_base.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\containers\data_base.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\containers
 
 build CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_add_collection.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/request_handler_with_command_chain/command_add_collection.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\request_handler_with_command_chain\command_add_collection.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\request_handler_with_command_chain
 
 build CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_add_data.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/request_handler_with_command_chain/command_add_data.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\request_handler_with_command_chain\command_add_data.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\request_handler_with_command_chain
 
 build CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_add_pool.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/request_handler_with_command_chain/command_add_pool.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\request_handler_with_command_chain\command_add_pool.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\request_handler_with_command_chain
 
 build CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_add_scheme.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/request_handler_with_command_chain/command_add_scheme.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\request_handler_with_command_chain\command_add_scheme.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\request_handler_with_command_chain
 
 build CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_get_data.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/request_handler_with_command_chain/command_get_data.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\request_handler_with_command_chain\command_get_data.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\request_handler_with_command_chain
 
 build CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_get_data_between.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/request_handler_with_command_chain/command_get_data_between.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\request_handler_with_command_chain\command_get_data_between.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\request_handler_with_command_chain
 
 build CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_remove_collection.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/request_handler_with_command_chain/command_remove_collection.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\request_handler_with_command_chain\command_remove_collection.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\request_handler_with_command_chain
 
 build CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_remove_data.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/request_handler_with_command_chain/command_remove_data.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\request_handler_with_command_chain\command_remove_data.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\request_handler_with_command_chain
 
 build CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_remove_pool.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/request_handler_with_command_chain/command_remove_pool.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\request_handler_with_command_chain\command_remove_pool.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\request_handler_with_command_chain
 
 build CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_remove_scheme.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/request_handler_with_command_chain/command_remove_scheme.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\request_handler_with_command_chain\command_remove_scheme.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\request_handler_with_command_chain
 
 build CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_update_data.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/request_handler_with_command_chain/command_update_data.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\request_handler_with_command_chain\command_update_data.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\request_handler_with_command_chain
 
 build CMakeFiles/kursovaya.dir/request_handler_with_command_chain/request_handler_with_command.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/request_handler_with_command_chain/request_handler_with_command.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\request_handler_with_command_chain\request_handler_with_command.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\request_handler_with_command_chain
 
 build CMakeFiles/kursovaya.dir/request_handler_with_command_chain/request_handler_with_command_chain.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/request_handler_with_command_chain/request_handler_with_command_chain.cpp || cmake_object_order_depends_target_kursovaya
   DEP_FILE = CMakeFiles\kursovaya.dir\request_handler_with_command_chain\request_handler_with_command_chain.cpp.obj.d
-  FLAGS = -g -fdiagnostics-color=always
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
+  OBJECT_DIR = CMakeFiles\kursovaya.dir
+  OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\request_handler_with_command_chain
+
+build CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command.cpp.obj: CXX_COMPILER__kursovaya_Debug C$:/Users/Steam/Desktop/ClionProjects/fundamental-algorithms/4Term/kursovaya/request_handler_with_command_chain/command.cpp || cmake_object_order_depends_target_kursovaya
+  DEP_FILE = CMakeFiles\kursovaya.dir\request_handler_with_command_chain\command.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always -std=gnu++20
   OBJECT_DIR = CMakeFiles\kursovaya.dir
   OBJECT_FILE_DIR = CMakeFiles\kursovaya.dir\request_handler_with_command_chain
 
@@ -237,7 +243,7 @@ build CMakeFiles/kursovaya.dir/request_handler_with_command_chain/request_handle
 #############################################
 # Link the executable kursovaya.exe
 
-build kursovaya.exe: CXX_EXECUTABLE_LINKER__kursovaya_Debug CMakeFiles/kursovaya.dir/main.cpp.obj CMakeFiles/kursovaya.dir/logger/builder_implementation.cpp.obj CMakeFiles/kursovaya.dir/logger/logger_implementation.cpp.obj CMakeFiles/kursovaya.dir/logger/json_implementation.cpp.obj CMakeFiles/kursovaya.dir/logger/logger_holder.cpp.obj CMakeFiles/kursovaya.dir/memory_allocators/memory.cpp.obj CMakeFiles/kursovaya.dir/memory_allocators/global_heap_allocator.cpp.obj CMakeFiles/kursovaya.dir/memory_allocators/sorted_list_allocator.cpp.obj CMakeFiles/kursovaya.dir/memory_allocators/border_descriptors_allocator.cpp.obj CMakeFiles/kursovaya.dir/memory_allocators/buddy_allocator.cpp.obj CMakeFiles/kursovaya.dir/memory_allocators/memory_holder.cpp.obj CMakeFiles/kursovaya.dir/compare/string_comparer.cpp.obj CMakeFiles/kursovaya.dir/compare/key_comparator.cpp.obj CMakeFiles/kursovaya.dir/containers/data_collection.cpp.obj CMakeFiles/kursovaya.dir/containers/scheme.cpp.obj CMakeFiles/kursovaya.dir/containers/pool.cpp.obj CMakeFiles/kursovaya.dir/containers/data_base.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_add_collection.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_add_data.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_add_pool.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_add_scheme.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_get_data.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_get_data_between.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_remove_collection.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_remove_data.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_remove_pool.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_remove_scheme.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_update_data.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/request_handler_with_command.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/request_handler_with_command_chain.cpp.obj
+build kursovaya.exe: CXX_EXECUTABLE_LINKER__kursovaya_Debug CMakeFiles/kursovaya.dir/main.cpp.obj CMakeFiles/kursovaya.dir/logger/builder_implementation.cpp.obj CMakeFiles/kursovaya.dir/logger/logger_implementation.cpp.obj CMakeFiles/kursovaya.dir/logger/json_implementation.cpp.obj CMakeFiles/kursovaya.dir/logger/logger_holder.cpp.obj CMakeFiles/kursovaya.dir/memory_allocators/memory.cpp.obj CMakeFiles/kursovaya.dir/memory_allocators/global_heap_allocator.cpp.obj CMakeFiles/kursovaya.dir/memory_allocators/sorted_list_allocator.cpp.obj CMakeFiles/kursovaya.dir/memory_allocators/border_descriptors_allocator.cpp.obj CMakeFiles/kursovaya.dir/memory_allocators/buddy_allocator.cpp.obj CMakeFiles/kursovaya.dir/memory_allocators/memory_holder.cpp.obj CMakeFiles/kursovaya.dir/compare/string_comparer.cpp.obj CMakeFiles/kursovaya.dir/compare/key_comparator.cpp.obj CMakeFiles/kursovaya.dir/containers/data_collection.cpp.obj CMakeFiles/kursovaya.dir/containers/scheme.cpp.obj CMakeFiles/kursovaya.dir/containers/pool.cpp.obj CMakeFiles/kursovaya.dir/containers/data_base.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_add_collection.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_add_data.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_add_pool.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_add_scheme.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_get_data.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_get_data_between.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_remove_collection.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_remove_data.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_remove_pool.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_remove_scheme.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command_update_data.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/request_handler_with_command.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/request_handler_with_command_chain.cpp.obj CMakeFiles/kursovaya.dir/request_handler_with_command_chain/command.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\kursovaya.dir

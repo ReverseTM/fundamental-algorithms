@@ -23,7 +23,7 @@ public:
 
     void remove(std::string const & key);
 
-    bool find(associative_container<std::string, data_collection>::key_value_pair * target_key_and_value);
+    data_collection const & find(std::string const & collection_name) const;
 
 public:
 

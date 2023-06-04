@@ -12,9 +12,9 @@ void scheme::remove(const std::string & key)
     _scheme->remove(key);
 }
 
-bool scheme::find(associative_container<std::string, data_collection>::key_value_pair * target_key_and_value)
+data_collection const & scheme::find(std::string const & collection_name) const
 {
-    return _scheme->find(target_key_and_value);
+    return _scheme->find(collection_name);
 }
 
 scheme::scheme(const scheme & other)

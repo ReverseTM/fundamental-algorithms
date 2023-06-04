@@ -24,7 +24,7 @@ public:
 
     void remove(std::string const & key);
 
-    bool find(associative_container<std::string, scheme>::key_value_pair * target_key_and_value);
+    scheme const & find(std::string const & scheme_name) const;
 
     memory * get_allocator() const;
 

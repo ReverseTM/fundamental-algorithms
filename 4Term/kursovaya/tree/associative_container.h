@@ -31,9 +31,13 @@ public:
 
     virtual bool find(key_value_pair * target_key_and_result_value) = 0;
 
+    virtual tvalue const &find(tkey const &key) = 0;
+
     tvalue get_value(tkey const & key);
 
     virtual std::vector<tvalue> find_in_range(tkey const & min_bound, tkey const & max_bound) = 0;
+
+    virtual std::tuple<tkey, tvalue> remove_node(tkey const &key) = 0;
 
     virtual tvalue remove(tkey const &key) = 0;
 

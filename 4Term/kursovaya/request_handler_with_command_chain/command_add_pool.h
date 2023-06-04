@@ -11,12 +11,12 @@ private:
 
     std::string _pool_name;
     allocator_types _pool_allocator_type;
-    unsigned int _pool_allocator_size;
+    size_t _pool_allocator_size;
     memory::allocation_mode _pool_allocator_allocation_mode;
 
 public:
 
-    bool can_execute(std::string const &request) const noexcept final;
+    bool can_execute(std::string const &request) noexcept final;
 
     void execute(std::string const &request) const noexcept final;
 

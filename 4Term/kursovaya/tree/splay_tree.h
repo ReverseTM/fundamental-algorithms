@@ -49,7 +49,6 @@ private:
     protected:
 
         void after_read_inner(
-                typename associative_container<tkey, tvalue>::key_value_pair * target_key_and_result_value,
                 typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *&subtree_root_address,
                 std::stack<typename binary_search_tree<tkey, tvalue, tkey_comparer>::node **> &path_to_subtree_root_exclusive) override;
 
@@ -374,7 +373,6 @@ template<
     typename tvalue,
     typename tkey_comparer>
 void splay_tree<tkey, tvalue, tkey_comparer>::splay_tree_reading_template_method::after_read_inner(
-    typename associative_container<tkey, tvalue>::key_value_pair * target_key_and_result_value,
     typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *&subtree_root_address,
     std::stack<typename binary_search_tree<tkey, tvalue, tkey_comparer>::node **> &path_to_subtree_root_exclusive)
 {
@@ -427,7 +425,7 @@ tvalue splay_tree<tkey, tvalue, tkey_comparer>::splay_tree_removing_template_met
         throw std::invalid_argument("[SPLAY TREE] " + message + ".");
     }
 
-    tvalue && removed_value = std::move((*current_node)->key_and_value._value);
+    tvalue removed_value = (*current_node)->key_and_value._value;
 
     _tree->splay(*current_node, path);
 
@@ -442,7 +440,7 @@ tvalue splay_tree<tkey, tvalue, tkey_comparer>::splay_tree_removing_template_met
 
     _tree->_root = _tree->merge(left_subtree, right_subtree);
 
-    return std::move(removed_value);
+    return removed_value;
 }
 
 template<

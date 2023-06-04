@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.24)
 project(kursovaya)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 add_executable(kursovaya
         main.cpp
@@ -26,7 +26,6 @@ add_executable(kursovaya
         containers/data_base.cpp
         types/data_type.h
         types/allocator_types.h
-        request_handler_with_command_chain/command.h
         request_handler_with_command_chain/command_add_collection.cpp
         request_handler_with_command_chain/command_add_data.cpp
         request_handler_with_command_chain/command_add_pool.cpp
@@ -40,4 +39,5 @@ add_executable(kursovaya
         request_handler_with_command_chain/command_update_data.cpp
         request_handler_with_command_chain/handler.h
         request_handler_with_command_chain/request_handler_with_command.cpp
-        request_handler_with_command_chain/request_handler_with_command_chain.cpp)
+        request_handler_with_command_chain/request_handler_with_command_chain.cpp
+        request_handler_with_command_chain/command.cpp)
