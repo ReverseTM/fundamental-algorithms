@@ -82,5 +82,5 @@ pool &pool::operator=(pool && other) noexcept
 pool::~pool()
 {
     delete _pool;
-    delete _allocator;
+    //delete _allocator;
 }

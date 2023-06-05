@@ -60,13 +60,14 @@ template<
     typename tvalue>
 tvalue associative_container<tkey, tvalue>::get_value(tkey const & key)
 {
-    key_value_pair key_and_value {std::move(key)};
-
-    if ((*this).find(&key_and_value))
-    {
-        return key_and_value._value;
-    }
-    return key_and_value._value;
+    return find(key);
+//    key_value_pair key_and_value {std::move(key)};
+//
+//    if ((*this).find(&key_and_value))
+//    {
+//        return key_and_value._value;
+//    }
+//    return key_and_value._value;
 }
 
 template<

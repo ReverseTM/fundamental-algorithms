@@ -1,4 +1,5 @@
 #include "command_add_pool.h"
+#include "../containers/data_base.h"
 
 bool command_add_pool::can_execute(const std::string &request) noexcept
 {
@@ -31,8 +32,15 @@ bool command_add_pool::can_execute(const std::string &request) noexcept
                 return false;
             }
 
-            std::stringstream sstream(argc[3]);
-            sstream >> _pool_allocator_size;
+            if (_digit_validator(argc[3]))
+            {
+                std::stringstream size(argc[3]);
+                size >> _pool_allocator_size;
+            }
+            else
+            {
+                return false;
+            }
 
             if (argc[4] == "first_match")
             {
@@ -59,5 +67,5 @@ bool command_add_pool::can_execute(const std::string &request) noexcept
 
 void command_add_pool::execute(const std::string &request) const noexcept
 {
-
+    data_base::get_instance()->add_pool(_pool_name, _pool_allocator_type, _pool_allocator_size, _pool_allocator_allocation_mode);
 }

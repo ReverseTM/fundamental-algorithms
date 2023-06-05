@@ -40,12 +40,15 @@ void data_collection::add(
 
 value data_collection::remove(key * data_key)
 {
-    value * returned_value = _data->remove(data_key);
+    auto returned_node = _data->remove_node(data_key);
 
-    value result = *returned_value;
+    value result = *(std::get<1>(returned_node));
 
-    returned_value->~value();
-    deallocate_with_guard(returned_value);
+    std::get<0>(returned_node)->~key();
+    deallocate_with_guard(std::get<0>(returned_node));
+
+    std::get<1>(returned_node)->~value();
+    deallocate_with_guard(std::get<1>(returned_node));
 
     return result;
 }

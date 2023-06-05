@@ -1,1 +1,2 @@
-ADD_DATA pool_1 scheme_1 collection_1 12 11 EXAM math khasanov daniil rafailovich 04.06.2023 18:25 5
+ADD_POOL pool1 sorted_list 1000000 first_match
+ADD_SCHEME pool2 scheme1

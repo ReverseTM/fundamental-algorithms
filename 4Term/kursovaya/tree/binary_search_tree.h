@@ -933,6 +933,8 @@ void binary_search_tree<tkey, tvalue, tkey_comparer>::insertion_template_method:
             (*insert_node)->key_and_value._value.~tvalue();
 
             (*insert_node)->key_and_value._value = std::move(value);
+
+            break;
         }
 
         path_to_subtree_root_exclusive.push(insert_node);
@@ -1075,8 +1077,9 @@ tvalue const & binary_search_tree<tkey, tvalue,tkey_comparer>::reading_template_
 
         if (compare_result == 0)
         {
-            //after_read_inner( *find_node, path_to_subtree_root_exclusive);
-            return (*find_node)->key_and_value._value;
+            tvalue const & returned_value = (*find_node)->key_and_value._value;
+            after_read_inner( *find_node, path_to_subtree_root_exclusive);
+            return returned_value;
         }
         else
         {
@@ -1143,6 +1146,19 @@ template<
     typename tkey,
     typename tvalue,
     typename tkey_comparer>
+std::tuple<tkey, tvalue> binary_search_tree<tkey, tvalue, tkey_comparer>::removing_template_method::remove_node(
+    const tkey &key,
+    binary_search_tree<tkey, tvalue, tkey_comparer>::node *&tree_root_address)
+{
+    std::list<binary_search_tree<tkey, tvalue, tkey_comparer>::node **> path_to_subtree_root_exclusive;
+
+    return remove_node_inner(key, tree_root_address, path_to_subtree_root_exclusive);
+}
+
+template<
+    typename tkey,
+    typename tvalue,
+    typename tkey_comparer>
 tvalue binary_search_tree<tkey, tvalue, tkey_comparer>::removing_template_method::remove_inner(
     tkey const &key,
     binary_search_tree<tkey, tvalue, tkey_comparer>::node *&subtree_root_address,
@@ -1184,6 +1200,113 @@ tvalue binary_search_tree<tkey, tvalue, tkey_comparer>::removing_template_method
     }
 
     tvalue removed_value = (*removed_node)->key_and_value._value;
+
+    auto removal_completed = false;
+
+    if ((*removed_node)->left_subtree_address != nullptr && (*removed_node)->right_subtree_address != nullptr)
+    {
+        auto successor = (*removed_node)->right_subtree_address;
+        auto right_subtree_root = &(*removed_node)->right_subtree_address;
+
+        if (successor->left_subtree_address == nullptr)
+        {
+            successor->left_subtree_address = (*removed_node)->left_subtree_address;
+            (*removed_node)->~node();
+            deallocate_with_guard(*removed_node);
+            *removed_node = successor;
+            removal_completed = true;
+        }
+        else
+        {
+            path_to_subtree_root_exclusive.push_back(removed_node);
+            auto removed_node_list_id = path_to_subtree_root_exclusive.size() - 1;
+            path_to_subtree_root_exclusive.push_back(&(*removed_node)->right_subtree_address);
+
+            while (successor->left_subtree_address != nullptr)
+            {
+                path_to_subtree_root_exclusive.push_back(&(successor->left_subtree_address));
+                successor = successor->left_subtree_address;
+            }
+
+            auto it1 = path_to_subtree_root_exclusive.begin();
+            std::advance(it1, removed_node_list_id);
+            auto it2 = path_to_subtree_root_exclusive.rbegin();
+            swap_nodes(*it1, *it2);
+            std::advance(it1, 1);
+            *it1 = right_subtree_root;
+
+            removed_node = *path_to_subtree_root_exclusive.rbegin();
+            path_to_subtree_root_exclusive.pop_back();
+        }
+    }
+
+    if (!removal_completed)
+    {
+        if ((*removed_node)->left_subtree_address == nullptr && (*removed_node)->right_subtree_address == nullptr)
+        {
+            (*removed_node)->~node();
+            deallocate_with_guard((*removed_node));
+            (*removed_node) = nullptr;
+        }
+        else
+        {
+            auto tmp = (*removed_node)->left_subtree_address != nullptr ? (*removed_node)->left_subtree_address: (*removed_node)->right_subtree_address;
+            (*removed_node)->~node();
+            deallocate_with_guard((*removed_node));
+            (*removed_node) = tmp;
+        }
+    }
+
+    after_remove_inner(key, subtree_root_address, path_to_subtree_root_exclusive);
+
+    return removed_value;
+}
+
+template<
+    typename tkey,
+    typename tvalue,
+    typename tkey_comparer>
+std::tuple<tkey, tvalue> binary_search_tree<tkey, tvalue, tkey_comparer>::removing_template_method::remove_node_inner(
+    const tkey &key,
+    node *&subtree_root_address,
+    std::list<node **> &path_to_subtree_root_exclusive)
+{
+    if (subtree_root_address == nullptr)
+    {
+        std::string message = "Tree is empty";
+        this->warning_with_guard(message);
+
+        throw std::invalid_argument("[BST] " + message + ".");
+    }
+
+    auto current_node = &subtree_root_address;
+    node ** removed_node = nullptr;
+
+    while (*current_node != nullptr)
+    {
+        int compare_result = _tree->_comparator(key, (*current_node)->key_and_value._key);
+
+        if (compare_result == 0)
+        {
+            removed_node = current_node;
+            break;
+        }
+        else
+        {
+            path_to_subtree_root_exclusive.push_back(current_node);
+            current_node = &(compare_result > 0 ? (*current_node)->right_subtree_address : (*current_node)->left_subtree_address);
+        }
+    }
+
+    if (*removed_node == nullptr)
+    {
+        std::string message = "Key not found";
+        this->warning_with_guard(message);
+
+        throw std::invalid_argument("[BST] " + message + ".");
+    }
+
+    std::tuple<tkey, tvalue> removed_value((*removed_node)->key_and_value._key, (*removed_node)->key_and_value._value);
 
     auto removal_completed = false;
 
@@ -1623,6 +1746,15 @@ template<
 tvalue binary_search_tree<tkey, tvalue, tkey_comparer>::remove(tkey const &key)
 {
     return _removing->remove(key, _root);
+}
+
+template<
+    typename tkey,
+    typename tvalue,
+    typename tkey_comparer>
+std::tuple<tkey, tvalue> binary_search_tree<tkey, tvalue, tkey_comparer>::remove_node(const tkey &key)
+{
+    return _removing->remove_node(key, _root);
 }
 
 // endregion associative_container contract implementation

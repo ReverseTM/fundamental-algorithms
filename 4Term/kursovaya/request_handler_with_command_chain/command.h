@@ -4,8 +4,11 @@
 #include <iostream>
 #include <vector>
 #include <sstream>
-#include "../memory_allocators//memory.h"
+#include "../memory_allocators/memory.h"
 #include "../types/data_type.h"
+#include "../validate/digit_validator.h"
+#include "../validate/date_validator.h"
+#include "../validate/time_validator.h"
 
 class command
 {

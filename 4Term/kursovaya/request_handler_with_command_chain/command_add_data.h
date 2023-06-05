@@ -8,6 +8,10 @@ class command_add_data final : public command
 
 private:
 
+    digit_validator _digit_validator;
+    date_validator _date_validator;
+    time_validator _time_validator;
+
     std::string _pool_name;
     std::string _scheme_name;
     std::string _collection_name;

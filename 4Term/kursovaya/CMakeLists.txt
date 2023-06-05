@@ -40,4 +40,7 @@ add_executable(kursovaya
         request_handler_with_command_chain/handler.h
         request_handler_with_command_chain/request_handler_with_command.cpp
         request_handler_with_command_chain/request_handler_with_command_chain.cpp
-        request_handler_with_command_chain/command.cpp)
+        request_handler_with_command_chain/command.cpp
+        validate/digit_validator.cpp
+        validate/time_validator.cpp
+        validate/date_validator.cpp)

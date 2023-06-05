@@ -1,4 +1,5 @@
 #include "command_remove_collection.h"
+#include "../containers/data_base.h"
 
 bool command_remove_collection::can_execute(const std::string &request) noexcept
 {
@@ -21,5 +22,5 @@ bool command_remove_collection::can_execute(const std::string &request) noexcept
 
 void command_remove_collection::execute(const std::string &request) const noexcept
 {
-
+    data_base::get_instance()->remove_collection(_pool_name, _scheme_name, _collection_name);
 }

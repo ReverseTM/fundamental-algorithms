@@ -9,6 +9,8 @@ class command_add_pool final : public command
 
 private:
 
+    digit_validator _digit_validator;
+
     std::string _pool_name;
     allocator_types _pool_allocator_type;
     size_t _pool_allocator_size;

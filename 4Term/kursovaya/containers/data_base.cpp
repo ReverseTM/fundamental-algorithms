@@ -2,9 +2,25 @@
 #include <iostream>
 
 #include "data_base.h"
+#include "../request_handler_with_command_chain/request_handler_with_command_chain.h"
+#include "../request_handler_with_command_chain/command_add_pool.h"
+#include "../request_handler_with_command_chain/command_remove_pool.h"
+#include "../request_handler_with_command_chain/command_add_scheme.h"
+#include "../request_handler_with_command_chain/command_remove_scheme.h"
+#include "../request_handler_with_command_chain/command_add_collection.h"
+#include "../request_handler_with_command_chain/command_remove_collection.h"
+#include "../request_handler_with_command_chain/command_add_data.h"
+#include "../request_handler_with_command_chain/command_get_data.h"
+#include "../request_handler_with_command_chain/command_get_data_between.h"
+#include "../request_handler_with_command_chain/command_update_data.h"
+#include "../request_handler_with_command_chain/command_remove_data.h"
 
-data_base::data_base(): _data_base(new splay_tree<std::string, pool, string_comparer>())
+data_base *data_base::_instance = nullptr;
+
+data_base::data_base()
 {
+    _data_base = new splay_tree<std::string, pool, string_comparer>();
+
     _chain
         .add_handler(new command_add_pool())
         .add_handler(new command_remove_pool())
@@ -13,10 +29,12 @@ data_base::data_base(): _data_base(new splay_tree<std::string, pool, string_comp
         .add_handler(new command_add_collection())
         .add_handler(new command_remove_collection())
         .add_handler(new command_add_data())
+        .add_handler(new command_remove_data())
         .add_handler(new command_get_data())
         .add_handler(new command_get_data_between())
-        .add_handler(new command_update_data())
-        .add_handler(new command_remove_data());
+        .add_handler(new command_update_data());
+
+    _instance = this;
 }
 
 data_base::~data_base()
@@ -26,7 +44,7 @@ data_base::~data_base()
 
 void data_base::add_pool(std::string const & pool_name, allocator_types allocator_name, size_t request_size, memory::allocation_mode mode)
 {
-    memory * allocator = nullptr;
+    memory *allocator = nullptr;
 
     switch (allocator_name)
     {
@@ -82,11 +100,12 @@ void data_base::add_data(
         const std::string & time,
         unsigned int mark)
 {
+
     const_cast<data_collection &>(
             _data_base
             ->find(pool_name)
-            .find(scheme_name).
-            find(collection_name)).add(id_session, id_student, format, subject, surname, name, patronymic, data, time, mark);
+            .find(scheme_name)
+            .find(collection_name)).add(id_session, id_student, format, subject, surname, name, patronymic, data, time, mark);
 }
 
 void data_base::remove_pool(const std::string & pool_name)
@@ -96,15 +115,12 @@ void data_base::remove_pool(const std::string & pool_name)
 
 void data_base::remove_scheme(const std::string & pool_name, const std::string & scheme_name)
 {
+
     const_cast<pool &>(_data_base->find(pool_name)).remove(scheme_name);
 }
 
 void data_base::remove_collection(const std::string & pool_name, const std::string & scheme_name, const std::string & collection_name)
 {
-    pool const & current_pool = _data_base->find(pool_name);
-
-    scheme const & current_scheme = current_pool.find(scheme_name);
-
     const_cast<scheme &>(_data_base->find(pool_name).find(scheme_name)).remove(collection_name);
 }
 
@@ -115,10 +131,10 @@ value data_base::remove_data(
         key * data_key)
 {
     return const_cast<data_collection &>(
-            _data_base
-            ->find(pool_name)
-            .find(scheme_name)
-            .find(collection_name)).remove(data_key);
+                _data_base
+                ->find(pool_name)
+                .find(scheme_name)
+                .find(collection_name)).remove(data_key);
 }
 
 value * data_base::get_data(
@@ -128,10 +144,10 @@ value * data_base::get_data(
         key * const & data_key)
 {
     return const_cast<data_collection &>(
-            _data_base
-            ->find(pool_name)
-            .find(scheme_name)
-            .find(collection_name)).get(data_key);
+                _data_base
+                ->find(pool_name)
+                .find(scheme_name)
+                .find(collection_name)).get(data_key);
 }
 
 std::vector<value *>data_base::get_data_between_keys(
@@ -142,10 +158,10 @@ std::vector<value *>data_base::get_data_between_keys(
         key *const & max_key)
 {
     return const_cast<data_collection &>(
-            _data_base
-            ->find(pool_name)
-            .find(scheme_name)
-            .find(collection_name)).get_between_keys(min_key, max_key);
+                _data_base
+                ->find(pool_name)
+                .find(scheme_name)
+                .find(collection_name)).get_between_keys(min_key, max_key);
 }
 
 void data_base::update_data(
@@ -164,10 +180,20 @@ void data_base::update_data(
         unsigned int mark)
 {
     const_cast<data_collection &>(
-            _data_base
-            ->find(pool_name)
-            .find(scheme_name)
-            .find(collection_name)).update(id_session, id_student, format, subject, surname, name, patronymic, data, time, mark);
+                _data_base
+                ->find(pool_name)
+                .find(scheme_name)
+                .find(collection_name)).update(id_session, id_student, format, subject, surname, name, patronymic, data, time, mark);
+}
+
+data_base *data_base::get_instance()
+{
+    if (_instance == nullptr)
+    {
+        _instance = new data_base();
+    }
+
+    return _instance;
 }
 
 void data_base::handle_request(

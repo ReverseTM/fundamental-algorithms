@@ -1,4 +1,5 @@
 #include "command_remove_pool.h"
+#include "../containers/data_base.h"
 
 bool command_remove_pool::can_execute(const std::string &request) noexcept
 {
@@ -19,5 +20,5 @@ bool command_remove_pool::can_execute(const std::string &request) noexcept
 
 void command_remove_pool::execute(const std::string &request) const noexcept
 {
-
+    data_base::get_instance()->remove_pool(_pool_name);
 }

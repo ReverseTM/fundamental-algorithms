@@ -2,22 +2,15 @@
 #define DATA_BASE_H
 
 #include "pool.h"
-#include "../request_handler_with_command_chain/request_handler_with_command_chain.h"
-#include "../request_handler_with_command_chain/command_add_pool.h"
-#include "../request_handler_with_command_chain/command_remove_pool.h"
-#include "../request_handler_with_command_chain/command_add_scheme.h"
-#include "../request_handler_with_command_chain/command_remove_scheme.h"
-#include "../request_handler_with_command_chain/command_add_collection.h"
-#include "../request_handler_with_command_chain/command_remove_collection.h"
-#include "../request_handler_with_command_chain/command_add_data.h"
-#include "../request_handler_with_command_chain/command_get_data.h"
-#include "../request_handler_with_command_chain/command_get_data_between.h"
-#include "../request_handler_with_command_chain/command_update_data.h"
-#include "../request_handler_with_command_chain/command_remove_data.h"
 #include "../types/allocator_types.h"
+#include "../request_handler_with_command_chain/request_handler_with_command_chain.h"
 
 class data_base
 {
+
+private:
+
+    static data_base * _instance;
 
 private:
 
@@ -29,9 +22,13 @@ private:
 
 public:
 
-    explicit data_base();
+    data_base();
 
     ~data_base();
+
+public:
+
+    static data_base *get_instance();
 
 public:
 
@@ -103,6 +100,5 @@ public:
     data_base & operator=(data_base && other) = delete;
 
 };
-
 
 #endif //DATA_BASE_H

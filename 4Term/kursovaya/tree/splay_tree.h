@@ -67,11 +67,15 @@ private:
 
     protected:
 
+        std::tuple<tkey, tvalue> remove_node_inner(
+                tkey const &key,
+                typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *& subtree_root_address,
+                std::list<typename binary_search_tree<tkey, tvalue, tkey_comparer>::node **> &path_to_subtree_root_exclusive) override;
+
         tvalue remove_inner(
                 tkey const &key,
                 typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *& subtree_root_address,
-                std::list<typename binary_search_tree<tkey, tvalue, tkey_comparer>::node **> &path_to_subtree_root_exclusive
-                ) override;
+                std::list<typename binary_search_tree<tkey, tvalue, tkey_comparer>::node **> &path_to_subtree_root_exclusive) override;
     };
 
 protected:
@@ -433,6 +437,70 @@ tvalue splay_tree<tkey, tvalue, tkey_comparer>::splay_tree_removing_template_met
     typename binary_search_tree<tkey, tvalue, tkey_comparer>::node * right_subtree = subtree_root_address->right_subtree_address;
 
      subtree_root_address->~node();
+
+    _tree->deallocate_with_guard(subtree_root_address);
+
+    this->trace_with_guard("[SPLAY TREE] Node has been deleted.");
+
+    _tree->_root = _tree->merge(left_subtree, right_subtree);
+
+    return removed_value;
+}
+
+template<
+    typename tkey,
+    typename tvalue,
+    typename tkey_comparer>
+std::tuple<tkey, tvalue> splay_tree<tkey, tvalue, tkey_comparer>::splay_tree_removing_template_method::remove_node_inner(
+    const tkey &key,
+    typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *&subtree_root_address,
+    std::list<typename binary_search_tree<tkey, tvalue, tkey_comparer>::node **> &path_to_subtree_root_exclusive)
+{
+    if (subtree_root_address == nullptr)
+    {
+        std::string message = "Tree is empty";
+        this->warning_with_guard(message);
+
+        throw std::invalid_argument("[SPLAY TREE] " + message + ".");
+    }
+
+    std::stack<typename binary_search_tree<tkey, tvalue, tkey_comparer>::node **> path;
+    typename binary_search_tree<tkey, tvalue, tkey_comparer>::node ** current_node = &subtree_root_address;
+
+
+    tkey_comparer comparator;
+
+    while (*current_node != nullptr)
+    {
+        int compare_result = comparator(key, (*current_node)->key_and_value._key);
+
+        if (compare_result == 0)
+        {
+            break;
+        }
+        else
+        {
+            path.push(current_node);
+            current_node = &(compare_result > 0 ? (*current_node)->right_subtree_address : (*current_node)->left_subtree_address);
+        }
+    }
+
+    if ((*current_node) == nullptr)
+    {
+        std::string message = "Key not found";
+        this->warning_with_guard(message);
+
+        throw std::invalid_argument("[SPLAY TREE] " + message + ".");
+    }
+
+    std::tuple<tkey, tvalue> removed_value((*current_node)->key_and_value._key, (*current_node)->key_and_value._value);
+
+    _tree->splay(*current_node, path);
+
+    typename binary_search_tree<tkey, tvalue, tkey_comparer>::node * left_subtree = subtree_root_address->left_subtree_address;
+    typename binary_search_tree<tkey, tvalue, tkey_comparer>::node * right_subtree = subtree_root_address->right_subtree_address;
+
+    subtree_root_address->~node();
 
     _tree->deallocate_with_guard(subtree_root_address);
 

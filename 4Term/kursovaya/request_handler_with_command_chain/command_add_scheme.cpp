@@ -1,4 +1,5 @@
 #include "command_add_scheme.h"
+#include "../containers/data_base.h"
 
 bool command_add_scheme::can_execute(const std::string &request) noexcept
 {
@@ -20,5 +21,5 @@ bool command_add_scheme::can_execute(const std::string &request) noexcept
 
 void command_add_scheme::execute(const std::string &request) const noexcept
 {
-
+    data_base::get_instance()->add_scheme(_pool_name, _scheme_name);
 }

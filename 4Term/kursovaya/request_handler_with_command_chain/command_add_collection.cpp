@@ -1,4 +1,5 @@
 #include "command_add_collection.h"
+#include "../containers/data_base.h"
 
 bool command_add_collection::can_execute(const std::string &request) noexcept
 {
@@ -21,5 +22,5 @@ bool command_add_collection::can_execute(const std::string &request) noexcept
 
 void command_add_collection::execute(const std::string &request) const noexcept
 {
-
+    data_base::get_instance()->add_collection(_pool_name, _scheme_name, _collection_name);
 }
