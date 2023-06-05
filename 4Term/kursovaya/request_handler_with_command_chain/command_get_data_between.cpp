@@ -33,15 +33,15 @@ bool command_get_data_between::can_execute(const std::string &request) noexcept
                 return false;
             }
 
-            if (argc[6] == "EXAM")
+            if (argc[6] == "exam")
             {
                 _format_for_first_key = form::EXAM;
             }
-            else if (argc[6] == "COURSE_WORK")
+            else if (argc[6] == "course_work")
             {
                 _format_for_first_key = form::COURSE_WORK;
             }
-            else if (argc[6] == "TEST")
+            else if (argc[6] == "test")
             {
                 _format_for_first_key = form::TEST;
             }

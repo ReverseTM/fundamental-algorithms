@@ -869,7 +869,7 @@ void binary_search_tree<tkey, tvalue, tkey_comparer>::insertion_template_method:
         if (compare_result == 0)
         {
             std::string message = "Key already exists";
-            this->warning_with_guard("[BST] " + message + ".");
+            this->warning_with_guard(message + ".");
 
             throw std::invalid_argument(message);
         }
@@ -944,14 +944,12 @@ void binary_search_tree<tkey, tvalue, tkey_comparer>::insertion_template_method:
     if (*insert_node == nullptr)
     {
         std::string message = "Key not found";
-        this->warning_with_guard("[BST] " + message + ".");
+        this->warning_with_guard(message + ".");
 
         throw std::invalid_argument(message);
     }
 
     after_insert_inner(key, *insert_node, path_to_subtree_root_exclusive);
-
-    //TODO
 }
 
 template<
@@ -1024,7 +1022,7 @@ bool binary_search_tree<tkey, tvalue, tkey_comparer>::reading_template_method::r
         std::string message = "Key not found";
         this->warning_with_guard(message);
 
-        throw std::invalid_argument("[BST] " + message + ".");
+        throw std::invalid_argument(message + ".");
     }
 
     tkey_comparer comparator;
@@ -1064,7 +1062,7 @@ tvalue const & binary_search_tree<tkey, tvalue,tkey_comparer>::reading_template_
         std::string message = "Key not found";
         this->warning_with_guard(message);
 
-        throw std::invalid_argument("[BST] " + message + ".");
+        throw std::invalid_argument(message + ".");
     }
 
     tkey_comparer comparator;
@@ -1091,7 +1089,7 @@ tvalue const & binary_search_tree<tkey, tvalue,tkey_comparer>::reading_template_
     std::string message = "Key not found";
     this->warning_with_guard(message);
 
-    throw std::invalid_argument("[BST] " + message + ".");
+    throw std::invalid_argument(message + ".");
 }
 
 template<
@@ -1169,7 +1167,7 @@ tvalue binary_search_tree<tkey, tvalue, tkey_comparer>::removing_template_method
         std::string message = "Tree is empty";
         this->warning_with_guard(message);
 
-        throw std::invalid_argument("[BST] " + message + ".");
+        throw std::invalid_argument(message + ".");
     }
 
     auto current_node = &subtree_root_address;
@@ -1196,7 +1194,7 @@ tvalue binary_search_tree<tkey, tvalue, tkey_comparer>::removing_template_method
         std::string message = "Key not found";
         this->warning_with_guard(message);
 
-        throw std::invalid_argument("[BST] " + message + ".");
+        throw std::invalid_argument(message + ".");
     }
 
     tvalue removed_value = (*removed_node)->key_and_value._value;
@@ -1276,7 +1274,7 @@ std::tuple<tkey, tvalue> binary_search_tree<tkey, tvalue, tkey_comparer>::removi
         std::string message = "Tree is empty";
         this->warning_with_guard(message);
 
-        throw std::invalid_argument("[BST] " + message + ".");
+        throw std::invalid_argument(message + ".");
     }
 
     auto current_node = &subtree_root_address;
@@ -1303,7 +1301,7 @@ std::tuple<tkey, tvalue> binary_search_tree<tkey, tvalue, tkey_comparer>::removi
         std::string message = "Key not found";
         this->warning_with_guard(message);
 
-        throw std::invalid_argument("[BST] " + message + ".");
+        throw std::invalid_argument(message + ".");
     }
 
     std::tuple<tkey, tvalue> removed_value((*removed_node)->key_and_value._key, (*removed_node)->key_and_value._value);

@@ -79,11 +79,11 @@ bool command_update_data::can_execute(const std::string &request) noexcept
                 std::stringstream mark(argc[13]);
                 mark >> _mark;
 
-                if (_format == form::TEST && (_mark != 1 || _mark != 0 ))
+                if (_format == form::TEST && (_mark < 0 || _mark > 1))
                 {
                     return false;
                 }
-                else
+                else if (_format == form::EXAM || _format == form::COURSE_WORK)
                 {
                     if (_mark < 2 || _mark > 5)
                     {

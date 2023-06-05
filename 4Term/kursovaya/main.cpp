@@ -13,27 +13,12 @@ int main(int argc, char *argv[])
 
     while (std::getline(file, command))
     {
-        try
-        {
-            db->handle_request(command);
-        }
-        catch (std::exception const &ex)
-        {
-            std::cout << ex.what() << std::endl;
-        }
+        db->handle_request(command);
     }
 
-//    try
-//    {
-//        db->add_pool("pool1", allocator_types::SORTED_LIST , 1000000, memory::allocation_mode::first_match);
-//        db->add_scheme("pool2", "scheme1");
-//    }
-//    catch (std::exception const &ex)
-//    {
-//        std::cout << ex.what() << std::endl;
-//    }
-
     delete db;
+
+    getchar();
 
     return 0;
 }
