@@ -20,6 +20,11 @@ scheme const & pool::find(std::string const & scheme_name) const
     return _pool->find(scheme_name);
 }
 
+bool pool::find_in(const std::string &scheme_name) const
+{
+    return _pool->find_in(scheme_name);
+}
+
 memory * pool::get_allocator() const
 {
     return _allocator;
@@ -82,5 +87,4 @@ pool &pool::operator=(pool && other) noexcept
 pool::~pool()
 {
     delete _pool;
-    //delete _allocator;
 }

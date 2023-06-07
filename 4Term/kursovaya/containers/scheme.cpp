@@ -17,6 +17,11 @@ data_collection const & scheme::find(std::string const & collection_name) const
     return _scheme->find(collection_name);
 }
 
+bool scheme::find_in(std::string const & collection_name) const
+{
+    return _scheme->find_in(collection_name);
+}
+
 scheme::scheme(const scheme & other)
     : _scheme(new splay_tree<std::string, data_collection, string_comparer>(*reinterpret_cast<splay_tree<std::string, data_collection, string_comparer>*>(other._scheme)))
 {

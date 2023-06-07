@@ -7,15 +7,21 @@ bool command_add_pool::can_execute(const std::string &request) noexcept
     {
         auto argc = split(request, ' ');
 
+        if (argc.size() == 3 && argc[2] == "global_heap")
+        {
+            _pool_name = argc[1];
+            _pool_allocator_type = allocator_types::GLOBAL_HEAP;
+            _pool_allocator_size = 0;
+            _pool_allocator_allocation_mode = memory::allocation_mode::first_match;
+
+            return true;
+        }
+
         if (argc.size() == 5)
         {
             _pool_name = argc[1];
 
-            if (argc[2] == "global_heap")
-            {
-                _pool_allocator_type = allocator_types::GLOBAL_HEAP;
-            }
-            else if (argc[2] == "sorted_list")
+            if (argc[2] == "sorted_list")
             {
                 _pool_allocator_type = allocator_types::SORTED_LIST;
             }

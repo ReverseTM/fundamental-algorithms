@@ -59,7 +59,7 @@ public:
 
     void remove_collection(std::string const & pool_name, std::string const & scheme_name, std::string const & collection_name);
 
-    value remove_data(
+    void remove_data(
             std::string const & pool_name,
             std::string const & scheme_name,
             std::string const & collection_name,
@@ -69,10 +69,7 @@ public:
             std::string const & pool_name,
             std::string const & scheme_name,
             std::string const & collection_name,
-            unsigned int id_session,
-            unsigned int id_student,
-            form format,
-            std::string const & subject,
+            key * const & data_key,
             std::string const & surname,
             std::string const & name,
             std::string const & patronymic,
@@ -80,9 +77,9 @@ public:
             std::string const & time,
             unsigned int mark);
 
-    value * get_data(std::string const & pool_name, std::string const & scheme_name, std::string const & collection_name, key * const & data_key);
+    void get_data(std::string const & pool_name, std::string const & scheme_name, std::string const & collection_name, key * const & data_key);
 
-    std::vector<value*> get_data_between_keys(std::string const & pool_name, std::string const & scheme_name, std::string const & collection_name, key * const & min_key, key * const & max_key);
+    void get_data_between_keys(std::string const & pool_name, std::string const & scheme_name, std::string const & collection_name, key * const & min_key, key * const & max_key);
 
 public:
 

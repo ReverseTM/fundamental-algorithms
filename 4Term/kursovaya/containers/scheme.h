@@ -25,6 +25,8 @@ public:
 
     data_collection const & find(std::string const & collection_name) const;
 
+    bool find_in(std::string const & collection_name) const;
+
 public:
 
     scheme(scheme const & other);

@@ -1,0 +1,24 @@
+ADD_POOL pool_1 sorted_list 1000000 first_match
+ADD_POOL pool_2 border_descriptors 500000 the_best_match
+ADD_SCHEME pool_2 scheme_1
+ADD_SCHEME pool_2 scheme_2
+ADD_COLLECTION pool_2 scheme_2 collection_1
+ADD_DATA pool_2 scheme_2 collection_1 1 28 exam math khasanov daniil rafailovich 14.06.2023 09:00 3
+GET_DATA pool_2 scheme_2 collection_1 1 28 exam math
+ADD_SCHEME pool_1 scheme_1
+ADD_COLLECTION pool_1 scheme_1 collection_1
+ADD_DATA pool_1 scheme_1 collection_1 1 132 course_work fundamental_algorithms khasanov daniil rafailovich 07.06.2023 10:00 3
+ADD_DATA pool_1 scheme_1 collection_1 2 22 test philosophy avdiyanc petr petrovich 07.06.2023 12:00 1
+ADD_DATA pool_1 scheme_1 collection_1 3 15 course_work fundamental_algorithms juraev donish juraevich 07.06.2023 09:00 2
+ADD_DATA pool_1 scheme_1 collection_1 4 2 exam math naumov german konstantinovich 14.06.2023 09:00 5
+GET_RANGE pool_1 scheme_1 collection_1 1 132 course_work fundamental_algorithms 3 15 course_work fundamental_algorithms
+UPDATE_DATA pool_1 scheme_1 collection_1 1 132 exam fundamental_algorithms mitev roman stanimirovich 01.09.2023 09:12 3
+GET_DATA pool_1 scheme_1 collection_1 1 132 exam fundamental_algorithms
+REMOVE_DATA pool_1 scheme_1 collection_1 3 15 course_work fundamental_algorithms
+REMOVE_DATA pool_1 scheme_1 collection_1 1 132 course_work fundamental_algorithms
+REMOVE_DATA pool_1 scheme_1 collection_1 4 2 exam math
+GET_RANGE pool_1 scheme_1 collection_1 1 132 course_work fundamental_algorithms 4 2 exam math
+REMOVE_COLLECTION pool_1 scheme_1 collection_1
+REMOVE_SCHEME pool_1 scheme_1
+REMOVE_POOL pool_1
+GET_DATA pool_1 scheme_1 collection_1 3 28 exam fund

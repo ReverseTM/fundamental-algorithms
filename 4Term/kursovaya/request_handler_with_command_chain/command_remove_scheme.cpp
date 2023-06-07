@@ -3,7 +3,7 @@
 
 bool command_remove_scheme::can_execute(const std::string &request) noexcept
 {
-    if (request.starts_with("REMOVE SCHEME"))
+    if (request.starts_with("REMOVE_SCHEME"))
     {
         auto argc = split(request, ' ');
 

@@ -1,0 +1,18 @@
+ADD_POOL pool_1 global_heap
+ADD_POOL pool_2 buddies_system 50000 first_match
+ADD_SCHEME pool_1 scheme_1
+ADD_SCHEME pool_1 scheme_2
+ADD_SCHEME pool_1 scheme_3
+ADD_COLLECTION pool_1 scheme_1 collection_1
+ADD_SCHEME pool_2 scheme_1
+ADD_COLLECTION pool_2 scheme_1 collection_1
+ADD_DATA pool_1 scheme_1 collection_1 3 1 test economy ivanov ivan ivanich 07.03.2022 15:34 1
+ADD_DATA pool_1 scheme_1 collection_1 3 2 exam fundamental_algorithms petrov petr petrovich 14.01.2023 16:15 5
+ADD_DATA pool_2 scheme_1 collection_1 5 1 course_work economy nikolaev nikolai nilocaevich 25.08.2021 13:21 4
+ADD_DATA pool_1 scheme_1 collection_1 3 3 course_work math romanov roman romanich 12.03.2022 09:30 3
+GET_RANGE pool_1 scheme_1 collection_1 3 1 test economy 3 2 exam fundamental_algorithms
+UPDATE_DATA pool_1 scheme_1 collection_1 3 2 exam fundamental_algorithms nikitin nikita nikitovich 15/01/2023 10:30 3
+GET_RANGE pool_1 scheme_1 collection_1 3 2 exam fundamental_algorithms 3 3 course_work math
+REMOVE_POOL pool_1
+GET_DATA pool_1 scheme_1 collection_1 3 2 exam fundamental_algorithms
+GET_DATA pool_2 scheme_1 collection_1 5 1 course_work economy

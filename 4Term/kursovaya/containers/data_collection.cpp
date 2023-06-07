@@ -38,6 +38,11 @@ void data_collection::add(
     _data->insert(data_key, std::move(data_value));
 }
 
+bool data_collection::find_in(key *const &data_key) const
+{
+    return _data->find_in(data_key);
+}
+
 value data_collection::remove(key * data_key)
 {
     auto returned_node = _data->remove_node(data_key);
@@ -64,10 +69,7 @@ std::vector<value *> data_collection::get_between_keys(key *const &min_key, key 
 }
 
 void data_collection::update(
-        unsigned int id_session,
-        unsigned int id_student,
-        form format,
-        const std::string & subject,
+        key *const &data_key,
         const std::string & surname,
         const std::string & name,
         const std::string & patronymic,
@@ -75,13 +77,13 @@ void data_collection::update(
         const std::string & time,
         unsigned int mark)
 {
-    key * data_key = reinterpret_cast<key*>(allocate_with_guard(sizeof(key)));
-    new (data_key) key;
-
-    data_key->_id_session = id_session;
-    data_key->_id_student = id_student;
-    data_key->_format = format;
-    data_key->_subject = subject;
+//    key * data_key = reinterpret_cast<key*>(allocate_with_guard(sizeof(key)));
+//    new (data_key) key;
+//
+//    data_key->_id_session = id_session;
+//    data_key->_id_student = id_student;
+//    data_key->_format = format;
+//    data_key->_subject = subject;
 
     value * data_value = reinterpret_cast<value*>(allocate_with_guard(sizeof(value)));
     new (data_value) value;
@@ -95,8 +97,8 @@ void data_collection::update(
 
     _data->update(data_key, std::move(data_value));
 
-    data_key->~key();
-    deallocate_with_guard(data_key);
+//    data_key->~key();
+//    deallocate_with_guard(data_key);
 }
 
 memory * data_collection::get_outer_allocator() const

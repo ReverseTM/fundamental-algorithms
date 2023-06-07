@@ -26,6 +26,8 @@ public:
 
     scheme const & find(std::string const & scheme_name) const;
 
+    bool find_in(std::string const & scheme_name) const;
+
     memory * get_allocator() const;
 
 public:

@@ -105,18 +105,24 @@ bool command_update_data::can_execute(const std::string &request) noexcept
 
 void command_update_data::execute(const std::string &request) const noexcept
 {
+    key * data_key = new key();
+
+    data_key->_id_session = _id_session;
+    data_key->_id_student = _id_student;
+    data_key->_format = _format;
+    data_key->_subject = _subject;
+
     data_base::get_instance()->update_data(
             _pool_name,
             _scheme_name,
             _collection_name,
-            _id_session,
-            _id_student,
-            _format,
-            _subject,
+            data_key,
             _surname,
             _name,
             _patronymic,
             _date,
             _time,
             _mark);
+
+    delete data_key;
 }

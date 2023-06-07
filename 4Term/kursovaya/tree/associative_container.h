@@ -29,7 +29,7 @@ public:
 
     virtual void update(tkey const &key, tvalue &&value) = 0;
 
-    virtual bool find(key_value_pair * target_key_and_result_value) = 0;
+    virtual bool find_in(tkey const &key) = 0;
 
     virtual tvalue const &find(tkey const &key) = 0;
 

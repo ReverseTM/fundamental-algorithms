@@ -213,7 +213,7 @@ protected:
             node *&subtree_root_address);
 
         bool read(
-            typename associative_container<tkey, tvalue>::key_value_pair * target_key_and_result_value,
+            tkey const &key,
             node *&subtree_root_address);
 
     private:
@@ -224,7 +224,7 @@ protected:
             std::stack<node **> &path_to_subtree_root_exclusive);
 
         bool read_inner(
-            typename associative_container<tkey, tvalue>::key_value_pair * target_key_and_result_value,
+            tkey const &key,
             node *&subtree_root_address,
             std::stack<node **> &path_to_subtree_root_exclusive);
 
@@ -364,7 +364,7 @@ public:
 
     void update(tkey const &key, tvalue &&value) override final;
 
-    bool find(typename associative_container<tkey, tvalue>::key_value_pair * target_key_and_result_value) override final;
+    bool find_in(tkey const &key) override final;
 
     tvalue const &find(tkey const &key) override final;
 
@@ -988,12 +988,12 @@ template<
     typename tvalue,
     typename tkey_comparer>
 bool binary_search_tree<tkey, tvalue, tkey_comparer>::reading_template_method::read(
-    typename associative_container<tkey, tvalue>::key_value_pair * target_key_and_result_value,
+    tkey const &key,
     node *&tree_root_address)
 {
     std::stack<node **> path_to_subtree_root_exclusive;
 
-    return read_inner(target_key_and_result_value, tree_root_address, path_to_subtree_root_exclusive);
+    return read_inner(key, tree_root_address, path_to_subtree_root_exclusive);
 }
 
 template<
@@ -1013,16 +1013,17 @@ template<
     typename tvalue,
     typename tkey_comparer>
 bool binary_search_tree<tkey, tvalue, tkey_comparer>::reading_template_method::read_inner(
-    typename associative_container<tkey, tvalue>::key_value_pair * target_key_and_result_value,
+    tkey const &key,
     node *&subtree_root_address,
     std::stack<node **> &path_to_subtree_root_exclusive)
 {
     if (subtree_root_address == nullptr)
     {
-        std::string message = "Key not found";
-        this->warning_with_guard(message);
-
-        throw std::invalid_argument(message + ".");
+        return false;
+//        std::string message = "Key not found";
+//        this->warning_with_guard(message);
+//
+//        throw std::invalid_argument(message + ".");
     }
 
     tkey_comparer comparator;
@@ -1031,11 +1032,10 @@ bool binary_search_tree<tkey, tvalue, tkey_comparer>::reading_template_method::r
 
     while (*find_node != nullptr)
     {
-        int compare_result = comparator(target_key_and_result_value->_key, (*find_node)->key_and_value._key);
+        int compare_result = comparator(key, (*find_node)->key_and_value._key);
 
         if (compare_result == 0)
         {
-            target_key_and_result_value->_value = (*find_node)->key_and_value._value;
             after_read_inner( *find_node, path_to_subtree_root_exclusive);
             return true;
         }
@@ -1723,9 +1723,9 @@ template<
     typename tkey,
     typename tvalue,
     typename tkey_comparer>
-bool binary_search_tree<tkey, tvalue, tkey_comparer>::find(typename associative_container<tkey, tvalue>::key_value_pair * target_key_and_result_value)
+bool binary_search_tree<tkey, tvalue, tkey_comparer>::find_in(const tkey &key)
 {
-    return _reading->read(target_key_and_result_value, _root);
+    return _reading->read(key, _root);
 }
 
 template<

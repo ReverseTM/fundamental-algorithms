@@ -4,16 +4,21 @@
 
 int main(int argc, char *argv[])
 {
-
     data_base * db = new data_base();
 
     std::string command;
 
-    std::ifstream file("../tests/file_to_test.txt");
+    std::ifstream file(argv[1]);
 
-    while (std::getline(file, command))
+    if (file.is_open())
     {
-        db->handle_request(command);
+        while (std::getline(file, command)) {
+            db->handle_request(command);
+        }
+    }
+    else
+    {
+        std::cout << "File with name:" << argv[1] << " can't be opened" << std::endl;
     }
 
     delete db;

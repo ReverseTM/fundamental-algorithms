@@ -3,7 +3,7 @@
 
 bool command_remove_collection::can_execute(const std::string &request) noexcept
 {
-    if (request.starts_with("REMOVE COLLECTION"))
+    if (request.starts_with("REMOVE_COLLECTION"))
     {
         auto argc = split(request, ' ');
 
