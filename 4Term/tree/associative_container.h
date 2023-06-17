@@ -19,7 +19,7 @@ public:
 
     virtual bool find(key_value_pair * target_key_and_result_value) = 0;
 
-    virtual tvalue && remove(tkey const &key) = 0;
+    virtual tvalue remove(tkey const &key) = 0;
 
 public:
 

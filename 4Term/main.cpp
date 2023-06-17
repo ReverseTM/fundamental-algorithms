@@ -7,70 +7,8 @@
 #include "memory_allocators/buddy_allocator.h"
 #include "tree/binary_search_tree.h"
 #include "tree/splay_tree.h"
+#include "tree/avl_tree.h"
 #include <list>
-
-/*
-            About 11 task
-class A
-{
-
-protected:
-    class Summator
-    {
-    public:
-        int sum_template() {
-            std::cout << "sum_template" << std::endl;
-            sum_inner();
-        }
-
-    private:
-        int sum_inner() {
-            std::cout << "sum_inner" << std::endl;
-            sum_after_inner();
-        }
-
-    protected:
-        virtual int sum_after_inner()
-        {
-            std::cout << "sum_after_inner" << std::endl;
-        }
-
-    };
-private:
-    Summator *_summator;
-
-public:
-    A(A::Summator *sum_method) : _summator(sum_method) {};
-    A() : _summator(new Summator()) {};
-
-    virtual ~A() = default;
-
-    void sum()
-    {
-        _summator->sum_template();
-    }
-
-};
-
-class B : public A
-{
-protected:
-    class C : public A::Summator
-    {
-        int sum_after_inner() override
-        {
-            std::cout << "sum_after_inner class B" << std::endl;
-        }
-
-    };
-public:
-    B() : A(new C()) {};
-};
-
-Вызов фунции sum, которая дополнена в потомке
-A * ptr = new B();
-ptr->sum();
-*/
 
 /*
  * постфиксный (лево право корень)
@@ -152,6 +90,87 @@ void testing_allocator()
 
 }
 
+void test_trees()
+{
+    class key_comparer
+    {
+    public:
+
+        int operator()(int first, int second)
+        {
+            return first - second;
+        }
+
+        int operator()(std::string first, std::string second)
+        {
+            if (first > second)
+                return 1;
+            else if (first < second)
+                return -1;
+            else
+                return 0;
+        }
+    };
+
+    builder * builder1 = new builder_implementation();
+    auto log = builder1
+            ->add_stream("file1.txt", fund_alg::logger::severity::trace)
+            ->add_stream("file2.txt", fund_alg::logger::severity::debug)
+            ->build();
+
+    memory *allocator = new sorted_list_allocator(5000000, memory::allocation_mode::first_match, log.get(), nullptr);
+
+    auto * tree = new avl_tree<int, std::string, key_comparer>(allocator, log.get());
+
+    srand((unsigned)time(nullptr));
+
+    for (auto i = 1; i <= 500000; i++)
+    {
+        if (i % 1000 == 0)
+        {
+            std::cout << "Iteration " << i << "..." << std::endl;
+        }
+
+        associative_container<int, std::string>::key_value_pair ваще_пахую;
+
+        switch (rand() % 3)
+        {
+            case 0:
+                try
+                {
+                    tree->insert(rand() % 5001 - 2500, std::move(""));
+                }
+                catch (std::exception const &ex)
+                {
+                    //std::cout << ex.what() << std::endl;
+                }
+                break;
+            case 1:
+                try
+                {
+                    ваще_пахую._key = rand() % 5001 - 2500;
+                    tree->find(&ваще_пахую);
+                }
+                catch (std::exception const &ex)
+                {
+                    //std::cout << ex.what() << std::endl;
+                }
+                break;
+            case 2:
+                try
+                {
+                    auto поебать_ваще = tree->remove(rand() % 5001 - 2500);
+                }
+                catch (std::exception const &ex)
+                {
+                    //std::cout << ex.what() << std::endl;
+                }
+                break;
+        }
+    }
+    delete tree;
+}
+
 void testing_bst()
 {
     class key_comparer
@@ -182,36 +201,20 @@ void testing_bst()
 
     associative_container<int, int> * tree = new binary_search_tree<int, int, key_comparer>(allocator.get(), logger.get());
 
-    *tree += associative_container<int, int>::key_value_pair{6, 6};
-    *tree += associative_container<int, int>::key_value_pair{2, 2};
+    *tree += associative_container<int, int>::key_value_pair{20, 20};
+    *tree += associative_container<int, int>::key_value_pair{30, 30};
     *tree += associative_container<int, int>::key_value_pair{10, 10};
     *tree += associative_container<int, int>::key_value_pair{1, 1};
-    *tree += associative_container<int, int>::key_value_pair{4, 4};
-    *tree += associative_container<int, int>::key_value_pair{7, 7};
+    *tree += associative_container<int, int>::key_value_pair{15, 15};
+    *tree += associative_container<int, int>::key_value_pair{14, 14};
+    *tree += associative_container<int, int>::key_value_pair{13, 13};
     *tree += associative_container<int, int>::key_value_pair{12, 12};
-    *tree += associative_container<int, int>::key_value_pair{3, 3};
-    *tree += associative_container<int, int>::key_value_pair{11, 11};
+    *tree += associative_container<int, int>::key_value_pair{25, 25};
 
-    auto x = associative_container<int, int>::key_value_pair{4};
+    tree->remove(10);
 
-    if ((*tree)[&x])
-    {
-        std::cout << "Key found, value = " <<  x._value << std::endl;
-    }
-
-//    *tree -= 11;
-//    *tree -= 3;
-//    *tree -= 12;
-//    *tree -= 7;
-//    *tree -= 10;
-//    *tree -= 4;
-//    *tree -= 1;
-//    *tree -= 2;
-
-    auto tree1 = *reinterpret_cast<binary_search_tree<int, int, key_comparer>*>(tree);
-
-    auto end_infix = tree1.end_infix();
-    for (auto it = tree1.begin_infix(); it != end_infix; ++it)
+    auto end_infix = reinterpret_cast<binary_search_tree<int, int, key_comparer> *>(tree)->end_infix();
+    for (auto it = reinterpret_cast<binary_search_tree<int, int, key_comparer> *>(tree)->begin_infix(); it != end_infix; ++it)
     {
         for (int i = 0; i < std::get<0>(*it); i++)
         {
@@ -221,8 +224,6 @@ void testing_bst()
     }
     std::cout << std::endl;
 
-
-    delete tree;
 }
 
 void testing_splay_tree()
@@ -255,34 +256,75 @@ void testing_splay_tree()
 
     associative_container<int, int> * tree = new splay_tree<int , int, key_comparer>(allocator.get(), logger.get());
 
-    tree->insert(6, 6);
-    tree->insert(2, 2);
-    tree->insert(12, 12);
-    tree->insert(11, 11);
-    tree->insert(8, 8);
-    tree->insert(9, 9);
+    tree->insert(1, 1);
+    tree->insert(16, 16);
+    tree->insert(25, 25);
+    tree->insert(4, 4);
+    tree->insert(14, 14);
 
-    tree->remove(12);
-    tree->remove(2);
-    tree->remove(8);
+    auto tree1 = std::move(*reinterpret_cast<splay_tree<int, int, key_comparer> *>(tree));
 
-    auto end_infix = reinterpret_cast<binary_search_tree<int, int, key_comparer> *>(tree)->end_infix();
-    for (auto it = reinterpret_cast<binary_search_tree<int, int, key_comparer> *>(tree)->begin_infix(); it != end_infix; ++it)
-    {
-        for (int i = 0; i < std::get<0>(*it); i++)
-        {
-            std::cout << "  ";
-        }
-        std::cout << std::get<2>(*it) << std::endl;
-    }
-    std::cout << std::endl;
+
+    tree1.insert(15, 15);
+    tree1.remove(15);
 
     delete tree;
 }
 
+void testing_avl_tree()
+{
+    class key_comparer
+    {
+    public:
+
+        int operator()(int first, int second)
+        {
+            return first - second;
+        }
+
+        int operator()(std::string first, std::string second)
+        {
+            if (first > second)
+                return 1;
+            else if (first < second)
+                return -1;
+            else
+                return 0;
+        }
+    };
+
+    std::unique_ptr<builder> logger_builder = std::make_unique<builder_implementation>();
+
+    auto logger = logger_builder->add_stream("logs.txt", fund_alg::logger::severity::trace)->build();
+
+    std::shared_ptr<memory> allocator = std::make_shared<sorted_list_allocator>(1000000, memory::allocation_mode::first_match, logger.get());
+
+    auto * tree = new avl_tree<int , int, key_comparer>(allocator.get(), logger.get());
+
+    tree->insert(10, 10);
+    tree->insert(13, 13);
+    tree->insert(1, 1);
+    tree->insert(16, 16);
+    tree->insert(25, 25);
+    tree->insert(4, 4);
+    tree->insert(14, 14);
+
+    auto tree1 = std::move(*reinterpret_cast<avl_tree<int, int, key_comparer> *>(tree));
+
+    delete tree;
+
+    tree1.remove(10);
+    tree1.remove(16);
+}
+
+void testing_rb_tree()
+{
+    
+}
+
 int main()
 {
-    testing_splay_tree();
+    testing_rb_tree();
 
     return 0;
 }

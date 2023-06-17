@@ -1,32 +1,54 @@
-[TRACE][03/06/2023 18:29:03] [SPLAY TREE] The tree has been created.
-[TRACE][03/06/2023 18:29:03] [GLOBAL HEAP ALLOCATOR] Memory allocated success at address: 0x27b87aa3688 success.
-[TRACE][03/06/2023 18:29:03] [SPLAY TREE] Node inserted.
-[TRACE][03/06/2023 18:29:03] [GLOBAL HEAP ALLOCATOR] Memory allocated success at address: 0x27b87aa3948 success.
-[TRACE][03/06/2023 18:29:03] [SPLAY TREE] Node inserted.
-[TRACE][03/06/2023 18:29:03] [GLOBAL HEAP ALLOCATOR] Memory allocated success at address: 0x27b87aa3978 success.
-[TRACE][03/06/2023 18:29:03] [SPLAY TREE] Node inserted.
-[TRACE][03/06/2023 18:29:03] [GLOBAL HEAP ALLOCATOR] Memory allocated success at address: 0x27b87aa39a8 success.
-[TRACE][03/06/2023 18:29:03] [SPLAY TREE] Node inserted.
-[TRACE][03/06/2023 18:29:03] [GLOBAL HEAP ALLOCATOR] Memory allocated success at address: 0x27b87aa39d8 success.
-[TRACE][03/06/2023 18:29:03] [SPLAY TREE] Node inserted.
-[TRACE][03/06/2023 18:29:03] [GLOBAL HEAP ALLOCATOR] Memory allocated success at address: 0x27b87aa3a08 success.
-[TRACE][03/06/2023 18:29:03] [SPLAY TREE] Node inserted.
-[TRACE][03/06/2023 18:29:03] Memory state at address: 0x27b87aa3978 = [12 0 0 0 12 0 0 0 168 57 170 135 123 2 0 0 0 0 0 0 0 0 0 0]
-[TRACE][03/06/2023 18:29:03] [GLOBAL HEAP ALLOCATOR] Memory at address: 0x27b87aa3978 was deallocated.
-[TRACE][03/06/2023 18:29:03] [SPLAY TREE] Node has been deleted.
-[TRACE][03/06/2023 18:29:03] Memory state at address: 0x27b87aa3948 = [2 0 0 0 2 0 0 0 0 0 0 0 0 0 0 0 8 58 170 135 123 2 0 0]
-[TRACE][03/06/2023 18:29:03] [GLOBAL HEAP ALLOCATOR] Memory at address: 0x27b87aa3948 was deallocated.
-[TRACE][03/06/2023 18:29:03] [SPLAY TREE] Node has been deleted.
-[TRACE][03/06/2023 18:29:03] Memory state at address: 0x27b87aa39d8 = [8 0 0 0 8 0 0 0 136 54 170 135 123 2 0 0 8 58 170 135 123 2 0 0]
-[TRACE][03/06/2023 18:29:03] [GLOBAL HEAP ALLOCATOR] Memory at address: 0x27b87aa39d8 was deallocated.
-[TRACE][03/06/2023 18:29:03] [SPLAY TREE] Node has been deleted.
-[TRACE][03/06/2023 18:29:03] [SPLAY TREE] The tree has been created.
-[TRACE][03/06/2023 18:29:03] [GLOBAL HEAP ALLOCATOR] Memory allocated success at address: 0x27b87aa3738 success.
-[TRACE][03/06/2023 18:29:03] [GLOBAL HEAP ALLOCATOR] Memory allocated success at address: 0x27b87aa3768 success.
-[TRACE][03/06/2023 18:29:03] [GLOBAL HEAP ALLOCATOR] Memory allocated success at address: 0x27b87aa3798 success.
-[TRACE][03/06/2023 18:29:03] Memory state at address: 0x27b87aa3688 = [6 0 0 0 6 0 0 0 0 0 0 0 0 0 0 0 8 58 170 135 123 2 0 0]
-[TRACE][03/06/2023 18:29:03] [GLOBAL HEAP ALLOCATOR] Memory at address: 0x27b87aa3688 was deallocated.
-[TRACE][03/06/2023 18:29:03] The tree has been deleted.
-[TRACE][03/06/2023 18:29:03] Memory state at address: 0x27b87aa3738 = [6 0 0 0 6 0 0 0 0 0 0 0 0 0 0 0 104 55 170 135 123 2 0 0]
-[TRACE][03/06/2023 18:29:03] [GLOBAL HEAP ALLOCATOR] Memory at address: 0x27b87aa3738 was deallocated.
-[TRACE][03/06/2023 18:29:03] The tree has been deleted.
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Allocator successfully created.
+[TRACE][09/06/2023 01:04:58] [SPLAY TREE] The tree has been created.
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x8 success.
+[TRACE][09/06/2023 01:04:58] [SPLAY TREE] Node inserted.
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x28 success.
+[TRACE][09/06/2023 01:04:58] [SPLAY TREE] Node inserted.
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x48 success.
+[TRACE][09/06/2023 01:04:58] [SPLAY TREE] Node inserted.
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x68 success.
+[TRACE][09/06/2023 01:04:58] [SPLAY TREE] Node inserted.
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x88 success.
+[TRACE][09/06/2023 01:04:58] [SPLAY TREE] Node inserted.
+[TRACE][09/06/2023 01:04:58] [SPLAY TREE] The tree has been created.
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Memory allocation at address: 0xa8 success.
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Memory allocation at address: 0xc8 success.
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Memory allocation at address: 0xe8 success.
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x108 success.
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x128 success.
+[TRACE][09/06/2023 01:04:58] Memory state at address: 0x88 = [14 0 0 0 14 0 0 0 12 1 28 211 65 1 0 0 204 0 28 211 65 1 0 0]
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Memory at address: 0x88 was deallocated.
+[TRACE][09/06/2023 01:04:58] [SPLAY TREE] Node has been deleted.
+[TRACE][09/06/2023 01:04:58] Memory state at address: 0x8 = [1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Memory at address: 0x8 was deallocated.
+[TRACE][09/06/2023 01:04:58] Memory state at address: 0x48 = [25 0 0 0 25 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Memory at address: 0x48 was deallocated.
+[TRACE][09/06/2023 01:04:58] Memory state at address: 0x28 = [16 0 0 0 16 0 0 0 0 0 0 0 0 0 0 0 236 0 28 211 65 1 0 0]
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Memory at address: 0x28 was deallocated.
+[TRACE][09/06/2023 01:04:58] Memory state at address: 0x68 = [4 0 0 0 4 0 0 0 172 0 28 211 65 1 0 0 204 0 28 211 65 1 0 0]
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Memory at address: 0x68 was deallocated.
+[TRACE][09/06/2023 01:04:58] The tree has been deleted.
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x8 success.
+[TRACE][09/06/2023 01:04:58] [SPLAY TREE] Node inserted.
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x28 success.
+[TRACE][09/06/2023 01:04:58] [SPLAY TREE] Node inserted.
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x48 success.
+[TRACE][09/06/2023 01:04:58] [SPLAY TREE] Node inserted.
+[TRACE][09/06/2023 01:04:58] Memory state at address: 0xe8 = [1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Memory at address: 0xe8 was deallocated.
+[TRACE][09/06/2023 01:04:58] Memory state at address: 0xc8 = [4 0 0 0 4 0 0 0 140 1 28 211 65 1 0 0 0 0 0 0 0 0 0 0]
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Memory at address: 0xc8 was deallocated.
+[TRACE][09/06/2023 01:04:58] Memory state at address: 0xa8 = [14 0 0 0 14 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Memory at address: 0xa8 was deallocated.
+[TRACE][09/06/2023 01:04:58] Memory state at address: 0x108 = [16 0 0 0 16 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Memory at address: 0x108 was deallocated.
+[TRACE][09/06/2023 01:04:58] Memory state at address: 0x128 = [25 0 0 0 25 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Memory at address: 0x128 was deallocated.
+[TRACE][09/06/2023 01:04:58] Memory state at address: 0x28 = [20 0 0 0 20 0 0 0 172 1 28 211 65 1 0 0 204 1 28 211 65 1 0 0]
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Memory at address: 0x28 was deallocated.
+[TRACE][09/06/2023 01:04:58] Memory state at address: 0x8 = [15 0 0 0 15 0 0 0 76 1 28 211 65 1 0 0 204 0 28 211 65 1 0 0]
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Memory at address: 0x8 was deallocated.
+[TRACE][09/06/2023 01:04:58] Memory state at address: 0x48 = [5 0 0 0 5 0 0 0 108 1 28 211 65 1 0 0 172 0 28 211 65 1 0 0]
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Memory at address: 0x48 was deallocated.
+[TRACE][09/06/2023 01:04:58] The tree has been deleted.
+[TRACE][09/06/2023 01:04:58] [SORTED LIST ALLOCATOR] Allocator success deleted.
