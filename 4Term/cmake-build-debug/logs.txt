@@ -1,15 +1,9 @@
-[TRACE][17/06/2023 19:40:53] [SORTED LIST ALLOCATOR] Allocator successfully created.
-[TRACE][17/06/2023 19:40:53] [SPLAY TREE] The tree has been created.
-[TRACE][17/06/2023 19:40:53] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x8 success.
-[TRACE][17/06/2023 19:40:53] [SPLAY TREE] Node with key: {1} inserted.
-[TRACE][17/06/2023 19:40:53] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x30 success.
-[TRACE][17/06/2023 19:40:53] [SPLAY TREE] Node with key: {16} inserted.
-[TRACE][17/06/2023 19:40:53] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x58 success.
-[TRACE][17/06/2023 19:40:53] [SPLAY TREE] Node with key: {25} inserted.
-[TRACE][17/06/2023 19:40:53] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x80 success.
-[TRACE][17/06/2023 19:40:53] [SPLAY TREE] Node with key: {4} inserted.
-[TRACE][17/06/2023 19:40:53] [SORTED LIST ALLOCATOR] Memory allocation at address: 0xa8 success.
-[TRACE][17/06/2023 19:40:53] [SPLAY TREE] Node with key: {14} inserted.
-[TRACE][17/06/2023 19:40:53] The tree has been moved.
-[TRACE][17/06/2023 19:41:16] [SORTED LIST ALLOCATOR] Memory allocation at address: 0xd0 success.
-[TRACE][17/06/2023 19:41:16] [SPLAY TREE] Node with key: {15} inserted.
+[TRACE][17/06/2023 21:26:39] [SORTED LIST ALLOCATOR] Allocator successfully created.
+[TRACE][17/06/2023 21:26:39] [AVL TREE] The tree has been created.
+[TRACE][17/06/2023 21:26:39] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x8 success.
+[TRACE][17/06/2023 21:26:39] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x38 success.
+[TRACE][17/06/2023 21:26:39] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x68 success.
+[TRACE][17/06/2023 21:26:39] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x98 success.
+[TRACE][17/06/2023 21:26:39] [SORTED LIST ALLOCATOR] Memory allocation at address: 0xc8 success.
+[TRACE][17/06/2023 21:26:39] [SORTED LIST ALLOCATOR] Memory allocation at address: 0xf8 success.
+[TRACE][17/06/2023 21:26:39] [SORTED LIST ALLOCATOR] Memory allocation at address: 0x128 success.

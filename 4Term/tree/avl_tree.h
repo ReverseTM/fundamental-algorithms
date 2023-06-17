@@ -29,7 +29,7 @@ private:
                 typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *&subtree_root_address,
                 std::stack<typename binary_search_tree<tkey, tvalue, tkey_comparer>::node **> &path_to_subtree_root_exclusive) override;
 
-        void initialize_memory_with_node(typename binary_search_tree<tkey, tvalue, tkey_comparer>::node * const node_address) override;
+        void call_node_constructor(typename binary_search_tree<tkey, tvalue, tkey_comparer>::node * node_address) const override;
 
         size_t get_node_size() const override;
 
@@ -75,7 +75,6 @@ public:
     explicit avl_tree(memory *allocator = nullptr, fund_alg::logger *logger = nullptr);
 
     ~avl_tree() final = default;
-
 
     avl_tree(
         avl_tree const &other);
@@ -178,8 +177,8 @@ template<
     typename tkey,
     typename tvalue,
     typename tkey_comparer>
-void avl_tree<tkey, tvalue, tkey_comparer>::avl_tree_insertion_template_method::initialize_memory_with_node(
-        typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *const node_address)
+void avl_tree<tkey, tvalue, tkey_comparer>::avl_tree_insertion_template_method::call_node_constructor(
+        typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *node_address) const
 {
     new (node_address) avl_node;
 }
@@ -248,8 +247,8 @@ template<
     typename tvalue,
     typename tkey_comparer>
 avl_tree<tkey, tvalue, tkey_comparer>::avl_tree_insertion_template_method::avl_tree_insertion_template_method(
-        avl_tree<tkey, tvalue, tkey_comparer> *tree):
-        binary_search_tree<tkey, tvalue, tkey_comparer>::insertion_template_method(tree)
+        avl_tree<tkey, tvalue, tkey_comparer> *tree)
+        : binary_search_tree<tkey, tvalue, tkey_comparer>::insertion_template_method(tree)
 {
 
 }
@@ -259,8 +258,8 @@ template<
     typename tvalue,
     typename tkey_comparer>
 avl_tree<tkey, tvalue, tkey_comparer>::avl_tree_removing_template_method::avl_tree_removing_template_method(
-        avl_tree<tkey, tvalue, tkey_comparer> *tree):
-        binary_search_tree<tkey, tvalue, tkey_comparer>::removing_template_method(tree)
+        avl_tree<tkey, tvalue, tkey_comparer> *tree)
+        : binary_search_tree<tkey, tvalue, tkey_comparer>::removing_template_method(tree)
 {
 
 }
@@ -281,18 +280,18 @@ avl_tree<tkey, tvalue, tkey_comparer>::avl_tree(memory *allocator, fund_alg::log
 }
 
 template<
-        typename tkey,
-        typename tvalue,
-        typename tkey_comparer>
+    typename tkey,
+    typename tvalue,
+    typename tkey_comparer>
 size_t avl_tree<tkey, tvalue, tkey_comparer>::get_node_size() const
 {
     return sizeof(avl_node);
 }
 
 template<
-        typename tkey,
-        typename tvalue,
-        typename tkey_comparer>
+    typename tkey,
+    typename tvalue,
+    typename tkey_comparer>
 typename binary_search_tree<tkey, tvalue, tkey_comparer>::node* avl_tree<tkey, tvalue, tkey_comparer>::copy_inner(typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *to_copy) const
 {
     if (to_copy == nullptr)
@@ -313,9 +312,9 @@ typename binary_search_tree<tkey, tvalue, tkey_comparer>::node* avl_tree<tkey, t
 }
 
 template<
-        typename tkey,
-        typename tvalue,
-        typename tkey_comparer>
+    typename tkey,
+    typename tvalue,
+    typename tkey_comparer>
 avl_tree<tkey, tvalue, tkey_comparer>::avl_tree(avl_tree<tkey, tvalue, tkey_comparer> const &other)
         : avl_tree<tkey, tvalue, tkey_comparer>(other.get_outer_allocator(), other.get_logger())
 {
@@ -325,9 +324,9 @@ avl_tree<tkey, tvalue, tkey_comparer>::avl_tree(avl_tree<tkey, tvalue, tkey_comp
 }
 
 template<
-        typename tkey,
-        typename tvalue,
-        typename tkey_comparer>
+    typename tkey,
+    typename tvalue,
+    typename tkey_comparer>
 avl_tree<tkey, tvalue, tkey_comparer>::avl_tree(avl_tree<tkey, tvalue, tkey_comparer> &&other) noexcept
         : binary_search_tree<tkey, tvalue, tkey_comparer>(std::move(other))
 {
@@ -335,9 +334,9 @@ avl_tree<tkey, tvalue, tkey_comparer>::avl_tree(avl_tree<tkey, tvalue, tkey_comp
 }
 
 template<
-        typename tkey,
-        typename tvalue,
-        typename tkey_comparer>
+    typename tkey,
+    typename tvalue,
+    typename tkey_comparer>
 avl_tree<tkey, tvalue, tkey_comparer> &avl_tree<tkey, tvalue, tkey_comparer>::operator=(avl_tree<tkey, tvalue, tkey_comparer> const &other)
 {
     static_cast<binary_search_tree<tkey, tvalue, tkey_comparer> &>(*this) = other;
@@ -346,9 +345,9 @@ avl_tree<tkey, tvalue, tkey_comparer> &avl_tree<tkey, tvalue, tkey_comparer>::op
 }
 
 template<
-        typename tkey,
-        typename tvalue,
-        typename tkey_comparer>
+    typename tkey,
+    typename tvalue,
+    typename tkey_comparer>
 avl_tree<tkey, tvalue, tkey_comparer> &avl_tree<tkey, tvalue, tkey_comparer>::operator=(avl_tree<tkey, tvalue, tkey_comparer> &&other) noexcept
 {
     static_cast<binary_search_tree<tkey, tvalue, tkey_comparer> &>(this) = std::move(other);

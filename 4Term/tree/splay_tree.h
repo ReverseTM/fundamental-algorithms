@@ -25,6 +25,7 @@ private:
                 tkey const &key,
                 typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *&subtree_root_address,
                 std::stack<typename binary_search_tree<tkey, tvalue, tkey_comparer>::node **> &path_to_subtree_root_exclusive) override;
+
     };
 
     class splay_tree_reading_template_method final : public binary_search_tree<tkey, tvalue, tkey_comparer>::reading_template_method
@@ -324,11 +325,11 @@ template<
     typename tkey_comparer>
 splay_tree<tkey, tvalue, tkey_comparer>::splay_tree(memory *allocator, fund_alg::logger *logger):
         binary_search_tree<tkey, tvalue, tkey_comparer>(
-        new splay_tree_insertion_template_method(this),
-        new splay_tree_reading_template_method(this),
-        new splay_tree_removing_template_method(this),
-        allocator,
-        logger)
+            new splay_tree_insertion_template_method(this),
+            new splay_tree_reading_template_method(this),
+            new splay_tree_removing_template_method(this),
+            allocator,
+            logger)
 {
     this->trace_with_guard("[SPLAY TREE] The tree has been created.");
 }

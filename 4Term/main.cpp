@@ -8,6 +8,7 @@
 #include "tree/binary_search_tree.h"
 #include "tree/splay_tree.h"
 #include "tree/avl_tree.h"
+#include "tree/red_black_tree.h"
 #include <list>
 
 /*
@@ -16,7 +17,25 @@
  * префиксный(корень лево право)
  */
 
+class key_comparer
+{
+public:
 
+    int operator()(int first, int second)
+    {
+        return first - second;
+    }
+
+    int operator()(std::string first, std::string second)
+    {
+        if (first > second)
+            return 1;
+        else if (first < second)
+            return -1;
+        else
+            return 0;
+    }
+};
 
 void testing_allocator()
 {
@@ -92,26 +111,6 @@ void testing_allocator()
 
 void test_trees()
 {
-    class key_comparer
-    {
-    public:
-
-        int operator()(int first, int second)
-        {
-            return first - second;
-        }
-
-        int operator()(std::string first, std::string second)
-        {
-            if (first > second)
-                return 1;
-            else if (first < second)
-                return -1;
-            else
-                return 0;
-        }
-    };
-
     builder * builder1 = new builder_implementation();
     auto log = builder1
             ->add_stream("file1.txt", fund_alg::logger::severity::trace)
@@ -173,26 +172,6 @@ void test_trees()
 
 void testing_bst()
 {
-    class key_comparer
-    {
-    public:
-
-        int operator()(int first, int second)
-        {
-            return first - second;
-        }
-
-        int operator()(std::string first, std::string second)
-        {
-            if (first > second)
-                return 1;
-            else if (first < second)
-                return -1;
-            else
-                return 0;
-        }
-    };
-
     std::unique_ptr<builder> logger_builder = std::make_unique<builder_implementation>();
 
     auto logger = logger_builder->add_stream("logs.txt", fund_alg::logger::severity::trace)->build();
@@ -228,26 +207,6 @@ void testing_bst()
 
 void testing_splay_tree()
 {
-    class key_comparer
-    {
-    public:
-
-        int operator()(int first, int second)
-        {
-            return first - second;
-        }
-
-        int operator()(std::string first, std::string second)
-        {
-            if (first > second)
-                return 1;
-            else if (first < second)
-                return -1;
-            else
-                return 0;
-        }
-    };
-
     std::unique_ptr<builder> logger_builder = std::make_unique<builder_implementation>();
 
     auto logger = logger_builder->add_stream("logs.txt", fund_alg::logger::severity::trace)->build();
@@ -273,26 +232,6 @@ void testing_splay_tree()
 
 void testing_avl_tree()
 {
-    class key_comparer
-    {
-    public:
-
-        int operator()(int first, int second)
-        {
-            return first - second;
-        }
-
-        int operator()(std::string first, std::string second)
-        {
-            if (first > second)
-                return 1;
-            else if (first < second)
-                return -1;
-            else
-                return 0;
-        }
-    };
-
     std::unique_ptr<builder> logger_builder = std::make_unique<builder_implementation>();
 
     auto logger = logger_builder->add_stream("logs.txt", fund_alg::logger::severity::trace)->build();
@@ -319,7 +258,15 @@ void testing_avl_tree()
 
 void testing_rb_tree()
 {
-    
+    std::unique_ptr<builder> logger_builder = std::make_unique<builder_implementation>();
+
+    auto logger = logger_builder->add_stream("logs.txt", fund_alg::logger::severity::trace)->build();
+
+    std::shared_ptr<memory> allocator = std::make_shared<sorted_list_allocator>(1000000, memory::allocation_mode::first_match, logger.get());
+
+    auto * tree = new rb_tree<int , int, key_comparer>(allocator.get(), logger.get());
+
+    delete tree;
 }
 
 int main()

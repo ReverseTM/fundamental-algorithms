@@ -18,4 +18,5 @@ add_executable(project main.cpp
         tree/associative_container.h
         tree/binary_search_tree.h
         tree/splay_tree.h
-        tree/avl_tree.h)
+        tree/avl_tree.h
+        tree/red_black_tree.h)

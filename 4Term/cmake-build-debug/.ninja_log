@@ -1,6 +1,6 @@
 # ninja log v5
-3923	5119	7087232279321828	project.exe	62889b812160afcb
-4	3923	7087232267369067	CMakeFiles/project.dir/main.cpp.obj	a118a64b3fc7f722
+3335	4451	7087232528052062	project.exe	62889b812160afcb
+4	3335	7087232516889990	CMakeFiles/project.dir/main.cpp.obj	a118a64b3fc7f722
 8	3357	7051835282282909	CMakeFiles/project.dir/logger/builder_implementation.cpp.obj	f3015498fafbc00e
 13	3508	7051835283780306	CMakeFiles/project.dir/logger/logger_implementation.cpp.obj	2a481b7b43109250
 13	2392	7017187754475149	CMakeFiles/project.dir/memory_allocators/global_heap_memory.cpp.obj	8df8886a84765e67
@@ -9,7 +9,7 @@
 9	874	7053380151012413	CMakeFiles/project.dir/memory_allocators/memory.cpp.obj	a434f90ddaec4cb1
 4	2197	7017183852553501	CMakeFiles/project.dir/memory_allocators/sorted_list/sorted_list_memory.cpp.obj	de220aa8271834b0
 7	2418	7017187754748029	CMakeFiles/project.dir/memory_allocators/sorted_list_memory.cpp.obj	a1d505b70609b30f
-5	572	7079258119023636	build.ninja	3c57ad3714c5b979
+5	572	7087234335958789	build.ninja	3c57ad3714c5b979
 14	3557	7053380177820728	CMakeFiles/project.dir/memory_allocators/global_heap_allocator.cpp.obj	b9e687be62f6ab70
 20	3572	7053380178149839	CMakeFiles/project.dir/memory_allocators/sorted_list_allocator.cpp.obj	80c8e2a39f32d533
 793	4156	7053380184004193	CMakeFiles/project.dir/memory_allocators/border_descriptors_allocator.cpp.obj	79e46db313689d24
@@ -17,5 +17,13 @@
 25	792	7053380150054974	CMakeFiles/project.dir/memory_allocators/memory_holder.cpp.obj	124050201572488d
 15	2032	7079383340539005	CMakeFiles/project.dir/memory_allocators/buddy_allocator.cpp.obj	59d1fb59d311996b
 22	174	7056298133922298	CMakeFiles/project.dir/long_numbers/big_int.cpp.obj	57102258b1e91c03
-4	3335	7087232516889990	CMakeFiles/project.dir/main.cpp.obj	a118a64b3fc7f722
-3335	4451	7087232528052062	project.exe	62889b812160afcb
+5	5447	7087246337045794	CMakeFiles/project.dir/main.cpp.obj	a118a64b3fc7f722
+5448	7227	7087246354851958	project.exe	62889b812160afcb
+6	4902	7087250422404750	CMakeFiles/project.dir/main.cpp.obj	a118a64b3fc7f722
+4902	6109	7087250434453269	project.exe	62889b812160afcb
+5	3687	7087271104647270	CMakeFiles/project.dir/main.cpp.obj	a118a64b3fc7f722
+3688	4812	7087271115881494	project.exe	62889b812160afcb
+6	5370	7087294820259309	CMakeFiles/project.dir/main.cpp.obj	a118a64b3fc7f722
+5371	6746	7087294833998557	project.exe	62889b812160afcb
+5	3030	7087295969005703	CMakeFiles/project.dir/main.cpp.obj	a118a64b3fc7f722
+3031	4226	7087295980938562	project.exe	62889b812160afcb
