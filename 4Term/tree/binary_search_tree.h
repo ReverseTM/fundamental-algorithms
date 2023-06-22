@@ -1074,6 +1074,8 @@ tvalue binary_search_tree<tkey, tvalue, tkey_comparer>::removing_template_method
             (*node)->key_and_value._key = std::move(successor->key_and_value._key);
             (*node)->key_and_value._value = std::move(successor->key_and_value._value);
 
+            swap_additional_nodes_data();
+
             removed_node = path_to_subtree_root_exclusive.top();
             path_to_subtree_root_exclusive.pop();
         }

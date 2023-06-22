@@ -88,6 +88,10 @@ private:
                 typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *&subtree_root_address,
                 std::stack<typename binary_search_tree<tkey, tvalue, tkey_comparer>::node **> &path_to_subtree_root_exclusive) override;
 
+        void swap_additional_nodes_data(
+                typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *one_node,
+                typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *another_node);
+
     public:
 
         explicit rb_tree_removing_template_method(rb_tree<tkey, tvalue, tkey_comparer> * tree);
@@ -185,72 +189,74 @@ void rb_tree<tkey, tvalue, tkey_comparer>::rb_tree_insertion_template_method::af
             grand_parent = path_to_subtree_root_exclusive.top();
             path_to_subtree_root_exclusive.pop();
 
-            //CASE A: PARENT OF X IS LEFT CHILD OF GRANDPA
-
-            if (*parent == (*grand_parent)->left_subtree_address)
+            if (reinterpret_cast<rb_tree<tkey, tvalue, tkey_comparer> *>(this->_tree)->get_color(*parent) == node_color::RED)
             {
-                uncle = &((*grand_parent)->right_subtree_address);
+                //CASE A: PARENT OF X IS LEFT CHILD OF GRANDPA
+                if (*parent == (*grand_parent)->left_subtree_address)
+                {
+                    uncle = &((*grand_parent)->right_subtree_address);
 
-                //CASE 1: UNCLE IS RED
-                if (*uncle != nullptr &&
-                reinterpret_cast<rb_tree<tkey, tvalue, tkey_comparer> *>(this->_tree)->get_color(*uncle) == node_color::RED)
-                {
-                    reinterpret_cast<rb_node *>(*grand_parent)->color = node_color::RED;
-                    reinterpret_cast<rb_node *>(*parent)->color = node_color::BLACK;
-                    reinterpret_cast<rb_node *>(*uncle)->color = node_color::BLACK;
-                    after_insert_inner(key, *grand_parent, path_to_subtree_root_exclusive);
-                }
-                else //UNCLE IS BLACK
-                {
-                    //CASE 2: X IS RIGHT CHILD OF PARENT
-                    if (subtree_root_address == (*parent)->right_subtree_address)
+                    //CASE 1: UNCLE IS RED
+                    if (*uncle != nullptr && reinterpret_cast<rb_tree<tkey, tvalue, tkey_comparer> *>(this->_tree)->get_color(*uncle) == node_color::RED)
                     {
-                        reinterpret_cast<rb_tree<tkey, tvalue, tkey_comparer> *>(this->_tree)->left_rotation(*parent);
+                        reinterpret_cast<rb_node *>(*grand_parent)->color = node_color::RED;
+                        reinterpret_cast<rb_node *>(*parent)->color = node_color::BLACK;
+                        reinterpret_cast<rb_node *>(*uncle)->color = node_color::BLACK;
+                        after_insert_inner(key, *grand_parent, path_to_subtree_root_exclusive);
                     }
-
-                    //CASE 3: X IS LEFT CHILD OF PARENT
-                    reinterpret_cast<rb_tree<tkey, tvalue, tkey_comparer> *>(this->_tree)->right_rotation(*grand_parent);
-                    parent = grand_parent;
-                    grand_parent = &((*parent)->right_subtree_address);
-                    reinterpret_cast<rb_node *>(*parent)->color = node_color::BLACK;
-                    reinterpret_cast<rb_node *>(*grand_parent)->color = node_color::RED;
-
-                    //??
-                    after_insert_inner(key, *parent, path_to_subtree_root_exclusive);
-                }
-            }
-
-            //CASE B: PARENT OF X IS RIGHT CHILD OF GRANDPA
-
-            else
-            {
-                uncle = &((*grand_parent)->left_subtree_address);
-
-                //CASE 1: UNCLE IS RED
-                if (*uncle != nullptr && reinterpret_cast<rb_tree<tkey, tvalue, tkey_comparer> *>(this->_tree)->get_color(*uncle) ==node_color::RED)
-                {
-                    reinterpret_cast<rb_node *>(*grand_parent)->color = node_color::RED;
-                    reinterpret_cast<rb_node *>(*parent)->color = node_color::BLACK;
-                    reinterpret_cast<rb_node *>(*uncle)->color = node_color::BLACK;
-                    after_insert_inner(key, *grand_parent, path_to_subtree_root_exclusive);
-                }
-                else //UNCLE IS BLACK
-                {
-                    //CASE 2: X IS LEFT CHILD OF PARENT
-                    if (subtree_root_address == (*parent)->left_subtree_address)
+                    //UNCLE IS BLACK
+                    else
                     {
-                        reinterpret_cast<rb_tree<tkey, tvalue, tkey_comparer> *>(this->_tree)->right_rotation(*parent);
+                        //CASE 2: X IS RIGHT CHILD OF PARENT
+                        if (subtree_root_address == (*parent)->right_subtree_address)
+                        {
+                            reinterpret_cast<rb_tree<tkey, tvalue, tkey_comparer> *>(this->_tree)->left_rotation(*parent);
+                        }
+
+                        //CASE 3: X IS LEFT CHILD OF PARENT
+                        reinterpret_cast<rb_tree<tkey, tvalue, tkey_comparer> *>(this->_tree)->right_rotation(*grand_parent);
+                        parent = grand_parent;
+                        grand_parent = &((*parent)->right_subtree_address);
+                        reinterpret_cast<rb_node *>(*parent)->color = node_color::BLACK;
+                        reinterpret_cast<rb_node *>(*grand_parent)->color = node_color::RED;
+
+                        //??
+                        //after_insert_inner(key, *parent, path_to_subtree_root_exclusive);
                     }
+                }
 
-                    //CASE 3: X IS RIGHT CHILD OF PARENT
-                    reinterpret_cast<rb_tree<tkey, tvalue, tkey_comparer> *>(this->_tree)->left_rotation(*grand_parent);
-                    parent = grand_parent;
-                    grand_parent = &((*parent)->left_subtree_address);
-                    reinterpret_cast<rb_node *>(*parent)->color = node_color::BLACK;
-                    reinterpret_cast<rb_node *>(*grand_parent)->color = node_color::RED;
+                //CASE B: PARENT OF X IS RIGHT CHILD OF GRANDPA
+                else
+                {
+                    uncle = &((*grand_parent)->left_subtree_address);
 
-                    //??
-                    after_insert_inner(key, *parent, path_to_subtree_root_exclusive);
+                    //CASE 1: UNCLE IS RED
+                    if (*uncle != nullptr && reinterpret_cast<rb_tree<tkey, tvalue, tkey_comparer> *>(this->_tree)->get_color(*uncle) == node_color::RED)
+                    {
+                        reinterpret_cast<rb_node *>(*grand_parent)->color = node_color::RED;
+                        reinterpret_cast<rb_node *>(*parent)->color = node_color::BLACK;
+                        reinterpret_cast<rb_node *>(*uncle)->color = node_color::BLACK;
+                        after_insert_inner(key, *grand_parent, path_to_subtree_root_exclusive);
+                    }
+                    //UNCLE IS BLACK
+                    else
+                    {
+                        //CASE 2: X IS LEFT CHILD OF PARENT
+                        if (subtree_root_address == (*parent)->left_subtree_address)
+                        {
+                            reinterpret_cast<rb_tree<tkey, tvalue, tkey_comparer> *>(this->_tree)->right_rotation(*parent);
+                        }
+
+                        //CASE 3: X IS RIGHT CHILD OF PARENT
+                        reinterpret_cast<rb_tree<tkey, tvalue, tkey_comparer> *>(this->_tree)->left_rotation(*grand_parent);
+                        parent = grand_parent;
+                        grand_parent = &((*parent)->left_subtree_address);
+                        reinterpret_cast<rb_node *>(*parent)->color = node_color::BLACK;
+                        reinterpret_cast<rb_node *>(*grand_parent)->color = node_color::RED;
+
+                        //??
+                        //after_insert_inner(key, *parent, path_to_subtree_root_exclusive);
+                    }
                 }
             }
         }
