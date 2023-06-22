@@ -81,7 +81,22 @@ private:
     class rb_tree_removing_template_method final : public binary_search_tree<tkey, tvalue, tkey_comparer>::removing_template_method
     {
 
+    private:
+
+        enum class status
+        {
+            FROM_LEFT,
+            FROM_RIGHT
+        };
+
+        status _status;
+
     protected:
+
+        void before_remove_inner(
+                tkey const &key,
+                typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *&subtree_root_address,
+                std::stack<typename binary_search_tree<tkey, tvalue, tkey_comparer>::node **> &path_to_subtree_root_exclusive) override;
 
         void after_remove_inner(
                 tkey const &key,
@@ -90,7 +105,7 @@ private:
 
         void swap_additional_nodes_data(
                 typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *one_node,
-                typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *another_node);
+                typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *another_node) override;
 
     public:
 
@@ -264,6 +279,28 @@ void rb_tree<tkey, tvalue, tkey_comparer>::rb_tree_insertion_template_method::af
 }
 
 template<
+        typename tkey,
+        typename tvalue,
+        typename tkey_comparer>
+void rb_tree<tkey, tvalue, tkey_comparer>::rb_tree_removing_template_method::before_remove_inner(
+        const tkey &key,
+        typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *&subtree_root_address,
+        std::stack<typename binary_search_tree<tkey, tvalue, tkey_comparer>::node **> &path_to_subtree_root_exclusive)
+{
+    if (!path_to_subtree_root_exclusive.empty())
+    {
+        if ((*path_to_subtree_root_exclusive.top())->right_subtree_address == subtree_root_address)
+        {
+            _status = status::FROM_RIGHT;
+        }
+        else
+        {
+            _status = status::FROM_LEFT;
+        }
+    }
+}
+
+template<
     typename tkey,
     typename tvalue,
     typename tkey_comparer>
@@ -272,7 +309,199 @@ void rb_tree<tkey, tvalue, tkey_comparer>::rb_tree_removing_template_method::aft
         typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *&subtree_root_address,
         std::stack<typename binary_search_tree<tkey, tvalue, tkey_comparer>::node **> &path_to_subtree_root_exclusive)
 {
+    if (reinterpret_cast<rb_node *>(subtree_root_address)->color == node_color::BLACK
+            && reinterpret_cast<rb_node *>(subtree_root_address)->left_subtree_address == nullptr
+            && reinterpret_cast<rb_node *>(subtree_root_address)->right_subtree_address == nullptr)
+    {
+        if (path_to_subtree_root_exclusive.empty())
+        {
+            return;
+        }
 
+        typename binary_search_tree<tkey, tvalue, tkey_comparer>::node **parent = nullptr;
+        typename binary_search_tree<tkey, tvalue, tkey_comparer>::node **brother = nullptr;
+
+        parent = path_to_subtree_root_exclusive.top();
+        path_to_subtree_root_exclusive.pop();
+
+        //PARENT RED
+        if (reinterpret_cast<rb_tree<tkey, tvalue, tkey_comparer> *>(this->_tree)->get_color(*parent) == node_color::RED)
+        {
+            //BROTHER IS LEFT CHILD OF PARENT
+            if (_status == status::FROM_RIGHT)
+            {
+                brother = &((*parent)->left_subtree_address);
+
+                //LEFT SUBTREE OF BROTHER IS BLACK
+                if (((*brother)->left_subtree_address == nullptr || reinterpret_cast<rb_node *>((*brother)->left_subtree_address)->color == node_color::BLACK)
+                    && ((*brother)->right_subtree_address == nullptr || reinterpret_cast<rb_node *>((*brother)->right_subtree_address)->color == node_color::BLACK))
+                {
+                    reinterpret_cast<rb_node *>(*parent)->color = node_color::BLACK;
+                    reinterpret_cast<rb_node *>(*brother)->color = node_color::RED;
+                }
+                //LEFT SUBTREE OF BROTHER IS RED
+                else
+                {
+                    reinterpret_cast<rb_node *>(*parent)->color = node_color::BLACK;
+                    reinterpret_cast<rb_node *>(*brother)->color = node_color::RED;
+
+                    //check 350 str
+
+                    reinterpret_cast<rb_node *>((*brother)->right_subtree_address)->color = node_color::BLACK;
+
+                    reinterpret_cast<rb_tree<tkey, tvalue, tkey_comparer> *>(this->_tree)->right_rotation(*parent);
+                }
+            }
+            //BROTHER IS RIGHT CHILD OF PARENT
+            else
+            {
+                brother = &((*parent)->right_subtree_address);
+
+                //RIGHT SUBTREE OF BROTHER IS BLACK
+                if (((*brother)->right_subtree_address == nullptr || reinterpret_cast<rb_node *>((*brother)->right_subtree_address)->color == node_color::BLACK)
+                    && ((*brother)->left_subtree_address == nullptr || reinterpret_cast<rb_node *>((*brother)->left_subtree_address)->color == node_color::BLACK))
+                {
+                    reinterpret_cast<rb_node *>(*parent)->color = node_color::BLACK;
+                    reinterpret_cast<rb_node *>(*brother)->color = node_color::RED;
+                }
+                //RIGHT SUBTREE OF BROTHER IS RED
+                else
+                {
+                    reinterpret_cast<rb_node *>(*parent)->color = node_color::BLACK;
+                    reinterpret_cast<rb_node *>(*brother)->color = node_color::RED;
+
+                    //ckeck 375 str left right subtree!!!!
+
+                    reinterpret_cast<rb_node *>((*brother)->left_subtree_address)->color = node_color::BLACK;
+
+                    reinterpret_cast<rb_tree<tkey, tvalue, tkey_comparer> *>(this->_tree)->left_rotation(*parent);
+                }
+            }
+        }
+        //PARENT IS BLACK
+        else
+        {
+            //BROTHER IS LEFT CHILD OF PARENT
+            if (_status == status::FROM_RIGHT)
+            {
+                brother = &((*parent)->left_subtree_address);
+
+                //BROTHER IS RED
+                if (reinterpret_cast<rb_node *>(*brother)->color == node_color::RED)
+                {
+                    //GREAT GRANDCHILDREN IS BLACK
+                    if ((*brother)->right_subtree_address != nullptr
+                        && ((*brother)->right_subtree_address->left_subtree_address == nullptr || reinterpret_cast<rb_node *>((*brother)->right_subtree_address->left_subtree_address)->color == node_color::BLACK)
+                        && ((*brother)->right_subtree_address->right_subtree_address == nullptr || reinterpret_cast<rb_node *>((*brother)->right_subtree_address->right_subtree_address)->color == node_color::BLACK)
+                        )
+                    {
+                        reinterpret_cast<rb_node *>((*brother)->right_subtree_address)->color = node_color::RED;
+                        reinterpret_cast<rb_node *>(*brother)->color = node_color::BLACK;
+
+                        reinterpret_cast<rb_tree<tkey, tvalue, tkey_comparer> *>(this->_tree)->right_rotation(*parent);
+                    }
+                    //LEFT GREAT GRANDCHILDREN IS RED
+                    else if ((*brother)->right_subtree_address != nullptr
+                        && (*brother)->right_subtree_address->left_subtree_address != nullptr
+                        && reinterpret_cast<rb_node *>((*brother)->right_subtree_address->left_subtree_address)->color == node_color::RED)
+                    {
+                        reinterpret_cast<rb_node *>((*brother)->right_subtree_address->left_subtree_address)->color = node_color::BLACK;
+
+                        reinterpret_cast<rb_tree<tkey, tvalue, tkey_comparer> *>(this->_tree)->left_rotation(*brother);
+                        reinterpret_cast<rb_tree<tkey, tvalue, tkey_comparer> *>(this->_tree)->right_rotation(*parent);
+                    }
+                }
+                //BROTHER IS BLACK
+                else
+                {
+                    //RIGHT CHILD OF BROTHER IS RED
+                    if ((*brother)->right_subtree_address != nullptr && reinterpret_cast<rb_node *>((*brother)->right_subtree_address)->color == node_color::RED)
+                    {
+                        reinterpret_cast<rb_node *>((*brother)->right_subtree_address)->color = node_color::BLACK;
+
+                        reinterpret_cast<rb_tree<tkey, tvalue, tkey_comparer> *>(this->_tree)->left_rotation(*brother);
+                        reinterpret_cast<rb_tree<tkey, tvalue, tkey_comparer> *>(this->_tree)->right_rotation(*parent);
+                    }
+                    //LEFT AND RIGHT CHILD OF BROTHER IS BLACK
+                    else if (((*brother)->left_subtree_address == nullptr || reinterpret_cast<rb_node *>((*brother)->left_subtree_address)->color == node_color::BLACK)
+                        && ((*brother)->right_subtree_address == nullptr || reinterpret_cast<rb_node *>((*brother)->right_subtree_address)->color == node_color::BLACK))
+                    {
+                        reinterpret_cast<rb_node *>(*brother)->color = node_color::RED;
+
+                        after_remove_inner(key, subtree_root_address, path_to_subtree_root_exclusive);
+                    }
+                }
+            }
+            //BROTHER IS RIGHT CHILD OF PARENT
+            else
+            {
+                brother = &((*parent)->right_subtree_address);
+
+                //BROTHER IS RED
+                if (reinterpret_cast<rb_node *>(*brother)->color == node_color::RED)
+                {
+                    //GREAT GRANDCHILDREN IS BLACK
+                    if ((*brother)->left_subtree_address != nullptr
+                        && ((*brother)->left_subtree_address->right_subtree_address == nullptr || reinterpret_cast<rb_node *>((*brother)->left_subtree_address->right_subtree_address)->color == node_color::BLACK)
+                        && ((*brother)->left_subtree_address->left_subtree_address == nullptr || reinterpret_cast<rb_node *>((*brother)->left_subtree_address->left_subtree_address)->color == node_color::BLACK)
+                            )
+                    {
+                        reinterpret_cast<rb_node *>((*brother)->left_subtree_address)->color = node_color::RED;
+                        reinterpret_cast<rb_node *>(*brother)->color = node_color::BLACK;
+
+                        reinterpret_cast<rb_tree<tkey, tvalue, tkey_comparer> *>(this->_tree)->left_rotation(*parent);
+                    }
+                    //RIGHT GREAT GRANDCHILDREN IS RED
+                    else if ((*brother)->left_subtree_address != nullptr
+                             && (*brother)->left_subtree_address->right_subtree_address != nullptr
+                             && reinterpret_cast<rb_node *>((*brother)->left_subtree_address->right_subtree_address)->color == node_color::RED)
+                    {
+                        reinterpret_cast<rb_node *>((*brother)->left_subtree_address->right_subtree_address)->color = node_color::BLACK;
+
+                        reinterpret_cast<rb_tree<tkey, tvalue, tkey_comparer> *>(this->_tree)->right_rotation(*brother);
+                        reinterpret_cast<rb_tree<tkey, tvalue, tkey_comparer> *>(this->_tree)->left_rotation(*parent);
+                    }
+                }
+                //BROTHER IS BLACK
+                else
+                {
+                    //LEFT CHILD OF BROTHER IS RED
+                    if ((*brother)->left_subtree_address != nullptr && reinterpret_cast<rb_node *>((*brother)->left_subtree_address)->color == node_color::RED)
+                    {
+                        reinterpret_cast<rb_node *>((*brother)->left_subtree_address)->color = node_color::BLACK;
+
+                        reinterpret_cast<rb_tree<tkey, tvalue, tkey_comparer> *>(this->_tree)->right_rotation(*brother);
+                        reinterpret_cast<rb_tree<tkey, tvalue, tkey_comparer> *>(this->_tree)->left_rotation(*parent);
+                    }
+                    //LEFT AND RIGHT CHILD OF BROTHER IS BLACK
+                    else if (((*brother)->left_subtree_address == nullptr || reinterpret_cast<rb_node *>((*brother)->left_subtree_address)->color == node_color::BLACK)
+                        && ((*brother)->right_subtree_address == nullptr || reinterpret_cast<rb_node *>((*brother)->right_subtree_address)->color == node_color::BLACK))
+                    {
+                        reinterpret_cast<rb_node *>(*brother)->color = node_color::RED;
+
+                        after_remove_inner(key, subtree_root_address, path_to_subtree_root_exclusive);
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        return;
+    }
+}
+
+template<
+        typename tkey,
+        typename tvalue,
+        typename tkey_comparer>
+void rb_tree<tkey, tvalue, tkey_comparer>::rb_tree_removing_template_method::swap_additional_nodes_data(
+        typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *one_node,
+        typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *another_node)
+{
+    node_color tmp = reinterpret_cast<rb_node *>(one_node)->color;
+    reinterpret_cast<rb_node *>(one_node)->color = reinterpret_cast<rb_node *>(another_node)->color;
+    reinterpret_cast<rb_node *>(another_node)->color = tmp;
 }
 
 template<

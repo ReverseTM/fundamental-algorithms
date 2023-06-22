@@ -1045,45 +1045,81 @@ tvalue binary_search_tree<tkey, tvalue, tkey_comparer>::removing_template_method
 
     auto removal_completed = false;
 
+    node * node_for_info = nullptr; //for red_black_tree
+
     if ((*removed_node)->left_subtree_address != nullptr && (*removed_node)->right_subtree_address != nullptr)
     {
-        auto successor = (*removed_node)->right_subtree_address;
+        //auto successor = (*removed_node)->right_subtree_address;
+        auto successor = (*removed_node)->left_subtree_address;
 
-        if (successor->left_subtree_address == nullptr)
+        path_to_subtree_root_exclusive.push(removed_node);
+        //path_to_subtree_root_exclusive.push(&(*removed_node)->right_subtree_address);
+        path_to_subtree_root_exclusive.push(&(*removed_node)->left_subtree_address);
+
+        while (successor->right_subtree_address != nullptr)
         {
-            successor->left_subtree_address = (*removed_node)->left_subtree_address;
-            (*removed_node)->~node();
-            deallocate_with_guard(*removed_node);
-            *removed_node = successor;
-            removal_completed = true;
-
+            //path_to_subtree_root_exclusive.push(&(successor->left_subtree_address));
+            path_to_subtree_root_exclusive.push(&(successor->right_subtree_address));
+            //successor = successor->left_subtree_address;
+            successor = successor->right_subtree_address;
         }
-        else
-        {
-            path_to_subtree_root_exclusive.push(removed_node);
-            path_to_subtree_root_exclusive.push(&(*removed_node)->right_subtree_address);
 
-            while (successor->left_subtree_address != nullptr)
-            {
-                path_to_subtree_root_exclusive.push(&(successor->left_subtree_address));
-                successor = successor->left_subtree_address;
-            }
+        auto node = &(*removed_node);
 
-            auto node = &(*removed_node);
+        auto tmp_value = std::move((*node)->key_and_value._value);
+        auto tmp_key = std::move((*node)->key_and_value._key);
 
-            (*node)->key_and_value._key = std::move(successor->key_and_value._key);
-            (*node)->key_and_value._value = std::move(successor->key_and_value._value);
+        (*node)->key_and_value._key = std::move(successor->key_and_value._key);
+        (*node)->key_and_value._value = std::move(successor->key_and_value._value);
 
-            swap_additional_nodes_data();
+        successor->key_and_value._key = std::move(tmp_key);
+        successor->key_and_value._value = std::move(tmp_value);
 
-            removed_node = path_to_subtree_root_exclusive.top();
-            path_to_subtree_root_exclusive.pop();
-        }
+        removed_node = path_to_subtree_root_exclusive.top();
+        path_to_subtree_root_exclusive.pop();
     }
+
+//    if ((*removed_node)->left_subtree_address != nullptr && (*removed_node)->right_subtree_address != nullptr)
+//    {
+//        auto successor = (*removed_node)->right_subtree_address;
+//
+//        if (successor->left_subtree_address == nullptr)
+//        {
+//            successor->left_subtree_address = (*removed_node)->left_subtree_address;
+//            (*removed_node)->~node();
+//            deallocate_with_guard(*removed_node);
+//            *removed_node = successor;
+//            removal_completed = true;
+//        }
+//        else
+//        {
+//            path_to_subtree_root_exclusive.push(removed_node);
+//            path_to_subtree_root_exclusive.push(&(*removed_node)->right_subtree_address);
+//
+//            while (successor->left_subtree_address != nullptr)
+//            {
+//                path_to_subtree_root_exclusive.push(&(successor->left_subtree_address));
+//                successor = successor->left_subtree_address;
+//            }
+//
+//            auto node = &(*removed_node);
+//
+//            (*node)->key_and_value._key = successor->key_and_value._key;
+//            (*node)->key_and_value._value = std::move(successor->key_and_value._value);
+//
+//            removed_node = path_to_subtree_root_exclusive.top();
+//            path_to_subtree_root_exclusive.pop();
+//        }
+//    }
 
     if (!removal_completed)
     {
-        if ((*removed_node)->left_subtree_address == nullptr && (*removed_node)->right_subtree_address == nullptr) {
+        node_for_info = *removed_node;
+
+        before_remove_inner(key, node_for_info, path_to_subtree_root_exclusive);
+
+        if ((*removed_node)->left_subtree_address == nullptr && (*removed_node)->right_subtree_address == nullptr)
+        {
             (*removed_node)->~node();
             deallocate_with_guard((*removed_node));
             (*removed_node) = nullptr;
@@ -1091,13 +1127,14 @@ tvalue binary_search_tree<tkey, tvalue, tkey_comparer>::removing_template_method
         else
         {
             auto tmp = (*removed_node)->left_subtree_address != nullptr ? (*removed_node)->left_subtree_address : (*removed_node)->right_subtree_address;
+            swap_additional_nodes_data(*removed_node, tmp);
             (*removed_node)->~node();
             deallocate_with_guard((*removed_node));
             (*removed_node) = tmp;
         }
     }
 
-    after_remove_inner(key, subtree_root_address, path_to_subtree_root_exclusive);
+    after_remove_inner(key, node_for_info, path_to_subtree_root_exclusive);
 
     return removed_value;
 }
