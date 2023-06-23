@@ -292,7 +292,8 @@ template<
     typename tkey,
     typename tvalue,
     typename tkey_comparer>
-typename binary_search_tree<tkey, tvalue, tkey_comparer>::node* avl_tree<tkey, tvalue, tkey_comparer>::copy_inner(typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *to_copy) const
+typename binary_search_tree<tkey, tvalue, tkey_comparer>::node* avl_tree<tkey, tvalue, tkey_comparer>::copy_inner(
+        typename binary_search_tree<tkey, tvalue, tkey_comparer>::node *to_copy) const
 {
     if (to_copy == nullptr)
     {

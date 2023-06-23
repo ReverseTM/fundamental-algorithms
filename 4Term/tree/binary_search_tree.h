@@ -322,7 +322,7 @@ public:
 
     tvalue remove(tkey const &key) override final;
 
-private:
+protected:
 
     memory * get_outer_allocator() const override;
 
@@ -837,6 +837,8 @@ void binary_search_tree<tkey, tvalue, tkey_comparer>::insertion_template_method:
     initialize_node((*insert_node), key, std::move(value));
 
     after_insert_inner(key, *insert_node, path_to_subtree_root_exclusive);
+
+    this->trace_with_guard("Node with key: " + to_string(key) + " inserted");
 }
 
 template<
@@ -1135,6 +1137,8 @@ tvalue binary_search_tree<tkey, tvalue, tkey_comparer>::removing_template_method
     }
 
     after_remove_inner(key, node_for_info, path_to_subtree_root_exclusive);
+
+    this->trace_with_guard("Node with key: " + to_string(key) + " removed");
 
     return removed_value;
 }
