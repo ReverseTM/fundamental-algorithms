@@ -266,6 +266,18 @@ void testing_rb_tree()
 
     auto * tree = new rb_tree<int , int, key_comparer>(allocator.get(), logger.get());
 
+    tree->insert(20, 20);
+    tree->insert(30, 30);
+    tree->insert(10, 10);
+    tree->insert(15, 15);
+    tree->insert(35, 35);
+    tree->insert(25, 25);
+    tree->insert(27, 27);
+    tree->insert(5, 5);
+    tree->insert(12, 12);
+    tree->insert(13, 13);
+    tree->insert(14, 14);
+
     delete tree;
 }
 
