@@ -109,17 +109,16 @@ void testing_allocator()
 
 }
 
-void test_trees()
+void testing_trees()
 {
     builder * builder1 = new builder_implementation();
     auto log = builder1
-            ->add_stream("file1.txt", fund_alg::logger::severity::trace)
-            ->add_stream("file2.txt", fund_alg::logger::severity::debug)
+            ->add_stream("logs.txt", fund_alg::logger::severity::trace)
             ->build();
 
     memory *allocator = new sorted_list_allocator(5000000, memory::allocation_mode::first_match, log.get(), nullptr);
 
-    auto * tree = new avl_tree<int, std::string, key_comparer>(allocator, log.get());
+    auto * tree = new rb_tree<int, std::string, key_comparer>(allocator, log.get());
 
     srand((unsigned)time(nullptr));
 
@@ -278,7 +277,26 @@ void testing_rb_tree()
     tree->insert(13, 13);
     tree->insert(14, 14);
 
+    auto tree1 = std::move(*reinterpret_cast<rb_tree<int, int, key_comparer> *>(tree));
+
     delete tree;
+
+    tree1.remove(30);
+    tree1.remove(14);
+    tree1.remove(13);
+    tree1.remove(20);
+    tree1.remove(5);
+    tree1.remove(10);
+    tree1.remove(15);
+    tree1.remove(35);
+
+//    std::cout << "tree" << std::endl;
+//    tree->prefix_traverse();
+
+    std::cout << std::endl << "tree1" << std::endl;
+    tree1.prefix_traverse();
+
+    //delete tree;
 }
 
 int main()
